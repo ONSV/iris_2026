@@ -24,7 +24,7 @@ arrange_i2 <- function(raw_i2, uf_df) {
 calc_i3 <- function(pib_df, pop_df) {
   pib_df |>  
     left_join(pop_df, by = c("nome_uf", "ano")) |> 
-    filter(ano == 2021) |> 
+    filter(ano == 2023) |> 
     mutate(valor = pib / populacao, indicador = "i.3") |> 
     drop_na() |> 
     select(cod_uf, nome_uf, indicador, valor)
