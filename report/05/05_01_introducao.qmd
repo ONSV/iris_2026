@@ -1,0 +1,41 @@
+# Introdução {#sec-intro}
+
+Este relatório compõe a documentação completa do Projeto IRIS - Indicadores Rodoviários Integrados de Segurança. O objetivo da documentação é apresentar todo o processo de execução do código-fonte, estrutura e forma de publicação dos resultados, a fim de subsidiar futuras consultas, correções e atualizações do projeto.
+
+Aqui assume-se que o usuário dessa documentação já possua experiência na linguagem R [@rcoreteam2021] e seus principais pacotes, como o `{targets}`^[https://books.ropensci.org/targets/], `{renv}`^[https://rstudio.github.io/renv/articles/renv.html] e o meta-pacote `{tidyverse}`^[https://www.tidyverse.org], assim, a documentação evitará descrições e explicações prolongadas desses pacotes e sobre programação em R em geral. Também assume-se um conhecimento prévio dos *frameworks* `{quarto}`^[https://quarto.org] e `{shiny}`^[https://shiny.posit.co]. Ao longo do documento, estarão referenciados alguns materiais adicionais dessas ferramentas, para o que o usuário possa buscar mais informações. 
+
+## Escopo Geral {#sec-intro-scope}
+
+O passo inicial de execução do código é instalar os pacotes necessários. Esse controle de dependências é feito pelo `{renv}` [@renv2024]. A versão do R utilizada para o desenvolvimento desse projeto foi a 4.4.0. Assim, não há garantia de que o projeto funcione em outras versões do R. Com o projeto aberto, é necessário instalar o `{renv}` e executar a instalação das dependências:
+
+```{r}
+#| eval: false
+#| echo: true
+install.packages('renv')
+renv::init()
+renv::restore()
+```
+
+De forma geral, toda a execução do código é controlada pelo `{targets}` [@landauTargets2021]. A configuração e ordem de execução do projeto é administrada pelo arquivo `_targets.R`, que fica na raiz do projeto. O seguinte comando executa a *pipeline*:
+
+```{r}
+#| eval: false
+#| echo: true
+
+targets::tar_make()
+```
+
+Os reports em `.qmd` carregam os pacotes necessários que estão armazenados pelo `{renv}`. Para isso, o usuário deve indicar o local de armazenamento do `{renv}`. O caminho `renv/library/macos/R-4.4/aarch64-apple-darwin20/` deve ser alterado nos documentos `.qmd` antes de executar o pipeline com o `{targets}`, de acordo com o sistema de quem estiver rodando o projeto.
+
+O `{targets}` não compila o dashboard. Para isso, deve-se executar o seguinte comando do pacote `{shiny}` [@shiny2024]: 
+
+```{r}
+#| eval: false
+#| echo: true
+
+shiny::runApp("app")
+```
+
+## Estrutura do documento {#sec-intro-doc}
+
+A documentação do projeto está dividida em três partes. O @sec-estrutura apresenta a estrutura do projeto, descrevendo os arquivos presentes no repositório. O @sec-exec apresenta o processo de execução, com a descrição de cada *script*. Por fim, o @sec-publicacao demonstra como hospedar o dashboard após a sua atualização e também demonstra como extrair os relatórios do projeto.

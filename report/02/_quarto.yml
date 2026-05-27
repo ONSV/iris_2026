@@ -1,0 +1,82 @@
+project:
+  type: book
+  output-dir: docs
+
+# execute: 
+#   freeze: auto
+
+language:
+  section-title-appendices: "Apêndices"
+
+book:
+  title: "IRIS -- Indicadores Rodoviários Integrados de Segurança"
+  subtitle: "Produto 02 -- Relatório de Resultados"
+  author: 
+  - name: Pedro Augusto Borges dos Santos
+  - name: Paloma Hellen Pereira Eleuterio
+  - name: Dara de César Borszcz
+  - name: Dr. Jorge Tiago Bastos
+  date: last-modified
+  output-file: "report_02"
+  chapters:
+    - index.qmd
+    - 02_01_introducao.qmd
+    - 02_02_revisao.qmd
+    - 02_03_metodologia.qmd
+    - 02_04_resultados.qmd
+    - 02_05_conclusoes.qmd
+    - 99_references.qmd
+  appendices:
+    # - 02_9a_mapas.qmd
+    - 02_9b_padronizacao.qmd
+    - 02_9c_inversao.qmd
+  
+  # twitter-card: true
+  repo-url: https://www.github.com/onsv/indicadores-seg-viaria
+  # cover-image: logo/capa.png
+  language: pt-BR
+  # favicon: logo/onsv-fav.ico
+
+bibliography: references.bib
+
+# csl: apa
+
+format:
+  pdf:
+    documentclass: report
+    lang: pt-BR
+    lof: true
+    lot: true
+    toc-depth: 4
+    fig-dpi: 300
+    fig-pos: "H"
+    echo: false
+    fontsize: 11pt
+    linkcolor: "black"
+    toccolor: "black"
+    citecolor: "black"
+    link-citations: true
+    warning: false
+    geometry: 
+    - right=30mm
+    - left=30mm
+    - bottom=30mm
+    - top=30mm
+    papersize: a4
+    cap-location: top
+    # cite-method: biblatex
+    csl: apa.csl
+    include-in-header: 
+      text: |
+        \usepackage{lscape}
+        \newcommand{\blandscape}{\begin{landscape}}
+        \newcommand{\elandscape}{\end{landscape}}
+  docx:
+    number-sections: true
+    warning: false
+    echo: false
+    toc: true
+    lang: pt-BR
+    fig-dpi: 300
+    papersize: a4
+    cap-location: top

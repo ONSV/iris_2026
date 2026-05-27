@@ -1,0 +1,13 @@
+# Apresentação {.unnumbered}
+
+{{< meta title >}}
+
+{{< meta subtitle >}}
+
+Versão 02 -- {{< meta date >}}
+
+## Resumo
+
+O objetivo do Projeto IRIS - Indicadores Rodoviários Integrados de Segurança - é estabelecer indicadores de desempenho para diagnosticar o nível de segurança viária nas unidades da federação brasileira. Criaram-se indicadores classificados conforme os seis pilares do atual plano de ações do Pnatrans: (I) Gestão da Segurança no Trânsito; (II) Vias Seguras; (III) Segurança Veicular; (IV) Educação para o Trânsito; (V) Vigilância; Promoção da Saúde e Atendimento às Vítimas; e (VI) Normatização e Fiscalização. O estabelecimento desses indicadores irá permitir o exercício de *benchmarking* da segurança viária entre os estados, considerando as diferentes áreas da mobilidade segura. Esse documento contempla a segunda parte do projeto, com a metodologia de construção dos índices compostos e a comparação do desempenho entre os estados.
+
+<!-- O objetivo do Projeto IRIS - Indicadores Rodoviários Integrados de Segurança - é estabelecer indicadores de desempenho para diagnosticar o nível de segurança viária nas unidades da federação brasileira. Criaram-se indicadores classificados dconforme oseis pilares do atual plano de ações do Pnatrans: (I) Gestão da Segurança no Trânsito; (II) Vias Seguras; (III) Segurança Veicular; (IV) Educação para o Trânsito; (V) Vigilância; Promoção da Saúde e Atendimento às Vítimas; e (VI) Normatização e Fiscalização. O estabelecimento desses indicadores irá permitir o exercício de *benchmarking* da segurança viária entre os estados, considerando as diferentes áreas da mobilidade segura. Esse documento contempla a primeira parte do projeto, que inclui a metodologia de coleta nas fontes, a definição dos indicadores e o processo de cálculo. -->

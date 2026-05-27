@@ -1,0 +1,55 @@
+# Revisão de literatura {#sec-revbib}
+
+Este capítulo apresenta a revisão de literatura com três principais seções. Primeiro, apresenta-se um histórico do Pnatrans (@sec-revbib-pnatrans), seguido do conteúdo sobre a definição e aplicações de indicadores de desempenho da segurança viária (@sec-revbib-concept). A @sec-revbib-est traz alguns estudos brasileiros que discutiram e aplicaram os conceitos de indicadores de desempenho.
+
+## O Plano Nacional de Redução de Mortes e Lesões no Trânsito {#sec-revbib-pnatrans}
+
+Em 2010, através de uma resolução da Assembleia Geral da Organização das Nações Unidas (ONU), foi proclamada a Década de Ação pela Segurança no Trânsito, com vigência entre 2011 e 2020. O principal objetivo foi convocar os países-membros a aplicar seus esforços em prol na melhoria nas condições de segurança viária, com o objetivo principal de reduzir a quantidade de óbitos e lesões no trânsito pela metade [@whoGlobalPlanDecade2010]. No Brasil, uma política pública à nível nacional foi concretizada apenas em 2018, com a aprovação da Lei 13.614 que cria o Plano Nacioanal de Mortes e Lesões no Trânsito - Pnatrans [@brasilCriaPlanoNacional2018].
+
+O Pnatrans em sua versão inicial possuía o principal objetivo de reduzir a quantidade de óbitos e lesões no trânsito brasileiro em 50%, considerando o período entre 2019 e 2028. As metas de redução dos óbitos foram baseadas em taxas de óbitos por 10 mil veículos e por 100 mil habitantes; e estabelecidas para cada unidade da federação brasileira. Em seu lançamento, o plano de ações do Pnatrans possuía 8 pilares e outras quantidade de ações e produtos, que acabaram sendo ajustados em futuras versões [@brasilCriaPlanoNacional2018].
+
+Visto que o desafio global de melhorar as condições da segurança no trânsito ainda precisa ser enfrentado, a Assembleia Geral da ONU declarou a Segunda Década de Ação pela Segurança no Trânsito em 2020, mantendo os mesmo objetivos principais para o período entre 2021 e 2030 [@whoGlobalPlanDecade2021a]. Neste contexto, foi elaborada a primeira revisão do Pnatrans com a publicação da Resolução CONTRAN (Conselho Nacional de Trânsito) nº 870/2021. O plano de ações desta nova versão do Pnatrans se alinha com as abordagens do Sistema Seguro e Visão Zero e é estruturado a partir dos seguintes pilares [@contranRESOLUCAOCONTRANNo2021]:
+
+-   I - Gestão da Segurança no Trânsito;
+
+-   II - Vias Seguras;
+
+-   III - Segurança Veicular;
+
+-   IV - Educação para o Trânsito;
+
+-   V - Atendimento às Vítimas; e
+
+-   VI - Normatização e Fiscalização.
+
+Ao fim de 2023 houve mais uma revisão do Pnatrans, com a publicação da Resolução CONTRAN nº 1.004. A primeira modificação feita no plano é a remoção do índice de óbitos por 10 mil veículos como indicador da meta de redução, mantendo apenas o índice de óbitos por 100 mil habitantes. Outra modificação foi a extensão do prazo de cumprimento do plano, passando de 2028 para 2030 e alinhando-se com o fim da Segunda Década. A meta de redução que antes era estabelecida para o Brasil e para os estados também foi estabelecida para os municípios. Em relação aos pilares, houve apenas uma mudança no nome e no escopo geral do Pilar V, que foi modificado para "Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito" [@contranRESOLUCAOCONTRANNo2023].
+
+## Indicadores de desempenho da segurança viária {#sec-revbib-concept}
+
+Os indicadores do desempenho da segurança viária são medidas utilizadas para avaliar as condições de segurança de um sistema de transporte. Eles são fundamentais para uma abordagem preventiva em relação a segurança viária, uma vez que apenas o número de mortes ou sinistros de trânsito não oferece uma compreensão completa sobre como e por que esses sinistros ocorrem. Ao criar indicadores de desempenho e monitorá-los de forma periódica é possível identificar as falhas de segurança antes que elas causem mortes ou ferimentos mais graves [@santosPlanoNacionalReducao2023].
+
+A @fig-piramide apresenta a posição dos indicadores de desempenho da segurança viária em relação aos diferentes níveis de desempenho da segurança viária. Na base, tem-se como a estrutura e cultura de um local está correlacionado diretamente com as políticas voltadas para a segurança no trânsito. Em um segundo nível, tem-se como resultado a criação de medidas e políticas públicas para a segurança. Em seguida, mede-se o resultado intermediário dessas políticas por indicadores em diferentes áreas de fator de risco (*e.g.* infraestrutura, comportamento, segurança veicular, etc.). O resultado que busca se evitar é a ocorrência de óbitos e lesões no trânsito. Por fim, no último nível da pirâmide têm-se os custos que a sinistralidade no trânsito causa à sociedade [@borszczINDICADORESDESEMPENHOSEGURANCA2023a; @Wegman2008a].
+
+::: {#fig-piramide}
+![](img/piramide.png)
+
+Fonte: Adaptado de @Wegman2008a
+
+Hierarquia de indicadores e metas da segurança viária
+:::
+
+O estabelecimento de indicadores de desempenho da segurança viária não só permite o monitoramento mas também o exercício de *benchmarking* entre diferentes locais ou entidades. @santosPlanoNacionalReducao2023 utilizaram índices compostos com base em indicadores de desempenho da segurança viária para estabelecer um processo de *benchmarking* entre municípios brasileiros com o objetivo final de estabelecer metas de redução de óbitos no trânsito.
+
+Já em uma escala nacional, @Wegman2008a criaram quatro índices compostos com base na classificação indicada na @fig-piramide indicadores de desempenho de políticas públicas, indicadores de desempenho da segurança viária (resultados finais e resultados intermediários) e indicadores de estrutura e desenvolvimento, considerando PIB per capita e densidade populacional. Esses índices compostos serviram de base para comparar o desempenho entre 23 países da europa.
+
+Outra iniciativa europeia é o PIN - *The Road Safety Performance Index*, comentado anteriormente no @sec-intro, cujo objetivo é comparar o desempenho entre os países-membros da União Europeia, premiando o melhor desempenho anualmente [@etscPINRoadSafety2024]. O PIN inclui áreas como comportamento de usuários, infraestrutura viária e segurança veicular. Atualmente, o programa tem 32 países participando; em que 27 são países-membros da União Europeia, em conjunto com Israel, Noruega, Sérvia, Suíça e Reino Unido.
+
+## Estudos brasileiros {#sec-revbib-est}
+
+No Brasil, estudos prévios criaram indicadores de desempenho com o intuito de aprimorar o processo de diagnóstico da segurança viária e a comparação entre diversas localidades. @bastosRoadSafetyStrategic2014 apresentou um diagnóstico da situação da segurança viária ao nível estadual, seguido do estabelecimento de metas para reduzir o número de mortes no trânsito e sugestão para melhorias com base em uma avaliação de indicadores do desempenho da segurança viária relacionados aos usuários da via, ambiente e veículos. Nesse estudo, as unidades federativas foram agrupadas em três *clusters* para comparações e foram aplicadas técnicas de *Data Envelopment Analysis (DEA)* e *bootstrapping,* considerando a sensibilidade dos resultados e possíveis variações dos dados de entrada. Como resultado, foram obtidos diagnósticos da segurança viária por estado, avaliações desagregadas para diferentes tipos de veículos e principalmente foram traçadas metas para redução de mortes no trânsito.
+
+Já na escala municipal, @santosPlanoNacionalReducao2023 elaboraram um processo de *benchmarking* e metas de redução de óbitos com base em 13 indicadores, divididos em três categorias: resultado final, resultado intermediário e indicadores socioeconômicos. Através na Análise de Componentes Principais (PCA) foi possível criar índices compostos para cada categoria. Em seguida, através do método de *k-means* foi possível criar *clusters* de municípios com características similares de segurança e desenvolvimento. Em cada grupo foi feito um processo de *benchmarking* que possibilitou criar metas de redução de óbitos no trânsito para cada município.
+
+Considerando um grupo reduzido de municípios, @torresMETODOLOGIABENCHMARKPARA2023 estruturaram uma base de dados de indicadores de desempenho de segurança viária para cidades brasileiras com mais de 100 mil habitantes. Além disso, desenvolveram um indicador que integra as dimensões dos sistemas seguros, permitindo análises de *benchmarking* em relação ao índice de óbitos no trânsito no nível municipal. Cidades foram agrupadas com base em seus indicadores socioeconômicos, identificando padrões e semelhanças entre elas. Essa abordagem proporcionou uma visão abrangente do desempenho das políticas de segurança viária.
+
+Utilizando o plano de ações do Pnatrans como base, @borszczINDICADORESDESEMPENHOSEGURANCA2023a estabeleceram 24 indicadores de desempenho, classificados conforme os seis pilares do Pnatrans, para cada unidade da federação brasileira. Com esses indicadores elaborados, os autores fizeram análises de correlação com a taxa de óbitos por 10 mil veículos, buscando investigar os efeitos no resultado final em cada estado.

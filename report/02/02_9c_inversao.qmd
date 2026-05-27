@@ -1,0 +1,79 @@
+# Inversão da escala {#sec-inversao}
+
+```{r}
+#| label: setup
+#| include: false
+
+library(
+    targets, 
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+library(
+    tidyverse,
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+library(
+    gt,
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+```
+
+```{r}
+#| label: tbl-invert-pilar1
+#| tbl-cap: Inversão de escalas - Pilar I
+#| echo: false
+
+tar_read(gt_invertidos, store = here::here("_targets"))[[1]] |> 
+    tab_options(table.font.size  = "9pt")
+```
+
+\newpage
+
+```{r}
+#| label: tbl-invert-pilar2
+#| tbl-cap: Inversão de escalas - Pilar II
+#| echo: false
+
+tar_read(gt_invertidos, store = here::here("_targets"))[[2]]
+```
+
+\newpage
+
+```{r}
+#| label: tbl-invert-pilar3
+#| tbl-cap: Inversão de escalas - Pilar III
+#| echo: false
+
+tar_read(gt_invertidos, store = here::here("_targets"))[[3]]
+```
+
+\newpage
+
+```{r}
+#| label: tbl-invert-pilar4
+#| tbl-cap: Inversão de escalas - Pilar IV
+#| echo: false
+
+tar_read(gt_invertidos, store = here::here("_targets"))[[4]]
+```
+
+\newpage
+
+```{r}
+#| label: tbl-invert-pilar6
+#| tbl-cap: Inversão de escalas - Pilar VI
+#| echo: false
+
+tar_read(gt_invertidos, store = here::here("_targets"))[[5]]
+```
+
+\newpage
+
+```{r}
+#| label: tbl-invert-results
+#| tbl-cap: Inversão de escalas - Indicadores de resultado
+#| echo: false
+
+tar_read(gt_invertidos, store = here::here("_targets"))[[6]]
+```
+

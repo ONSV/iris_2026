@@ -1,0 +1,105 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+
+# Metodologia {#sec-method}
+
+Esse capítulo apresenta o processo de análise dos indicadores e construção de um índice composto com base dos indicadores do IRIS. A @sec-method-correlacao apresenta o processo de correlação aplicado aos indicadores de desempenho da segurança viária. A @sec-method-pca apresenta a aplicação da Análise de Componentes Principais (PCA) para a construção de índices compostos. A @sec-method-composto apresenta a construção dos índices compostos com base nas componentes principais e a @sec-method-classificacao apresenta o processo de classificação e criação do *ranking* dos estados com base nos índices compostos.
+
+## Análise de correlação {#sec-method-correlacao}
+
+Foi realizada uma análise de correlação entre os indicadores calculados de cada pilar com os indicadores de resultado. Esse processo teve como objetivo apresentar uma análise exploratória entre as variáveis, buscando identificar possíveis relações entre elas com a identificação de correlações estatisticamente significativas. Observa-se que a análise de correlação não foi elaborada de base para definir o cálculo dos indicadores compostos, mas sim para obter uma análise exploratória dos resultados.
+
+O método de correlação aplicado foi a Correlação de Spearman. Essa é uma medida não-paramétrica da associação entre duas variáveis que quantifica o grau de relação monotônica^[Em uma relação monotônica, as variáveis tendem a mudar juntas mas não necessariamente com base em uma taxa constante.] entre elas, usando as classificações ou ranqueamento dos dados. Diferente da correlação de Pearson, que mede relações lineares, a correlação de Spearman captura qualquer tipo de relação monotônica, seja ela linear ou não. A correlação de Spearman é mais robusta a *outliers* do que a correlação de Pearson, porque depende das posições relativas  dos dados e não dos seus valores exatos. Isso a torna ideal para dados ordinais ou que não seguem uma distribuição normal [@dodgeConciseEncyclopediaStatistics2010a].
+
+A Correlação de Spearman ($\rho$) é calculada da seguinte forma:
+
+$$
+\rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)};
+$$ {#eq-spearman}
+
+em que $d_i$ é a diferença entre os *ranks* das duas variáveis para o $i$-ésimo par de observações e $n$ é o número de observações. O resultado limita-se entre -1 e 1, em que -1 indica uma relação negativa perfeita, 0 indica nenhuma relação e 1 indica uma relação positiva perfeita. Neste trabalho, a correlação foi aplicada com auxílio da linguagem de programação R, utilizando a função `cor.test()` [@rcoreteam2021]. Os resultados deste processo estão apresentados na @sec-results-correlacao.
+
+## Análise de Componentes Principais {#sec-method-pca}
+
+A Análise de Componentes Principais (ACP), ou *Principal Component Analysis* (PCA), é um método estatístico que tem como objetivo reduzir a dimensionalidade de um conjunto de dados, mantendo o máximo de informação possível. A ACP é uma técnica de transformação linear que transforma os dados originais em um novo sistema de coordenadas, em que as variáveis são descorrelacionadas e ordenadas por importância. A primeira componente principal é a direção de maior variância dos dados, a segunda componente principal é a direção de segunda maior variância e assim por diante [@jamesIntroductionStatisticalLearning2021]. Para esse trabalho, a ACP foi aplicada para cada pilar.
+
+Antes de aplicar a ACP aos indicadores, foi necessário realizar dois passos preliminares: a padronização da escala (@sec-pca-norm) e a inversão da escala (@sec-pca-invert).
+
+### Padronização da escala {#sec-pca-norm}
+
+A padronização da escala é um passo importante para a aplicação da ACP, pois os indicadores possuem escalas diferentes e a variância dos indicadores pode ser influenciada por essa diferença. A padronização da escala é realizada para que todos os indicadores tenham média zero e desvio padrão igual a um. Isso é feito para que todos os indicadores tenham a mesma importância na análise, evitando que indicadores com escalas maiores dominem o processo de construção das componentes principais [@jamesIntroductionStatisticalLearning2021].
+
+A padronização de dados, também conhecida como normalização $z$-score, é o processo de transformar variáveis de diferentes escalas para uma escala comum, sem distorcer as diferenças nas amplitudes dos valores. Matematicamente, o processo de padronização envolve o cálculo do $z$-score de cada valor, o que permite comparar variáveis que originalmente estão em escalas diferentes. Esse processo é realizado com base na seguinte equação:
+
+$$
+z_i = \frac{x_i - \mu}{\sigma};
+$$ {#eq-zscore}
+
+em que $z_i$ é o valor padronizado de $x_i$ - o valor original do conjunto $X$ - $\mu$ é a média do conjunto $X$ e $\sigma$ é o desvio padrão do conjunto $X$. Após esse processo, a nova distribuição dos dados terá uma média 0 e um desvio padrão 1. Esse processo foi aplicado com auxílio da função `scale()` da linguagem de programação R [@rcoreteam2021].
+
+### Inversão da escala {#sec-pca-invert}
+
+A partir dos valores padronizados, foi aplicada a inversão da escala alguns indicadores. Conforme alertado por @Wegman2008a e @tesicIdentifyingMostSignificant2018, na construção de um índice composto é importante que os indicadores estejam na mesma direção. Para esse estudo, estabeleceu-se que indicadores que representam um bom desempenho tenham valores maiores e indicadores que representam um mau desempenho tenham valores menores.
+
+O processo matemático é feito com a seguinte equação:
+
+$$
+x' = max - (x - min);
+$$ {#eq-invert}
+
+em que $x'$ é o valor invertido, $x$ é o valor original, $max$ é o valor máximo do indicador e $min$ é o valor mínimo do indicador. Esse processo foi aplicado para os seguintes indicadores:
+
+- I.2: Percentual de campos não-informados nas bases do RENAEST;
+- II.1: Percentual de extensão de rodovias em condições péssimas e ruins na categoria Estado Geral;
+- II.2: Percentual de extensão de rodovias em condições péssimas e ruins na categoria Geometria;
+- II.3: Percentual de extensão de rodovias em condições péssimas e ruins na categoria Pavimento;
+- II.4: Percentual de extensão de rodovias em condições péssimas e ruins na categoria Sinalização;
+- III.1: Percentual de frota de motocicletas;
+- III.2: Percentual da frota com idade igual ou superior a 10 anos;
+- IV.2: Taxa de infrações por consumo de bebidas alcoólicas a cada 10 mil veículos;
+- IV.3: Taxa de infrações por excesso de velocidade a cada 10 mil veículos;
+- IV.4: Taxa de infrações por não utilização do cinto de segurança a cada 10 mil veículos;
+- IV.5: Taxa de infrações por não utilização do capacete a cada 10 mil veículos;
+- IV.6: Taxa de infrações por uso do celular na direção a cada 10 mil veículos;
+- IV.7: Taxa de infrações por não utilizar dispositivos de retenção a cada 10 mil veículos;
+- VI.1: Taxa de infrações por frota 
+- VI.6: Taxa de infrações de velocidade por câmera de segurança
+- 0.1: Índice de óbitos por veículos 
+- 0.2: Índice de óbitos por habitantes 
+- 0.3: Índice de óbitos por bilhão de quilômetros percorridos
+
+### Aplicação do método {#sec-pca-apply}
+
+A ACP foi aplicada com o auxílio da função `prcomp()` da linguagem de programação R. Como primeiro passo, essa função aplica o método de Decomposição em Valores Singulares, ou *Singular Value Decomposition* (SVD). Considerando a matriz de indicadores $X$, a SVD realiza a seguinte decomposição:
+
+$$
+X = UDV^T;
+$$ {#eq-svd}
+
+em que $U$ é uma matriz ortogonal, $D$ é uma matriz diagonal contendo os valores singulares (*Singular Value*) e $V^T$ é a matriz transposta contendo os autovetores $v_i$ que representam as direções das componentes principais. Com isso, o cálculo das componentes principais se baseia na multiplicação da matriz de indicadores $X$ pela matriz de autovetores $V$. Os autovalores $\lambda_i$ de cada componente principal são resultado do quadrado dos valores da matriz diagonal $D$ e a variância explicada de cada componente é a proporção do autovalor em relação à soma total dos autovalores ($\lambda_i / \sum \lambda$) [@rcoreteam2021].
+
+O cálculo da ACP foi realizado para cada pilar de indicadores e para os indicadores de resultado. Similar ao trabalho de @Wegman2008a, o critério de seleção das componentes principais foi o autovalor maior que 1. Esse critério é baseado na ideia de que as componentes principais com autovalores maiores que 1 explicam mais variância do que uma variável original e, portanto, são consideradas relevantes para a análise.
+
+## Índices compostos {#sec-method-composto}
+
+O cálculo dos índices compostos foi realizado com base nas componentes principais e suas variâncias explicadas obtidas na ACP. Para cada pilar, as componentes principais foram combinadas com base na relação com os indicadores originais, através de uma soma ponderada das componentes. A criação do índice composto $IC_p$ para o pilar $p$ foi realizado com a seguinte equação:
+
+$$
+IC_p = \sum \pm PC_n \times w_n;
+$$ {#eq-ic}
+
+em que $PC_n$ é a componente principal $n$ e $w_n$ é o peso da componente principal $n$. Os pesos foram definidos com base na variância explicada de cada componente principal. A variância explicada de cada componente principal foi calculada com base na proporção do autovalor em relação à soma total dos autovalores. O valor de $n$ depende da quantidade de componentes principais que foram selecionadas em cada pilar $p$. O sinal da componente principal depende da relação da mesma com os indicadores originais. Caso a componente principal tenha uma correlação direta com o desempenho da segurança, o sinal é positivo. Caso contrário, o sinal é negativo, assim mantendo a ideia de maiores valores indicarem um melhor desempenho, conforme estabelecido em @sec-pca-invert.
+
+Para facilitar a interpretação de $IC_p$, os valores foram normalizados para uma escala de 0 a 10. A normalização foi realizada com base na seguinte equação:
+
+$$
+IC_p' = \frac{IC_p - min(IC_p)}{max(IC_p) - min(IC_p)} \times 10;
+$$ {#eq-nota}
+
+em que $IC_p'$ é o valor normalizado de $IC_p$, $IC_p$ é o valor original do índice composto e $min(IC_p)$ e $max(IC_p)$ são, respectivamente, o valor mínimo e máximo do índice composto, para cada pilar $p$. Com esse processo, o estado com o melhor desempenho do pilar $p$ terá o valor 10 e o estado com o pior desempenho terá o valor 0.
+
+## Classificação dos estados {#sec-method-classificacao}
+
+A partir dos índices compostos calculados, foi realizada a classificação dos estados com base no desempenho da segurança viária em cada pilar de análise. A classificação foi realizada com base na escala de 5 estrelas, em que 1 estrela representa o pior desempenho e 5 estrelas o melhor desempenho. A classificação foi realizada com base na técnica de discretização por frequência igual, ou seja, cada um dos 5 intervalos estabelecidos possui uma quantidade similar de observações [@tanIntroductionDataMining2014]. O processo de discretização dos valores foi realizado com auxílio das funções `quantile()` e `cut()` da linguagem de programação R [@rcoreteam2021].

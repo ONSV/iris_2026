@@ -1,0 +1,2124 @@
+# Metodologia {#sec-method}
+
+```{r}
+#| label: setup
+#| include: false
+
+library(
+    targets, 
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+
+library(
+    tidyverse, 
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+library(
+    gt,
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+
+tar_load(list_tbl_desc, store = here::here("_targets"))
+tar_load(list_tbl_cnt, store = here::here("_targets"))
+tar_load(indicadores, store = here::here("_targets"))
+
+source(here::here("R/report_utils.R"))
+```
+
+A metodologia deste trabalho pode ser dividida em duas partes. Na primeira parte, tem-se a definição dos indicadores a serem calculados (@sec-method-def), identificação das fontes de dados e coleta (@sec-method-coleta) e cálculo dos indicadores (@sec-method-calc).
+
+A segunda parte da metodologia contempla o processo de análise de correlação (@sec-method-correlacao), Análise de Componentes Principais (@sec-method-pca), cálculo dos índices compostos (@sec-method-composto) e classificação dos estados (@sec-method-classificacao).
+
+## Definição dos indicadores de desempenho {#sec-method-def}
+
+O processo de definição dos indicadores foi elaborado de forma paralela à coleta dos dados nas fontes, mesmo que no presente documento eles estejam apresentados como passos distintos. A definição do indicador a ser utilizado se baseou em trabalhos anteriores (como de @borszczINDICADORESDESEMPENHOSEGURANCA2023a e @santosPlanoNacionalReducao2023) e também na disponibilidade e viabilidade de coleta dos dados necessários em escala temporal anual e escala geográfica estadual.
+
+A @tbl-ind-class inclui a relação dos indicadores criados com base nos seis pilares do Pnatrans, em adição dos indicadores de resultado final. Ao total, `{r} length(unique(indicadores$indicador))` indicadores foram estabelecidos, com `{r} calc_qnt_ind(indicadores, "i.")` indicadores classificados no Pilar I, `{r} calc_qnt_ind(indicadores, "ii.")` no Pilar II, `{r} calc_qnt_ind(indicadores, "iii.")` no Pilar III, `{r} calc_qnt_ind(indicadores, "iv.")` no Pilar IV, `{r} calc_qnt_ind(indicadores, "v.")` no Pilar V, `{r} calc_qnt_ind(indicadores, "vi.")` no Pilar VI e mais `{r} calc_qnt_ind(indicadores, "0.")` indicadores de resultado.
+
+```{r}
+#| label: tbl-ind-class
+#| tbl-cap: Relação dos indicadores
+
+tar_read(tbl_ind_class, store = here::here("_targets")) |> 
+    gt() |> 
+    cols_label(
+        pilar = "Pilar", descricao = "Descrição", indicadores = "Indicadores"
+    ) |> 
+    tab_options(table.font.size = "10pt") |> 
+    cols_width(
+        pilar ~ px(90),
+        descricao ~ px(225),
+        indicadores ~ px(245)
+    )
+```
+
+Entre a @tbl-ind-desc-pilar1 e a @tbl-ind-desc-resultado estão descritos os indicadores em cada pilar. A @tbl-ind-desc-pilar1 apresenta os indicadores estabelecidos para o Pilar I - Gestão da Segurança no Trânsito. Este pilar visa garantir que as várias partes do sistema de trânsito trabalhem de forma integrada para eliminar fatalidades e lesões graves, reconhecendo que a responsabilidade por essa meta é compartilhada entre projetistas, construtores, gestores, fiscalizadores, usuários de vias e veículos, além dos agentes de atendimento às vítimas. Este pilar enfatiza a importância da divulgação regular de diagnósticos, buscando harmonizar e disponibilizar dados comparáveis sobre segurança viária em todo o país. Esse pilar apresenta os indicadores de percentual de municípios integrados ao S.N.T (I.1), percentual de campos não informados nas bases de dados de acidentes e vítimas do RENAEST (I.2), Produto Interno Bruto (PIB) per capita (I.3), e nota atribuída à disponibilidade de informações disponíveis nos portais dos Detrans (I.4)
+
+```{r}
+#| label: tbl-ind-desc-pilar1
+#| tbl-cap: Descrição dos indicadores - Pilar I
+
+list_tbl_desc[[1]]
+```
+
+A @tbl-ind-desc-pilar2 apresenta os indicadores estabelecidos para o Pilar II - Vias Seguras. Esse pilar aborda o planejamento, construção e manutenção de vias, que possuem um impacto direto na segurança viária e no comportamento dos usuários. Como elemento central de um sistema de mobilidade segura, as vias devem ser projetadas para atender a todas as categorias de usuários. Portanto, a adoção de padrões técnicos de alta qualidade no planejamento e construção é essencial para a criação de vias seguras. Esses padrões devem ser aplicados tanto em vias novas quanto na manutenção das já existentes, incluindo ruas, estradas e rodovias. Os indicadores considerados são de percentual de extensão de vias em condições péssimas e ruins na categoria estado geral (II.1), na categoria geometria (II.2), pavimento (II.3) e sinalização (II.4) e também o percentual de extensão de rodovias federais com pistas duplas (II.5).
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-desc-pilar2
+#| tbl-cap: Descrição dos indicadores - Pilar II
+
+list_tbl_desc[[2]]
+```
+
+A @tbl-ind-desc-pilar3 apresenta os indicadores estabelecidos para o Pilar III - Segurança Veicular. Esse pilar inclui o avanço das discussões e da normatização no Brasil sobre tecnologias emergentes no trânsito, como a futura circulação de veículos autônomos e o uso de sistemas embarcados nos veículos. Além disso, destaca-se o constante aprimoramento dos itens de segurança veicular e dos equipamentos para usuários vulneráveis. Aqui encontram-se os indicadores do percentual de frota de motocicletas (III.1), percentual da frota com idade igual ou superior a 10 anos (III.2), percentual mínimo de veículos com Airbag/ABS na frota (III.3) e Percentual mínimo de veículos com ISOFIX na frota (III.4).
+
+```{r}
+#| label: tbl-ind-desc-pilar3
+#| tbl-cap: Descrição dos indicadores - Pilar III
+
+list_tbl_desc[[3]]
+```
+
+A @tbl-ind-desc-pilar4 apresenta os indicadores estabelecidos para o Pilar IV - Educação para o Trânsito. Esse pilar contêm ações de educação para o trânsito com foco em resultados de curto e médio prazo na redução de mortes e lesões. Para alcançar resultados imediatos, a abordagem de sistemas seguros enfatiza a importância do engajamento da imprensa e de campanhas de mídia de massa baseadas em evidências, coordenadas com esforços de fiscalização para mitigar comportamentos de risco e com a capacitação dos agentes públicos sobre essa abordagem. Para o presente trabalho, não foi possível estabelecer indicadores que medem ações voltadas para a educação. Assim, optou-se por utilizar indicadores que representam o comportamento dos usuários no trânsito.
+
+Foram estabelecidos sete indicadores: relação entre condutores habilitados a conduzir motocicletas e frota de motocicletas (IV.1), taxa de infrações por consumo de bebidas alcoólicas (IV.2), por excesso de velocidade (IV.3), por não utilizar cinto de segurança (IV.4), por não utilizar capacete (IV.5), por utilizar celular (IV.6) e por não utilizar dispositivos de retenção (IV.7).
+
+```{r}
+#| label: tbl-ind-desc-pilar4
+#| tbl-cap: Descrição dos indicadores - Pilar IV
+
+list_tbl_desc[[4]]
+```
+
+Para o Pilar V - Promoção da Saúde e Atendimento às Vítimas no Trânsito - os indicadores estabelecidos estão na @tbl-ind-desc-pilar5. As ações desse pilar visam ao aprimoramento do atendimento, tanto no fortalecimento do sistema de respostas às ocorrências, quanto no fomento de parcerias, implantação de metodologia de avaliação de programas governamentais preventivos e incorporação dos programas de prevenção aos sinistros de trânsito. Os indicadores desse pilar buscam medir o nível de infraestrutura hospitalar em cada estado. Eles são: taxa de profissionais que atuam na área da saúde per capita (V.1), taxa de leitos totais (V.2), leitos SUS (V.3) e leitos não-SUS (V.4) per capita.
+
+```{r}
+#| label: tbl-ind-desc-pilar5
+#| tbl-cap: Descrição dos indicadores - Pilar V
+
+list_tbl_desc[[5]]
+```
+
+A @tbl-ind-desc-pilar6 apresenta os indicadores do Pilar VI - Normatização e Fiscalização. Esse pilar visa incentivar a conformidade com as regulamentações de tráfego e, consequentemente, reduzir comportamentos de risco propositais e/ou não-propositais entre os usuários, por leis que estabelecem penalidades eficazes. Os indicadores incluídos são: taxa de infrações por frota (VI.1), câmeras de segurança[^03_metodologia-1] em geral (VI.2), em rodovias (VI.3), em vias urbanas (VI.4), em rodovias federais pavimentadas (VI.5), infrações de velocidade por câmera de segurança (VI.6) e câmeras de segurança em capitais (VI.7).
+
+[^03_metodologia-1]: Na abordagem dos Sistemas Seguros e Visão Zero, os dispositivos eletrônicos de fiscalização de velocidade são denominados de câmeras de segurança viária, justamente por sua função de aumentar o nível de segurança na via. Por este motivo, ao longo do documento optou-se por utilizar a terminologia “câmera de segurança” para se referir aos dispositivos eletrônicos de fiscalização de velocidade.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-desc-pilar6
+#| tbl-cap: Descrição dos indicadores - Pilar VI
+#| tbl-pos: T 
+
+list_tbl_desc[[6]]
+```
+
+A @tbl-ind-desc-resultado apresenta os indicadores de resultado final. Para representar a quantidade de óbitos no trânsito, três indicadores foram calculados / selecionados: índice de óbitos por 10 mil veículos (0.1), por 100 mil habitantes (0.2) e por bilhão de quilômetros percorridos (0.3).
+
+```{r}
+#| label: tbl-ind-desc-resultado
+#| tbl-cap: Descrição dos indicadores - Resultado final
+
+list_tbl_desc[[7]]
+```
+
+## Coleta nas fontes de dados {#sec-method-coleta}
+
+Grande parte das fontes utilizadas neste trabalho são oriundas de órgãos públicos no nível federal. Buscou-se pegar sempre a informação mais recente referente ao último ano completo (2023), comparado com o momento de publicação deste relatório (2024). A escala geográfica dos indicadores é a estadual e a escala temporal é a anual. Dados que estavam em escala geográfica menor do que um estado (municipal, por exemplo) ou escala temporal menor (mensal) foram ajustados para atingir a escala desejada.
+
+A @tbl-fontes apresenta a relação completa das fontes utilizadas nesse trabalho, com o nome do órgão, a informação coletada e o(s) ano(s) considerado(s). Mais detalhes sobre os dados coletados e o processo de coleta estão apresentados nas seções a seguir.
+
+\pagebreak
+
+```{r}
+#| label: tbl-fontes
+#| tbl-cap: Descrição das fontes utilizadas
+
+tar_read(tbl_fontes, store = here::here("_targets")) |> 
+    gt() |> 
+    cols_label(
+        orgao = "Órgão",
+        informacao = "Informação", 
+        ano_utilizado = "Ano utilizado"
+    ) |> 
+    tab_options(table.font.size = "10pt")
+```
+
+### Confederação Nacional do Transporte {#sec-data-cnt}
+
+A Confederação Nacional do Transporte (CNT) publica anualmente a Pesquisa CNT de Rodovias, que inclui o diagnóstico da infraestrutura nas rodovias brasileiras. Nessa pesquisa é elaborado um levantamento qualitativo nos trechos de rodovia, dentro de três categorias: pavimento, sinalização e geometria. A partir dessas três, consolida-se a categoria estado geral. O diagnóstico é feito com a atribuição de uma nota qualitativa entre os seguintes níveis: "ótimo", "bom", "regular", "ruim" ou "péssimo" [@cntPesquisaCNTRodovias2023].
+
+Neste trabalho, os resultados foram extraídos do relatório em PDF da Pesquisa CNT de Rodovias 2023, considerando os resultados por unidade da federação (UF). Entre a @tbl-cnt-geral e @tbl-cnt-geo estão apresentados os resultados das categorias estado geral, pavimento, sinalização e geometria. Essas tabelas incluem a extensão em quilômetros de cada nota qualitativa para todas as UF do país. Esses dados foram utilizados para o cálculo dos indicadores II.1, II.2, II.3 e II.4 (@sec-ind-2)
+
+\pagebreak
+
+::: {#tbl-cnt-geral style="text-align: center"}
+```{r}
+list_tbl_cnt[[1]]
+```
+
+Fonte: @cntPesquisaCNTRodovias2023
+
+Resultados da Pesquisa CNT 2023 - Estado Geral
+:::
+
+\pagebreak
+
+```{r}
+#| label: tbl-cnt-pav
+#| tbl-cap: Resultados da Pesquisa CNT 2023 - Pavimento
+
+list_tbl_cnt[[2]]
+```
+
+Fonte: @cntPesquisaCNTRodovias2023
+
+\pagebreak
+
+```{r}
+#| label: tbl-cnt-sinal
+#| tbl-cap: Resultados da Pesquisa CNT 2023 - Sinalização
+
+list_tbl_cnt[[3]]
+```
+
+Fonte: @cntPesquisaCNTRodovias2023
+
+\pagebreak
+
+```{r}
+#| label: tbl-cnt-geo
+#| tbl-cap: Resultados da Pesquisa CNT 2023 - Geometria
+
+list_tbl_cnt[[4]]
+```
+
+Fonte: @cntPesquisaCNTRodovias2023
+
+### Departamento de Informática do Sistema Único de Saúde
+
+Através do Departamento de Informática do Sistema Único de Saúde (DATASUS) do Ministério da Saúde, foi coletado um conjunto de dados de dois sistemas: o Sistema de Informações de Mortalidade - SIM e o Cadastro Nacional de Estabelecimentos de Saúde.
+
+#### Sistema de Informações de Mortalidade {#sec-data-sim}
+
+A @tbl-datasus-sim apresenta a quantidade de óbitos ocorridos como consequência de sinistros de trânsito em 2023 (o último ano com dados consolidados). Os dados foram acessados com auxílio do pacote para a linguagem R *roadtrafficdeaths* [@santosRoadtrafficdeathsRoadTraffic2024], cuja função é coletar a base de declarações de óbitos presente no servidor do SIM. Aqui foram consideradas as declarações com código CID-10 entre V01 e V89. Os óbitos foram localizados por estado pelo local de ocorrência do óbito. Essas informações também podem ser acessadas pelo sistema Tabnet do DATASUS [@ministeriodasaudeSistemaInformacoesMortalidade2022]. Os dados de óbitos foram utilizados para construir os indicadores 0.1 e 0.2 (@sec-ind-results)
+
+\pagebreak
+
+```{r}
+#| label: tbl-datasus-sim
+#| tbl-cap: Óbitos no trânsito em 2023
+
+tar_read(datasus_sim, store = here::here("_targets")) |> 
+    select(nome_uf_ocor, obitos) |> 
+    gt() |> 
+    cols_label(nome_uf_ocor = "UF", obitos = "Óbitos") |> 
+    fmt_number(decimals = 0, dec_mark = ",", sep_mark = ".") |> 
+    tab_options(table.font.size = "10pt")
+```
+
+Fonte: @ministeriodasaudeSistemaInformacoesMortalidade2022
+
+#### Cadastro Nacional de Estabelecimentos de Saúde {#sec-data-cnes}
+
+A @tbl-datasus-cnes contém a quantidade de profissionais da saúde e leitos em cada UF no ano de 2023. Os dados de leitos consideram a desagregação entre leitos SUS e leitos não-SUS, assim como o valor total. Esses dados foram coletados pelo sistema Tabnet do DATASUS, tendo como fonte o Cadastro Nacional de Estabelecimentos de Saúde - CNES [@ministeriodasaudeCadastroNacionalEstabelecimentos2023]. Esse cadastro disponibiliza os dados em escala temporal mensal, de forma cumulativa. Assim, considerou-se apenas os dados de dezembro/2023, representado a quantidade total em 2023. Esses dados foram utilizados para construir os indicadores do Pilar V (@sec-ind-5)
+
+\pagebreak
+
+```{r}
+#| label: tbl-datasus-cnes
+#| tbl-cap: Quantidade de leitos e profissionais da saúde em 2023
+
+tar_read(datasus_cnes, store = here::here("_targets")) |> 
+    filter(ano == 2023) |> 
+    select(-cod_uf, -ano) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        n_leitos_nao_sus = "Leitos não-SUS",
+        n_leitos_sus = "Leitos SUS",
+        n_leitos = "Leitos",
+        n_profissionais = "Profissionais"
+    ) |> 
+    fmt_number(decimals = 0, dec_mark = ",", sep_mark = ".") |> 
+    tab_options(table.font.size = "10pt")
+```
+
+Fonte: @ministeriodasaudeCadastroNacionalEstabelecimentos2023
+
+### Departamento Nacional de Infraestrutura de Transportes {#sec-data-dnit}
+
+A @tbl-dnit apresenta a extensão das rodovias federais de cada UF, conforme a classificação em pista simples ou pista dupla. Esses dados foram coletados do Sistema Nacional de Viação (SNV), gerido pelo Departamento Nacional de Infraestrutura de Transportes (DNIT). O repositório do departamento disponibiliza algumas planilhas por ano com os dados sobre o SNV. Assim, para o ano de 2023 considerou-se o último arquivo de 2023 disponível no sistema [@dnitRepositorioDNITDados2023]. Considerou-se a aba "Resumo SNV" presente na planilha "SNV_202308A". Importante ressaltar que a classificação "pista simples" e "pista dupla" é feita a partir das vias pavimentadas. Assim, a soma dessas categorias não resulta na extensão total de rodovias federais. Esses dados serviram como base para a construção dos indicadores II.5 (@sec-ind-2-5) e VI.05 (@sec-ind-6-5).
+
+\pagebreak
+
+```{r}
+#| label: tbl-dnit
+#| tbl-cap: Extensão em rodovias federais em 2023
+
+tar_read(dnit, store = here::here("_targets")) |> 
+    filter(ano == 2023) |> 
+    select(-sigla_uf, -ano) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        pista_simples = "Pista simples",
+        pista_dupla = "Pista dupla",
+        total_pavimentado = "Total pavimentado"
+    ) |> 
+    tab_spanner(pista_simples:total_pavimentado, label = "Extensão (km)") |> 
+    tab_options(table.font.size = "10pt") |> 
+    fmt_number(sep_mark = ".", dec_mark = ",")
+```
+
+Fonte: @dnitRepositorioDNITDados2023
+
+### Instituto Brasileiro de Geografia e Estatística
+
+Para este projeto, dois conjuntos de dados foram extraídos do Instituto Brasileiro de Geografia e Estatística (IBGE): a projeção da população brasileira e o produto interno bruto (PIB). 
+
+#### Projeção da população {#sec-data-pop}
+
+A @tbl-ibge-pop apresenta a quantidade de habitantes em cada UF, considerando os anos de 2021, 2022 e 2023. Essa quantidade é uma projeção feita pelo IBGE. Os dados de população foram utilizados como base de cálculo para os indicadores do Pilar V (@sec-ind-5) e para o indicador 0.2 (@sec-ind-0-2). Os dados foram coletados diretamente do FTP do IBGE [@ibgeProjecaoPopulacaoEntre2023].
+
+\pagebreak
+
+```{r}
+#| label: tbl-ibge-pop
+#| tbl-cap: Projeção da população
+
+tar_read(ibge_pop, store = here::here("_targets")) |> 
+    select(nome_uf, ano, populacao) |> 
+    filter(ano %in% c("2021", "2022", "2023")) |> 
+    pivot_wider(names_from = ano, values_from = populacao) |> 
+    gt() |> 
+    cols_label(nome_uf = "UF") |> 
+    tab_options(table.font.size = "10pt") |> 
+    fmt_number(decimals = 0, dec_mark = ",", sep_mark = ".")
+```
+
+Fonte: @ibgeProjecaoPopulacaoEntre2023
+
+#### Produto interno bruto {#sec-data-pib}
+
+O PIB disponibilizado pelo IBGE está na escala municipal, assim foi necessário somar os resultados para atingir o valor estadual. O valor disponibilizado está em mil reais, e o último ano disponibilizado é o de 2021, conforme apresentado na @tbl-ibge-pib. Esses valores foram utilizados como base para o cálculo do indicador I.3 (@sec-ind-1-3). Os dados foram coletados diretamente do FTP do IBGE [@ibgeProdutoInternoBruto2021].
+
+\pagebreak
+
+```{r}
+#| label: tbl-ibge-pib
+#| tbl-cap: Produto interno bruto em 2021
+
+tar_read(ibge_pib, store = here::here("_targets")) |> 
+    filter(ano == 2021) |> 
+    select(-ano) |> 
+    gt() |> 
+    cols_label(nome_uf = "UF", pib = "PIB (x 1.000)") |> 
+    fmt_currency(
+        decimals = 0, 
+        sep_mark = ".", 
+        dec_mark = ",",
+        currency = "BRL", 
+        incl_space = TRUE
+    ) |> 
+    tab_options(table.font.size = "10pt")
+```
+
+Fonte: @ibgeProdutoInternoBruto2021
+
+### Instituto Nacional de Metrologia, Qualidade e Tecnologia {#sec-data-inmetro}
+
+O Instituto Nacional de Metrologia, Qualidade e Tecnologia (Inmetro) disponibiliza informações sobre câmeras de segurança através de seu "Portal de Serviços do Inmetro nos Estados - Painel de Consulta" [@inmetroPortalServicosInmetro2023]. Dessa mesma fonte a @puertaengenhariaPlataformaMarketShare2024 coleta os dados de forma automatizada para a sua "Plataforma de Market Share - Fiscalização Eletrônica de Velocidade" [@puertaengenhariaPlataformaMarketShare2024], assim, foi possível obter os dados já processados para a utilização neste projeto. A @tbl-cameras apresenta a quantidade de câmeras e pontos de monitoramento, por UF, considerando a localização em vias urbanas, rodovias e capitais. Os valores utilizados neste trabalho consideram apenas as câmeras com o status "aprovado" e "reparado", e do tipo "fixo". Esses dados foram utilizados para o cálculo dos indicadores do Pilar VI (@sec-ind-6). Para o indicador VI.7 (@sec-ind-6-7), também foi necessário calcular a quantidade de câmeras por capital de cada UF.
+
+\pagebreak
+
+```{r}
+#| label: tbl-cameras
+#| tbl-cap: Quantidade de câmeras de segurança em 2023
+
+tar_load(joined_vi7, store = here::here("_targets"))
+#tar_load(pontos_fisc_uf, store = here::here("_targets"))
+#tar_load(pontos_fisc_mun, store = here::here("_targets"))
+
+tar_read(cameras, store = here::here("_targets")) |> 
+    drop_na() |> 
+    pivot_wider(names_from = tipo, values_from = n_cameras, values_fill = 0) |>
+    left_join(
+        joined_vi7 |> select(nome_uf, cameras, nome_mun),
+        by = c("estado" = "nome_uf")
+    ) |> 
+    #left_join(pontos_fisc_uf, by = "sigla_uf") |> 
+    #left_join(pontos_fisc_mun, by = "nome_mun") |> 
+    select(-sigla_uf, -nome_mun) |> 
+    gt() |>
+    tab_spanner(label = "Câmeras", columns = Rodovia:cameras) |>
+    #tab_spanner(
+    #    label = "Pontos de monitoramento",
+    #    columns = Rodovia.y:pontos_fiscalizacao
+    #) |> 
+    cols_label(
+        estado = "UF",
+        Rodovia = "Rodovia",
+        `Via Urbana` = "Via urbana",
+        cameras = "Capital",
+        # Rodovia.y = "Rodovia",
+        #`Via Urbana.y` = "Via urbana",
+        #pontos_fiscalizacao = "Capital"
+    ) |> 
+    fmt_number(decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt")
+
+```
+
+Fonte: @inmetroPortalServicosInmetro2023 e @puertaengenhariaPlataformaMarketShare2024
+
+### Publicações do Observatório
+
+Dois indicadores utilizados nesse projeto foram coletados diretamente de resultados de outros trabalhos elaborados pelo Observatório Nacional de Segurança Viária (ONSV). 
+
+#### Avaliação do Nível de Informações Disponibilizadas nos Portais dos Detrans {#sec-data-detran}
+
+O relatório teve como principal conteúdo a avaliação do nível de informações disponibilizadas nos portais dos Detrans de todas as unidades da federação brasileira. Esta avaliação teve como propósito verificar o desempenho dos Departamentos Estaduais de Trânsito (Detrans) em relação à disponibilização de informações [@onsvAvaliacaoNivelInformacoes2024]. A tbl-detrans apresenta os resultados. Essas notas representam o resultado direto do indicador I.4 (@sec-ind-1-4)
+
+\pagebreak
+
+```{r}
+#| label: tbl-detrans
+#| tbl-cap: Nota relacionada ao nível de informações disponibilizadas no portal do Detran
+
+tar_load(detrans, store = here::here("_targets"))
+
+detrans <- arrange(detrans, -nota_media)
+
+c(detrans$sigla_uf, detrans$nota_media) |> 
+    matrix(nrow = 9) |> 
+    as_tibble(.name_repair = "universal") |> 
+    select(...1, ...4, ...2, ...5, ...3, ...6) |>
+    mutate(across(ends_with(c("4", "5", "6")), \(x) as.numeric(x))) |> 
+    gt() |> 
+    cols_label_with(
+        columns = ends_with(c("1", "2", "3")), fn = \(x) "UF"
+    ) |> 
+    cols_label_with(
+        columns = ends_with(c("4", "5", "6")), fn = \(x) "Nota"
+    ) |> 
+    fmt_number(decimals = 1, dec_mark = ",", sep_mark = ".") |> 
+    tab_options(table.font.size = "10pt") |> 
+    tab_style(
+        style = cell_borders(
+            sides = "right",
+            color = "grey50"
+        ),
+        locations = cells_body(
+            columns = ends_with(c("4", "5"))
+        )
+    )
+```
+
+Fonte: @onsvAvaliacaoNivelInformacoes2024
+
+#### Taxa de Mortes por Bilhão de Quilômetros Percorridos {#sec-data-bilhao}
+
+O relatório teve como objetivo apresentar a estimativa da taxa de mortes por quilômetro percorrido pela frota de veículos no Brasil e em cada unidade da federação durante a primeira Década de Ação pela Segurança no Trânsito (2011-2020), com o intuito de obter um diagnóstico atualizado e mais preciso acerca da evolução do desempenho da segurança viária no país [@onsvTaxaMortesPor2023]. Os dados apresentados da @tbl-taxabilhao foram extraídos diretamente dos resultados do relatório e foram utilizados como o indicador 0.3 (@sec-ind-0-3).
+
+\pagebreak
+
+```{r}
+#| label: tbl-taxabilhao
+#| tbl-cap: Índice de mortes por bilhão de km percorrido em 2020
+
+
+tar_read(taxabilhao, store = here::here("_targets")) |> 
+    gt() |> 
+    cols_label(nome_uf = "UF", taxa_bilhao = "Índice") |> 
+    fmt_number(decimals = 1, dec_mark = ",", sep_mark = ".") |> 
+    tab_options(table.font.size = "10pt")
+```
+
+Fonte: @onsvTaxaMortesPor2023
+
+### OpenStreetMap {#sec-data-osm}
+
+O OpenStreetMap (OSM) é um projeto colaborativo que cria e disponibiliza um mapa livre e editável do mundo, utilizando dados geoespaciais coletados por voluntários. Através da base do OSM foi possível calcular a extensão das vias de todas as capitais do Brasil. Os dados foram extraídos com auxílio do pacote *osmdata* [@padghamOsmdata2017] e a distância calculada com o pacote *sf* [@pebesmaSimpleFeaturesStandardized2018], ambos para a linguagem R. A @tbl-osm apresenta a extensão de vias das capitais de todas as UF do Brasil. Esses valores foram utilizados para o cálculo do indicador VI.07 (@sec-ind-6-7).
+
+\pagebreak
+
+```{r}
+#| label: tbl-osm
+#| tbl-cap: Extensão de vias por capital dos estados em 2024
+
+tar_read(osm, store = here::here("_targets")) |> 
+    mutate(dist_vias = units::drop_units(dist_vias) / 1000) |> 
+    gt() |> 
+    cols_label(
+        nome_mun = "Município",
+        nome_uf = "UF",
+        dist_vias = "Extensão"
+    ) |> 
+    fmt_number(
+        decimals = 0,
+        pattern = "{x} km",
+        sep_mark = ".", 
+        dec_mark = ","
+    ) |> 
+    tab_options(table.font.size = "10pt")
+```
+
+Fonte: @openstreetmapcontributorsPlanetDumpRetrieved2024a e @padghamOsmdata2017
+
+### Registro Nacional de Acidentes e Estatísticas de Trânsito {#sec-data-renaest}
+
+```{r}
+#| include: false
+
+sem_sinistros <- indicadores |>
+    filter(indicador == "i.2", valor == 1) |> 
+    pull(nome_uf)
+
+sem_sinistros_text <- 
+    knitr::combine_words(sem_sinistros, and = " e ", oxford_comma = FALSE)
+```
+
+
+O Registro Nacional de Acidentes e Estatísticas de Trânsito (RENAEST) tem como propósito principal centralizar as informações relacionadas aos sinistros de trânsito que ocorrem nas unidades federativas do Brasil. Esse sistema coleta e consolida detalhes sobre os sinistros, os veículos envolvidos e as vítimas impactadas. Porém, o sistema ainda apresenta campos nos registros que não foram preenchidos, sendo designados como "não informados". A @tbl-renaest apresenta a quantidade total de campos nas bases "acidentes" e "vítimas" para o ano de 2023 e também a quantidade de campos não informados para cada UF. Na tabela encontram-se ausentes os estados do `r sem_sinistros_text`, pois até o momento de elaboração deste relatório não havia dados sobre esses estados no RENAEST, para o ano de 2023. Os valores aqui apresentados serviram como base para o cálculo do indicador I.2 (@sec-ind-1-2).
+
+\pagebreak
+
+```{r}
+#| label: tbl-renaest
+#| tbl-cap: Quantidade de campos não informados na base do RENAEST em 2023
+
+tar_read(renaest, store = here::here("_targets")) |> 
+    gt() |> 
+    cols_label(
+        uf_acidente = "UF",
+        na_count = "Campos não informados", 
+        total_count = "Total de campos"
+    ) |> 
+    tab_options(table.font.size = "10pt") |> 
+    fmt_number(decimals = 0, dec_mark = ",", sep_mark = ".")
+```
+
+Fonte: @ministeriodostransportesRegistroNacionalAcidentes2023a
+
+### Registro Nacional de Condutores Habilitados {#sec-data-renach}
+
+A @tbl-renach apresenta a quantidade de condutores habilitados nas categorias A e AB em 2023, disponibilizados pelo Registro Nacional de Condutores Habilitados (RENACH). O sistema disponibiliza dados mensais de forma acumulada. Assim, utilizou-se os dados de dezembro/2023 para obter a quantidade total do ano em questão. Esses dados podem ser coletados diretamente do site [@ministeriodostransportesRegistroNacionalCondutores2023] ou com auxílio do pacote *driversbr* para a linguagem R [@saraivaDriversbrLicensedDrivers2024], que foi o caso deste trabalho. Os dados do RENACH foram utilizados para a construção do indicador IV.1 (@sec-ind-4-1).
+
+\pagebreak
+
+```{r}
+#| label: tbl-renach
+#| tbl-cap: Quantidade de condutores habilitados em 2023
+
+tar_read(renach, store = here::here("_targets")) |> 
+    ungroup() |> 
+    filter(ano == 2023) |> 
+    select(-ano) |> 
+    pivot_wider(names_from = categoria_cnh, values_from = n_condutores) |> 
+    gt() |> 
+    cols_label(uf = "UF", categoria_a = "A", categoria_ab = "AB") |> 
+    tab_spanner(starts_with("cat"), label = "Categoria") |> 
+    fmt_number(decimals = 0, dec_mark = ",", sep_mark = ".") |> 
+    tab_options(table.font.size = "10pt")
+```
+
+Fonte: @ministeriodostransportesRegistroNacionalCondutores2023
+
+### Registro Nacional de Infrações de Trânsito {#sec-data-renainf}
+
+O Registro Nacional de Infrações de Trânsito registra todas as infrações de trânsito do país. Para esse projeto, foram selecionados 25 tipos de infrações para o cálculo dos indicadores. A @tbl-renainf-codinf apresenta o código, fator de risco e descrição dessas infrações.
+
+\pagebreak
+
+```{r}
+#| label: tbl-renainf-codinf
+#| tbl-cap: Código das infrações e descrição
+
+tar_read(tbl_codinf, store = here::here("_targets")) |> 
+    gt() |> 
+    cols_label(
+        cod_inf = "Código",
+        fator_risco = "Fator de risco",
+        descricao = "Descrição"
+    ) |> 
+    tab_options(table.font.size = "10pt") |> 
+    cols_width(
+        cod_inf ~ px(60),
+        fator_risco ~ px(100),
+        descricao ~ px(405)
+    )
+```
+
+Fonte: @ministeriodostransportesRegistroNacionalInfracoes2023
+
+Através do site do RENAINF [@ministeriodostransportesRegistroNacionalInfracoes2023] é possível obter a quantidade de notificações de penalidade por mês e por estado. A quantidade mensal não é acumulada, assim foi necessário somar as quantidades mensais para obter a quantidade total para o ano vigente. A @tbl-renainf-qtde apresenta a quantidade de infrações por UF e por 7 tipos em 2023, a fim de demonstração dos dados. Ao todo, 25 tipos de infrações foram utilizadas como base para o cálculo dos indicadores do Pilar IV (@sec-ind-4) e Pilar VI (@sec-ind-6).
+
+\pagebreak
+
+```{r}
+#| label: tbl-renainf-qtde
+#| tbl-cap: Quantidade de infrações em 2023
+
+tar_read(renainf, store = here::here("_targets")) |> 
+    arrange(cod_infracao) |> 
+    filter(cod_infracao %in% c(
+        "5169", "5185", "5193", "6262", "6270", "6289", "6297"
+    )) |> 
+    mutate(
+        uf = case_match(
+            uf,
+            "MATO GROSSO DO SUL" ~ "Mato Grosso do Sul",
+            "RIO GRANDE DO NORTE" ~ "Rio Grande do Norte",
+            "RIO GRANDE DO SUL" ~ "Rio Grande do Sul",
+            "RIO DE JANEIRO" ~ "Rio de Janeiro",
+            .default = str_to_title(uf)
+        )
+    ) |> 
+    pivot_wider(
+        names_from = cod_infracao, 
+        values_from = quantidade, 
+        values_fill = 0
+    ) |> 
+    gt() |> 
+    cols_label(uf = "UF") |> 
+    fmt_number(decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    tab_spanner(columns = -uf, label = "Código da infração")
+```
+
+Fonte: @ministeriodostransportesRegistroNacionalInfracoes2023
+
+### Registro Nacional de Veículos Automotores {#sec-data-renavam}
+
+O Registro Nacional de Veículos Automotores (RENAVAM) disponibiliza a quantidade de frota em seu site [@ministeriodostransportesRegistroNacionalVeiculos2023]. Para esse trabalho, foi necessário coletar a quantidade de veículos considerando as seguintes características: tamanho da frota por ano, tamanho da frota por UF de registro, quantidade por tipo de veículo e quantidade por ano de fabricação. Os dados por UF e ano foram coletados para os anos 2009 a 2023 (utilizados para o cálculo dos indicadores sobre Airbag/ABS e ISOFIX). A frota por UF e por ano foi coletada com auxílio do pacote *fleetbr* [@saraivaFleetbrBrazilianVehicle2024]. A @tbl-renavam apresenta a frota de veículos entre 2019 e 2023 para todas as UF. Os dados do RENAVAM foram utilizados para calcular os indicadores do Pilar III (@sec-ind-3), Pilar IV (@sec-ind-4), Pilar VI (@sec-ind-6) e indicador 0.1 (@sec-ind-0-1)
+
+\pagebreak
+
+```{r}
+#| label: tbl-renavam
+#| tbl-cap: Frota de veículos entre 2019 e 2023
+
+tar_read(renavam, store = here::here("_targets")) |> 
+    filter(ano > 2018) |> 
+    select(-modal) |> 
+    group_by(uf, ano) |> 
+    summarise(frota = sum(frota)) |> 
+    pivot_wider(names_from = ano, values_from = frota) |> 
+    ungroup() |> 
+    gt() |> 
+    cols_label(uf = "UF") |> 
+    tab_options(table.font.size = "10pt") |> 
+    fmt_number(decimals = 0, sep_mark = ".", dec_mark = ",")
+```
+
+Fonte: @ministeriodostransportesRegistroNacionalVeiculos2023
+
+### Sistema Nacional de Trânsito {#sec-data-snt}
+
+As informações dos municípios integrados ao Sistema Nacional de Trânsito (SNT) foram coletadas do portal "Municipalização", disponibilizado pela Secretaria Nacional de Trânsito (Senatran) [@ministeriodostransportesMunicipalizacaoSenatran2024]. O próprio site possui uma tabela com a quantidade de municípios integrados por UF, assim, foi possível aplicar a técnica de raspagem (*webscraping*) para coletar os dados. Essa tabela não possui uma série histórica, ou seja, só é possível coletar as informações para o período mais atual. A coleta foi feita no dia 24/08/2024. A @tbl-snt apresenta a quantidade de municípios integrados ao SNT em 2024 e a quantidade total de municípios por estado, coletada da base de divisão territorial do IBGE [@ibgeDTBDivisaoTerritorial2024]. Esses dados foram utilizados para elaborar o indicador 1.1 (@sec-ind-1-1).
+
+\pagebreak
+
+```{r}
+#| label: tbl-snt
+#| tbl-cap: Quantidade de municípios integrados ao SNT em 2024
+
+tar_read(snt, store = here::here("_targets")) |> 
+    mutate(
+        nome_uf = case_match(
+            nome_uf,
+            "MATO GROSSO DO SUL" ~ "Mato Grosso do Sul",
+            "RIO GRANDE DO NORTE" ~ "Rio Grande do Norte",
+            "RIO GRANDE DO SUL" ~ "Rio Grande do Sul",
+            "RIO DE JANEIRO" ~ "Rio de Janeiro",
+            .default = str_to_title(nome_uf)
+        )
+    ) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        n_integrados = "Municípios integrados",
+        n_municipios = "Total de municípios"
+    ) |> 
+    tab_options(table.font.size = "10pt")
+```
+
+Fonte: @ministeriodostransportesMunicipalizacaoSenatran2024 e @ibgeDTBDivisaoTerritorial2024
+
+## Cálculo dos indicadores de desempenho {#sec-method-calc}
+
+Essa seção apresenta o método de cálculo dos indicadores dos seis pilares, mais os indicadores de resultado final.
+
+### Pilar I - Gestão da Segurança no Trânsito
+
+Aqui estão apresentados os cálculos dos indicadores do Pilar I - Gestão da Segurança no Trânsito.
+
+#### Indicador I.1 - Percentual de municípios integrados ao SNT {#sec-ind-1-1}
+
+O cálculo do indicador I.1 foi elaborado com base na seguinte equação:
+
+$$
+I.1 = \frac{m_{\text{snt}}}{m_{\text{total}}};
+$$ {#eq-i1}
+
+em que $m_{\text{snt}}$ representa a quantidade de municípios integrados ao SNT e $m_{\text{total}}$ representa a quantidade total de municípios de cada UF. A @tbl-ind-i1 apresenta os resultados do I.1. Os dados utilizados estão descritos na @sec-data-snt. O Distrito Federal não possui resultados para o I.1, pois tecnicamente Brasília não é um município.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-i1
+#| tbl-cap: Cálculo do Indicador I.1
+
+tar_read(snt, store = here::here("_targets")) |> 
+    mutate(
+        i1 = n_integrados /  n_municipios,
+        nome_uf = case_match(
+            nome_uf,
+            "MATO GROSSO DO SUL" ~ "Mato Grosso do Sul",
+            "RIO GRANDE DO NORTE" ~ "Rio Grande do Norte",
+            "RIO GRANDE DO SUL" ~ "Rio Grande do Sul",
+            "RIO DE JANEIRO" ~ "Rio de Janeiro",
+            .default = str_to_title(nome_uf)
+        )
+    ) |> 
+    arrange(-i1) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        n_integrados = "Municípios integrados",
+        n_municipios = "Total de municípios",
+        i1 = "Indicador I.1"
+    ) |> 
+    data_color(
+        columns = i1,
+        palette = "Blues"
+    ) |> 
+    tab_options(table.font.size = "10pt") |> 
+    fmt_percent(i1, decimals = 2, dec_mark = ",", sep_mark = ".")
+    
+```
+
+#### Indicador I.2 - Percentual de campos não informados nas bases do RENAEST {#sec-ind-1-2}
+
+O cálculo do indicador I.2 se baseou apenas nos dados do RENAEST (@sec-data-renaest), conforme a seguinte equação:
+
+$$
+I.2 = \frac{f_{\text{NA}}}{f_{\text{total}}};
+$$ {#eq-i2}
+
+em que $f_{\text{NA}}$ representa a quantidade de campos não informados e $f_{\text{total}}$ representa a quantidade total de campos nas bases de "acidentes" e "sinistros" em 2023. A @tbl-ind-i2 apresenta os resultados do I.2. Para os estados sem informações de sinistros no RENAEST considerou-se que o resultado do I.2 é 100%.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-i2
+#| tbl-cap: Cálculo do Indicador I.2
+
+tar_load(uf, store = here::here("_targets"))
+
+tar_read(renaest, store = here::here("_targets")) |> 
+    mutate(i2 = na_count / total_count) |> 
+    arrange(-i2) |> 
+    right_join(uf, by = c("uf_acidente" = "sigla_uf")) |> 
+    replace_na(list(i2 = 1, na_count = 0, total_count = 0)) |> 
+    select(nome_uf, na_count, total_count, i2) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        na_count = "Campos não informados", 
+        total_count = "Total de campos",
+        i2 = "Indicador I.2"
+    ) |> 
+    tab_options(table.font.size = "10pt") |>
+    data_color(
+        columns = i2,
+        palette = "Blues"
+    ) |>
+    fmt_number(decimals = 0, dec_mark = ",", sep_mark = ".") |> 
+    fmt_percent(i2, decimals = 2, dec_mark = ",", sep_mark = ".")
+```
+
+#### Indicador I.3 - Produto interno bruto per capita {#sec-ind-1-3}
+
+O PIB per capita foi calculado com base razão entre o PIB (@sec-data-pib) e a projeção populacional (@sec-data-pop) de cada UF em 2021, conforme a seguinte equação:
+
+$$
+I.3 = \frac{\text{PIB}}{\text{população}}
+$$ {#eq-i3}
+
+Os resultados do I.3 estão expressos na @tbl-ind-i3.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-i3
+#| tbl-cap: Cálculo do Indicador I.3
+
+tar_load(ibge_pop, store = here::here("_targets"))
+tar_load(ibge_pib, store = here::here("_targets"))
+
+ibge_pop |> 
+    filter(ano == 2021) |> 
+    left_join(
+        ibge_pib |> filter(ano == 2021),
+        by = "nome_uf"
+    ) |> 
+    mutate(i3 = pib / populacao) |> 
+    select(nome_uf, populacao, pib, i3) |> 
+    arrange(-i3) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        populacao = "População",
+        pib = "PIB (x 1000)",
+        i3 = "Indicador I.3"
+    ) |> 
+    data_color(
+        columns = i3,
+        palette = "Blues"
+    ) |>
+    fmt_number(populacao, decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    fmt_currency(
+        pib, 
+        currency = "BRL",
+        decimals = 0, 
+        sep_mark = ".", 
+        dec_mark = ",",
+        incl_space = TRUE
+    ) |> 
+    fmt_number(i3, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt")
+
+```
+
+#### Indicador I.4 - Disponibilidade de informações no portal do Detran {#sec-ind-1-4}
+
+Para o indicador I.4 não houve nenhum processo de cálculo adicional. Os resultados estão expressos na @sec-data-detran.
+
+### Pilar II - Vias Seguras {#sec-ind-2}
+
+Essa seção apresenta o processo de cálculo dos indicadores do Pilar II - Vias Seguras
+
+#### Indicador II.1 - Percentual de extensão de rodovias em condições péssimas e ruins na categoria Estado Geral
+
+O cálculo dos indicadores II.1 ao II.4 seguiram o mesmo processo, conforme a equação a seguir: 
+
+$$
+II.(1-4) = \frac{e_{\text{ruim}} + e_{\text{péssimo}}}{e_{\text{ruim}} + e_{\text{péssimo}} + e_{\text{regular}} + e_{\text{bom}} + e_{\text{ótimo}}};
+$$ {#eq-ii-1}
+
+em que $e$ é a extensão de rodovia, considerando cada classificação levantada. A @tbl-ind-ii1 apresenta os resultados do indicador II.1. Os dados utilizados estão descritos na @sec-data-cnt.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-ii1
+#| tbl-cap: Cálculo do Indicador II.1
+
+tar_read(list_tbl_pilar2, store = here::here("_targets"))[[1]]
+
+```
+
+#### Indicador II.2 - Percentual de extensão de rodovias em condições péssimas e ruins na categoria Geometria
+
+O cálculo do II.2 foi feito com base na @eq-ii-1. A @tbl-ind-ii2 contêm os resultados do indicador. Os dados utilizados estão descritos na @sec-data-cnt.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-ii2
+#| tbl-cap: Cálculo do Indicador II.2
+
+tar_read(list_tbl_pilar2, store = here::here("_targets"))[[2]]
+
+```
+
+#### Indicador II.3 - Percentual de extensão de rodovias em condições péssimas e ruins na categoria Pavimento
+
+O cálculo do II.3 foi feito com base na @eq-ii-1. A @tbl-ind-ii3 contêm os resultados do indicador. Os dados utilizados estão descritos na @sec-data-cnt.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-ii3
+#| tbl-cap: Cálculo do Indicador II.3
+
+tar_read(list_tbl_pilar2, store = here::here("_targets"))[[3]]
+
+```
+
+#### Indicador II.4 - Percentual de extensão de rodovias em condições péssimas e ruins na categoria Sinalização
+
+O cálculo do II.4 foi feito com base na @eq-ii-1. A @tbl-ind-ii4 contêm os resultados do indicador. Os dados utilizados estão descritos na @sec-data-cnt.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-ii4
+#| tbl-cap: Cálculo do Indicador II.4
+
+tar_read(list_tbl_pilar2, store = here::here("_targets"))[[4]]
+
+```
+
+#### Indicador II.5 - Percentual de extensão de rodovias federais com pistas duplas {#sec-ind-2-5}
+
+A @tbl-ind-ii5 apresenta os resultados do indicador II.5. Ele foi calculado com base na seguinte equação:
+
+$$
+II.5 = \frac{E_d}{E_s + E_d};
+$$ {#eq-ii5}
+
+em que $E_d$ representa a extensão de rodovias federais pavimentadas em pista dupla e $E_s$ em pista simples. A descrição dos dados utilizados encontra-se em @sec-data-dnit.
+
+\pagebreak
+
+
+```{r}
+#| label: tbl-ind-ii5
+#| tbl-cap: Cálculo do Indicador II.5
+
+tar_read(dnit, store = here::here("_targets")) |> 
+    mutate(ii5 = pista_dupla / total_pavimentado) |> 
+    filter(ano == 2023) |> 
+    select(-sigla_uf, -ano) |> 
+    arrange(-ii5) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        pista_simples = "Pista simples",
+        pista_dupla = "Pista dupla",
+        total_pavimentado = "Total pavimentado",
+        ii5 = "Indicador II.5"
+    ) |> 
+    tab_spanner(pista_simples:total_pavimentado, label = "Extensão (km)") |> 
+    tab_options(table.font.size = "10pt") |> 
+    fmt_number(sep_mark = ".", dec_mark = ",") |> 
+    fmt_percent(ii5, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    data_color(
+        columns = ii5,
+        palette = "Blues"
+    )
+```
+
+### Pilar III - Segurança Veicular {#sec-ind-3}
+
+Essa seção apresenta o processo de cálculo para os indicadores do Pilar III.
+
+#### Indicador III.1 – Percentual de frota de motocicletas {#sec-ind-3-1}
+
+O cálculo do indicador III.1 se baseia na razão entre a frota de motocicletas e a frota reduzida de cada UF. A frota de motocicletas considera as categorias "MOTOCICLETA" e "MOTO" definidas pelo RENAVAM. A frota reduzida considera a frota total, com exceção das categorias "BONDE", "CHASSI PLATAFORMA", "REBOQUE", "SEMI-REBOQUE", "SIDE-CAR", "TRATOR ESTEIRA" e "TRATOR RODAS". O cálculo segue a equação:
+
+$$
+III.1 = \frac{v_{\text{moto}}}{v_{\text{reduzida}}};
+$$ {#eq-iii1}
+
+em que $v_{\text{moto}}$ é a frota de motocicletas e $v_{\text{reduzida}}$ é a frota reduzida. A @tbl-ind-iii1 apresenta os resultados do indicador iii.1. A coleta dos dados utilizados está descrita na @sec-data-renavam.
+
+\pagebreak
+
+
+```{r}
+#| label: tbl-ind-iii1
+#| tbl-cap: Cálculo do Indicador III.1
+
+tar_read(renavam, store = here::here("_targets")) |> 
+    filter(ano == 2023) |> 
+    select(-ano) |> 
+    pivot_wider(names_from = modal, values_from = frota) |> 
+    mutate(
+        moto = MOTOCICLETA + MOTONETA,
+        frota_desconsiderada = BONDE + `CHASSI PLATAF` + REBOQUE +
+        `SEMI-REBOQUE` + `SIDE-CAR` + `TRATOR ESTEI` + `TRATOR RODAS`,
+        frota_reduzida = rowSums(across(AUTOMOVEL:UTILITARIO)) - 
+        frota_desconsiderada,
+        iii1 = moto / frota_reduzida
+    ) |> 
+    select(uf, moto, frota_reduzida, iii1) |> 
+    arrange(-iii1) |> 
+    gt() |> 
+    cols_label(
+        uf = "UF",
+        moto = "Frota de motocicletas",
+        frota_reduzida = "Frota reduzida",
+        iii1 = "Indicador III.1"
+    ) |> 
+    fmt_number(decimals = 0, dec_mark = ",", sep_mark = ".") |> 
+    fmt_percent(iii1, decimals = 2, dec_mark = ",", sep_mark = ".") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = iii1,
+        palette = "Blues"
+    )
+```
+
+#### Indicador III.2 – Percentual da frota com idade igual ou superior a 10 anos
+
+Com a planilha "Quantidade de veículos por UF município ano de fabricação modelo" presente no site do RENAVAM [@ministeriodostransportesRegistroNacionalVeiculos2023] foi possível calcular e identificar os veículos com idade igual ou superior a 10 anos. O ano utilizado como base foi o de fabricação do veículo. O cálculo do indicador fez-se com base na seguinte equação:
+
+$$
+III.2 = \frac{v_{>=10}}{v_t};
+$$ {#eq-iii2}
+
+em que $v_{>=10}$ é a quantidade de veículos com idade igual ou acima de 10 anos e $v_t$ é a frota total. Ambos os dados são referentes ao ano de 2023. @tbl-ind-iii2 apresenta os resultados do Indicador III.2. A coleta dos dados utilizados está descrita na @sec-data-renavam.
+
+\pagebreak
+
+
+```{r}
+#| label: tbl-ind-iii2
+#| tbl-cap: Cálculo do Indicador III.2
+
+tar_read(renavam_idade, store = here::here("_targets")) |> 
+    filter(
+        !uf %in% c("Não se Aplica", "Sem Informação"),
+        !ano_modelo %in% c("Não se Aplica", "Não Identificado")
+    ) |> 
+    mutate(
+        idade = 2024 - as.numeric(ano_modelo),
+        acima_10_anos = idade >= 10,
+        uf = case_match(
+            uf,
+            "MATO GROSSO DO SUL" ~ "Mato Grosso do Sul",
+            "RIO GRANDE DO NORTE" ~ "Rio Grande do Norte",
+            "RIO GRANDE DO SUL" ~ "Rio Grande do Sul",
+            "RIO DE JANEIRO" ~ "Rio de Janeiro",
+            .default = str_to_title(uf)
+        )
+    ) |> 
+    group_by(uf, acima_10_anos) |> 
+    summarise(n_veiculos = sum(n_veiculos)) |> 
+    pivot_wider(names_from = acima_10_anos, values_from = n_veiculos) |> 
+    mutate(total = (`FALSE` + `TRUE`), iii2 = `TRUE` / total) |> 
+    select(-`FALSE`) |> 
+    ungroup() |> 
+    arrange(-iii2) |> 
+    gt() |> 
+    cols_label(
+        uf = "UF",
+        `TRUE` = "Frota (idade >= 10 anos)",
+        total = "Frota total",
+        iii2 = "Indicador III.2"
+    ) |> 
+    fmt_number(decimals = 0, dec_mark = ",", sep_mark = ".") |> 
+    fmt_percent(iii2, decimals = 2, dec_mark = ",", sep_mark = ".") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = iii2,
+        palette = "Blues"
+    )
+```
+
+#### Indicador III.3 – Percentual mínimo de veículos com Airbag/ABS na frota
+
+Devido à implantação gradual da obrigatoriedade de novos veículos saírem de fábrica com Airbag/ABS, o cálculo do III.3 segue um processo mais detalhado. As Resoluções CONTRAN nº 311/2009 [@contranRESOLUCAONo3112009] e nº 312/2009 [@contranRESOLUCAONo3122009] definem a taxa de adesão da obrigatoriedade conforme o ano de fabricação do veículo, para o Airbag e ABS (*Antilock Braking System*), respectivamente. O primeiro passo para o cálculo do indicador é identificar qual parcela da frota é nova. Assim, aplica-se a seguinte equação:
+
+$$
+vn_a = vt_a - vt_{a-1};
+$$ {#eq-iii3-1}
+
+em que $vn_a$ é a quantidade de novos veículos no ano $a$, $vt_a$ é a quantidade total de veículos no ano $a$ e $vt_{a-1}$ é a quantidade total de veículos no ano anterior ao $a$. O passo seguinte é identificar, de todos os veículos novos, qual a quantidade mínima deles que está equipada com Airbag/ABS. Assim, aplica-se a seguinte equação:
+
+$$
+ve_a = vn_a \times t_a;
+$$ {#eq-iii3-2}
+
+em que $ve_a$ é a quantidade mínima de veículos equipados para o ano $a$ e $t_a$ é a taxa de adesão para o ano $a$, definida pelas Resoluções CONTRAN nº 311/2009 e 312/2009. Para saber qual a frota mínima equipada para um ano $a$, é preciso fazer a soma acumulada de todos os anos anteriores. Assim, o próximo passo é aplicar a seguinte equação:
+
+$$
+vac_a = ve_a + vac_{a-1};
+$$ {#eq-iii3-3}
+
+em que $vac_a$ é a quantidade mínima acumulada de veículos equipados para o ano $a$ e $vac_{a-1}$ é a quantidade mínima acumulada de veículos equipados para o ano anterior ao $a$. @tbl-calc-iii3 apresenta o resultado desse processo para o Estado de São Paulo, com a frota total ($vt_a$), a taxa de adesão ($t_a$), a quantidade de novos veículos ($vn_a$), a quantidade mínima de veículos equipados ($ve_a$) e a quantidade mínima acumulada de veículos equipados ($vac_a$). Para esse cálculo foi utilizado apenas a frota classificada como "AUTOMÓVEL" e "CAMINHONETE".
+
+```{r}
+#| label: tbl-calc-iii3
+#| tbl-cap: "Quantidade mínima de veículos com Airbag/ABS no Estado de São Paulo"
+
+tar_read(renavam, store = here::here("_targets")) |> 
+    filter(modal %in% c("AUTOMOVEL", "CAMINHONETE")) |> 
+    group_by(uf, ano) |> 
+    summarise(frota_total = sum(frota)) |> 
+    filter(uf == "SP") |> 
+    mutate(
+        adesao = case_match(
+            ano,
+            2009 ~ 0,
+            2010 ~ 0.08,
+            2011 ~ 0.15,
+            2012 ~ 0.30,
+            2013 ~ 0.60,
+            .default = 1
+        ),
+        novos = if_else(ano == 2009, 0, frota_total - lag(frota_total)),
+        novos_equipados = novos * adesao,
+        novos_equipados_acum = cumsum(novos_equipados)
+    ) |> 
+    ungroup() |> 
+    filter(ano != 2009) |> 
+    select(-uf) |> 
+    gt() |> 
+    cols_label(
+        ano = "Ano",
+        frota_total = "Frota total",
+        adesao = "Taxa de adesão",
+        novos = "Novos veículos",
+        novos_equipados = "Veíc. equipados",
+        novos_equipados_acum = "Veíc. equip. (acum.)"
+    ) |> 
+    fmt_number(-ano, decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    fmt_percent(adesao, decimals = 0) |> 
+    tab_options(table.font.size = "10pt")
+
+```
+
+Sintetizando os passos representados na @eq-iii3-1, @eq-iii3-2 e @eq-iii3-3, tem-se a seguinte equação:
+
+$$
+III.3_a = \frac{ ( vt_a - vt_{a-1} ) \times t_a + vac_{a-1}}{vt_a};
+$$ {#eq-iii3}
+
+em que $III.3_a$ é o resultado do indicador III.3 para ano $a$, que neste caso é 2023. A @tbl-ind-iii3 apresenta o resultado desse processo para todas as UF. A coleta dos dados utilizados está descrita na @sec-data-renavam.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-iii3
+#| tbl-cap: Cálculo do Indicador III.3
+
+tar_read(renavam, store = here::here("_targets")) |> 
+    filter(modal %in% c("AUTOMOVEL", "CAMINHONETE")) |> 
+    group_by(uf, ano) |> 
+    summarise(frota_total = sum(frota)) |> 
+    mutate(
+        adesao = case_match(
+            ano,
+            2009 ~ 0,
+            2010 ~ 0.08,
+            2011 ~ 0.15,
+            2012 ~ 0.30,
+            2013 ~ 0.60,
+            .default = 1
+        ),
+        novos = if_else(ano == 2009, 0, frota_total - lag(frota_total)),
+        novos_equipados = novos * adesao,
+        novos_equipados_acum = cumsum(novos_equipados),
+        iii3 = novos_equipados_acum / frota_total
+    ) |> 
+    ungroup() |> 
+    filter(ano == 2023) |> 
+    select(uf, frota_total, novos_equipados_acum, iii3) |> 
+    arrange(-iii3) |> 
+    gt() |> 
+    cols_label(
+        uf = "UF",
+        frota_total = "Frota total",
+        novos_equipados_acum = "Frota equipada",
+        iii3 = "Indicador III.3"
+    ) |> 
+    fmt_number(decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    fmt_percent(iii3, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = iii3,
+        palette = "Blues"
+    )
+```
+
+#### Indicador III.4 – Percentual mínimo de veículos com ISOFIX na frota
+
+A lógica de cálculo do III.4 é similar à do III.3. A Resolução CONTRAN nº 518/2015 estabelece que a partir de 2020, 100% dos veículos fabricados devem conter os elementos de ancoragem de cadeirinhas, também conhecido como ISOFIX [@contranRESOLUCAONo5182015]. Assim, o cálculo do indicador III.4 segue a equação:
+
+$$
+III.4_a = \frac{ (vt_a - vt_{a-1} ) + vac_{a-1} }{vt_a}; 
+$$ {#eq-iii4}
+
+em que $III.4_a$ é o indicador III.4 para o ano $a$ (neste caso, 2023), $vt_a$ é a quantidade total da frota no ano $a$, $vt_{a-1}$ é a quantidade total da frota no ano anterior ao $a$ e $vac_{a-1}$ é a quantidade acumulada de novos veículos no ano anterior ao $a$. Para esse cálculo, foram considerados apenas os veículos classificados como "AUTOMÓVEL", "CAMINHONETE", "UTILITÁRIO" e "CAMIONETA". A @tbl-calc-iii4 apresenta a quantidade da frota total ($vt_a$), de novos veículos ($vt_a - vt_{a-1}$) e a quantidade acumulada de novos veículos ($vac_{a}$) para o Estado de São Paulo.
+
+\pagebreak
+
+
+```{r}
+#| label: tbl-calc-iii4
+#| tbl-cap: Quantidade mínima de veículos com ISOFIX na frota do Estado de São Paulo
+
+tar_read(renavam, store = here::here("_targets")) |> 
+    filter(
+        ano > 2018,
+        modal %in% c("AUTOMOVEL", "CAMINHONETE", "UTILITARIO", "CAMIONETA")
+    ) |> 
+    group_by(uf, ano) |> 
+    summarise(frota_total = sum(frota)) |> 
+    mutate(
+        novos = if_else(ano == 2019, 0, frota_total - lag(frota_total)),
+        novos_acum = cumsum(novos)
+    ) |> 
+    ungroup() |> 
+    filter(ano != 2019, uf == "SP") |> 
+    select(-uf) |> 
+    gt() |> 
+    cols_label(
+        ano = "Ano",
+        frota_total = "Frota total",
+        novos = "Novos veículos",
+        novos_acum = "Novos veículos (acum.)"
+    ) |> 
+    fmt_number(-ano, decimals = 0, dec_mark = ",", sep_mark = ".") |> 
+    tab_options(table.font.size = "10pt")
+```
+
+A @tbl-ind-iii4 mostra o resultado do III.4 para todas as UF. A coleta dos dados de entrada está descrita na @sec-data-renavam.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-iii4
+#| tbl-cap: Cálculo do Indicador III.4
+
+tar_read(renavam, store = here::here("_targets")) |> 
+    filter(
+        ano > 2018,
+        modal %in% c("AUTOMOVEL", "CAMINHONETE", "UTILITARIO", "CAMIONETA")
+    ) |> 
+    group_by(uf, ano) |> 
+    summarise(frota_total = sum(frota)) |> 
+    mutate(
+        novos = if_else(ano == 2019, 0, frota_total - lag(frota_total)),
+        novos_acum = cumsum(novos),
+        valor = novos_acum / frota_total,
+        indicador = "iii.4"
+    ) |> 
+    filter(ano == 2023) |> 
+    select(uf, frota_total, novos_acum, valor) |>
+    ungroup() |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        uf = "UF",
+        frota_total = "Frota total",
+        novos_acum = "Novos veículos",
+        valor = "Indicador III.4"
+    ) |> 
+    fmt_number(decimals = 0, dec_mark = ",", sep_mark = ".") |> 
+    fmt_percent(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+
+```
+
+### Pilar IV - Educação para o Trânsito {#sec-ind-4}
+
+Essa seção apresenta o cálculo dos indicadores do Pilar IV - Educação para o Trânsito.
+
+#### Indicador IV.1 – Relação entre condutores habilitados a conduzir motocicletas e frota de motocicletas {#sec-ind-4-1}
+
+A @tbl-calc-iv1 apresenta os resultados do indicador IV.1. Ele foi elaborado com base na seguinte equação:
+
+$$
+IV.1 = \frac{c_A + c_{AB}}{v_{\text{moto}}} \times 100;
+$$ {#eq-iv1}
+
+em que $c_A$ é a quantidade de condutores da categoria A, $c_{AB}$ é a quantidade de condutores da categoria AB e $v_{\text{moto}}$ é a frota de motocicletas, que considera as categorias "MOTOCICLETA" e "MOTONETA". Os dados utilizados para esse indicador estão descritos na @sec-data-renavam e @sec-data-renach.
+
+\pagebreak
+
+```{r}
+#| label: tbl-calc-iv1
+#| tbl-cap: Cálculo do Indicador IV.1
+
+tar_read(joined_iv1, store = here::here("_targets")) |> 
+    mutate(valor = condutores / frota * 100) |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        uf = "UF",
+        condutores = "Condutores (A+AB)",
+        frota = "Frota de motocicletas",
+        valor = "Indicador IV.1"
+    ) |> 
+    fmt_number(decimals = 0, dec_mark = ",", sep_mark = ".") |> 
+    fmt_number(valor, decimals = 2, dec_mark = ",", sep_mark = ".") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+```
+
+#### Indicador IV.2 - Taxa de infrações por consumo de bebidas alcoólicas a cada 10 mil veículos
+
+O cálculo do indicador IV.2 foi elaborado com base na seguinte equação: 
+
+$$
+IV.2 = \frac{i_{5169}}{v_r} \times 10000;
+$$ {#eq-iv2}
+
+em que $i_{5169}$ é a quantidade de infrações de código 5169 (ver @tbl-renainf-codinf) e $v_r$ é a frota reduzida, que foi descrita em @sec-ind-3-1. Os resultados estão apresentados em @tbl-ind-iv2. Os dados utilizados são do RENAVAM (@sec-data-renavam) e do RENAINF (@sec-data-renainf).
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-iv2
+#| tbl-cap: Cálculo do Indicador IV.2
+
+tar_read(joined_iv2, store = here::here("_targets")) |> 
+    mutate(valor = quantidade / frota_reduzida * 10000) |> 
+    select(nome_uf, quantidade, frota_reduzida, valor) |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        quantidade = "Infrações",
+        frota_reduzida = "Frota de veículos",
+        valor = "Indicador IV.2"
+    ) |> 
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |>
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+```
+
+#### Indicador IV.3 - Taxa de infrações por excesso de velocidade a cada 10 mil veículos
+
+O indicador IV.3 foi calculado com base na seguinte equação:
+
+$$
+IV.3 = \frac{\sum i_n}{v_r} \times 10000;
+$$ {#eq-ind-iv3}
+
+em que $i_n$ é a quantidade de infrações do código $n$, que, neste caso, engloba os códigos 6262, 6270, 6289, 6297, 6300, 6319, 6327, 6335, 6343, 6351, 6360, 6378, 6386, 6394, 7455, 7463 e 7471 (ver @tbl-renainf-codinf); e $v_r$ é a frota reduzida, descrita em @sec-ind-3-1. A @tbl-ind-iv3 apresenta os resultados o indicador IV.3. Os dados utilizados são do RENAVAM (@sec-data-renavam) e do RENAINF (@sec-data-renainf).
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-iv3
+#| tbl-cap: Cálculo do Indicador IV.3
+
+tar_read(joined_iv3, store = here::here("_targets")) |> 
+    mutate(valor = infracoes / frota_reduzida * 10000) |> 
+    select(nome_uf, infracoes, frota_reduzida, valor) |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        infracoes = "Infrações",
+        frota_reduzida = "Frota de veículos",
+        valor = "Indicador IV.3"
+    ) |> 
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+```
+
+#### Indicador IV.4 - Taxa de infrações por não utilizar cinto de segurança a cada 10 mil veículos
+
+O indicador IV.4 foi calculado com base na seguinte equação:
+
+$$
+IV.4 = \frac{i_{5185}}{\sum v_n} \times 10000;
+$$ {#eq-ind-iv4}
+
+em que $i_{5185}$ é a quantidade de infrações do código 5185 (ver @tbl-renainf-codinf) e $v_n$ é a quantidade de veículos do tipo $n$, que nesse caso considera automóveis, caminhonetes, caminhonetas, utilitários, caminhões, caminhões-tratores, micro-ônibus e ônibus. A tbl-ind-iv4 apresenta os resultados do IV.4. Os dados utilizados são do RENAVAM (@sec-data-renavam) e do RENAINF (@sec-data-renainf).
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-iv4
+#| tbl-cap: Cálculo do Indicador IV.4
+
+tar_read(joined_iv4, store = here::here("_targets")) |> 
+    mutate(valor = quantidade / frota * 10000) |> 
+    select(nome_uf, quantidade, frota, valor) |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        quantidade = "Infrações",
+        frota = "Frota de veículos",
+        valor = "Indicador IV.4"
+    ) |> 
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+```
+
+#### Indicador IV.5 - Taxa de infrações cometidas por não utilizar capacete a cada 10 mil motocicletas
+
+O indicador IV.5 foi calculado com base na seguinte equação:
+
+$$
+IV.5 = \frac{i_{7030}+i_{7048}}{v_{\text{moto}}} \times 10000;
+$$ {#eq-iv5}
+
+em que $i_{7030}$ é a quantidade de infrações do código 7030 (ver @tbl-renainf-codinf), $i_{7048}$ é a quantidade de infrações do código 7048 e $v_{\text{moto}}$ é a frota de motocicletas, que considera as categorias "MOTOCICLETA" e "MOTONETA". A @tbl-ind-iv5 apresenta os resultados do IV.5. Os dados utilizados são do RENAVAM (@sec-data-renavam) e do RENAINF (@sec-data-renainf). 
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-iv5
+#| tbl-cap: Cálculo do Indicador IV.5
+
+tar_read(joined_iv5, store = here::here("_targets")) |> 
+    mutate(valor = infracoes / frota * 10000) |> 
+    select(nome_uf, infracoes, frota, valor) |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        infracoes = "Infrações",
+        frota = "Frota de motocicletas",
+        valor = "Indicador IV.5"
+    ) |> 
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+```
+
+#### Indicador IV.6 - Taxa de infrações por utilizar celular na direção a cada 10 mil veículos
+
+A @tbl-ind-iv6 apresenta os resultados do indicador IV.6. O calculo foi elaborado com base na seguinte equação:
+
+$$
+IV.6 = \frac{i_{7366}}{v_r} \times 10000;
+$$ {#eq-iv6}
+
+Em que $i_{7366}$ é a quantidade de infrações do código 7366 (ver @tbl-renainf-codinf) e $v_r$ é a quantidade da frota reduzida, descrita em @sec-ind-3-1. Os dados utilizados foram descritos na @sec-data-renavam e @sec-data-renainf.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-iv6
+#| tbl-cap: Cálculo do Indicador IV.6
+
+tar_read(joined_iv6, store = here::here("_targets")) |> 
+    mutate(valor = quantidade / frota_reduzida * 10000) |> 
+    select(nome_uf, quantidade, frota_reduzida, valor) |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        quantidade = "Infrações",
+        frota_reduzida = "Frota de veículos",
+        valor = "Indicador IV.6"
+    ) |> 
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+```
+
+#### Indicador IV.7 - Taxa de infrações cometidas por não utilizar dispositivos de retenção a cada 10 mil veículos
+
+O indicador IV.7 foi calculado com base na seguinte equação:
+
+$$
+IV.7 = \frac{i_{5193}}{\sum v_n} \times 10000;
+$$ {#eq-iv7}
+
+em que $i_{5193}$ é a quantidade de infrações do código 5193 (ver @tbl-renainf-codinf) e $v_n$ é a quantidade de veículos da categoria $n$, que nesse caso considera os automóveis, caminhonetes, camionetas e utilitários. @tbl-ind-iv7 inclui os resultados do indicador. Os dados utilizados foram descritos na @sec-data-renavam e @sec-data-renainf.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-iv7
+#| tbl-cap: Cálculo do Indicador IV.7
+
+tar_read(joined_iv7, store = here::here("_targets")) |> 
+    mutate(valor = quantidade / frota * 10000) |> 
+    select(nome_uf, quantidade, frota, valor) |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        quantidade = "Infrações",
+        frota = "Frota de veículos",
+        valor = "Indicador IV.7"
+    ) |> 
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+```
+
+### Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito {#sec-ind-5}
+
+A presente seção inclui o cálculo dos indicadores do Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito.
+
+#### Indicador V.1 - Taxa de profissionais que atuam na área da saúde per capita
+
+O cálculo do indicador V.1 foi elaborado com base na seguinte equação:
+
+$$
+V.1 = \frac{p}{h} \times 1000;
+$$ {#eq-v1}
+
+em que $p$ é a quantidade de profissionais da saúde e $h$ é a quantidade de habitantes em cada UF. A @tbl-ind-v1 apresenta os resultados do indicador. O processo baseou-se em dados do DATASUS-CNES (@sec-data-cnes) e do IBGE (@sec-data-pop).
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-v1
+#| tbl-cap: "Cálculo do Indicador V.1"
+
+tar_read(list_gt_pilar5, store = here::here("_targets"))[[1]]
+```
+
+#### Indicador V.2 - Taxa de leitos totais per capita
+
+O cálculo do indicador V.2 foi elaborado com base na seguinte equação:
+
+$$
+V.2 = \frac{l_t}{h} \times 1000;
+$$ {#eq-v2}
+
+em que $l_t$ é a quantidade total de leitos e $h$ é a quantidade de habitantes em cada UF. A @tbl-ind-v2 apresenta os resultados do indicador. O processo baseou-se em dados do DATASUS-CNES (@sec-data-cnes) e do IBGE (@sec-data-pop).
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-v2
+#| tbl-cap: "Cálculo do Indicador V.2"
+
+tar_read(list_gt_pilar5, store = here::here("_targets"))[[2]]
+```
+
+#### Indicador V.3 - Taxa de leitos SUS per capita
+
+O cálculo do indicador V.3 foi elaborado com base na seguinte equação:
+
+$$
+V.3 = \frac{l_s}{h} \times 1000;
+$$ {#eq-v3}
+
+em que $l_s$ é a quantidade de leitos SUS e $h$ é a quantidade de habitantes em cada UF. A @tbl-ind-v3 apresenta os resultados do indicador. O processo baseou-se em dados do DATASUS-CNES (@sec-data-cnes) e do IBGE (@sec-data-pop).
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-v3
+#| tbl-cap: "Cálculo do Indicador V.3"
+
+tar_read(list_gt_pilar5, store = here::here("_targets"))[[3]]
+```
+
+#### Indicador V.4 - Taxa de leitos não SUS per capita
+
+O cálculo do indicador V.4 foi elaborado com base na seguinte equação:
+
+$$
+V.3 = \frac{l_{ns}}{h} \times 1000;
+$$ {#eq-v4}
+
+em que $l_{ns}$ é a quantidade de leitos não SUS e $h$ é a quantidade de habitantes em cada UF. A @tbl-ind-v4 apresenta os resultados do indicador. O processo baseou-se em dados do DATASUS-CNES (@sec-data-cnes) e do IBGE (@sec-data-pop).
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-v4
+#| tbl-cap: "Cálculo do Indicador V.4"
+
+tar_read(list_gt_pilar5, store = here::here("_targets"))[[4]]
+```
+
+### Pilar VI - Normatização e Fiscalização {#sec-ind-6}
+
+Essa seção contém os métodos de cálculo para os indicadores do Pilar VI - Normatização e Fiscalização.
+
+#### Indicador VI.1 - Taxa de infrações por frota
+
+O indicador VI.1 é calculado com base na seguinte equação:
+
+$$
+VI.1 = \frac{i_t}{v_t} \times 10000;
+$$ {#eq-vi1}
+
+em que $i_t$ é a quantidade total de infrações e $v_t$ é o tamanho total da frota de veículos. A @tbl-ind-vi1 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-renainf e @sec-data-renavam.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-vi1
+#| tbl-cap: "Cálculo do Indicador VI.1"
+
+tar_read(joined_vi1, store = here::here("_targets")) |> 
+    mutate(valor = infracoes / frota_total * 10000) |> 
+    select(nome_uf, infracoes, frota_total, valor) |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        infracoes = "Infrações",
+        frota_total = "Frota de veículos",
+        valor = "Indicador VI.1"
+    ) |> 
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+```
+
+#### Indicador VI.2 - Taxa de câmeras de segurança em geral em relacao à frota
+
+O indicador VI.2 é calculado com base na seguinte equação:
+
+$$
+VI.2 = \frac{r_t}{v_t} \times 10000;
+$$ {#eq-vi2}
+
+em que $r_t$ é a quantidade total de câmeras de segurança e $v_t$ é o tamanho total da frota de veículos. A @tbl-ind-vi2 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-renavam.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-vi2
+#| tbl-cap: "Cálculo do Indicador VI.2"
+
+tar_read(list_gt_cameras, store = here::here("_targets"))[[1]]
+```
+
+#### Indicador VI.3 - Taxa de câmeras de segurança em rodovias em relação à frota
+
+O indicador VI.3 é calculado com base na seguinte equação:
+
+$$
+VI.3 = \frac{r_r}{v_t} \times 10000;
+$$ {#eq-vi3}
+
+em que $r_r$ é a quantidade total de câmeras de segurança em rodovias e $v_t$ é o tamanho total da frota de veículos. A @tbl-ind-vi3 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-renavam.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-vi3
+#| tbl-cap: "Cálculo do Indicador VI.3"
+
+tar_read(list_gt_cameras, store = here::here("_targets"))[[2]]
+```
+
+#### Indicador VI.4 - Taxa de câmeras de segurança em vias urbanas em relação à frota
+
+O indicador VI.4 é calculado com base na seguinte equação:
+
+$$
+VI.4 = \frac{r_u}{v_t} \times 10000;
+$$ {#eq-vi4}
+
+em que $r_u$ é a quantidade total de câmeras de segurança em vias urbanas e $v_t$ é o tamanho total da frota de veículos. A @tbl-ind-vi4 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-renavam.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-vi4
+#| tbl-cap: "Cálculo do Indicador VI.4"
+
+tar_read(list_gt_cameras, store = here::here("_targets"))[[3]]
+```
+
+#### Indicador VI.5 - Taxa de câmeras de segurança em relação à extensão de rodovias federais pavimentadas {#sec-ind-6-5}
+
+O indicador VI.5 é calculado com base na seguinte equação:
+
+$$
+VI.5 = \frac{r_r}{e_t} \times 100;
+$$ {#eq-vi5}
+
+em que $r_r$ é a quantidade total de câmeras de segurança em rodovias e $e_t$ é a extensão de rodovias federais pavimentadas. A @tbl-ind-vi5 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-dnit.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-vi5
+#| tbl-cap: "Cálculo do Indicador VI.5"
+
+tar_read(joined_vi5, store = here::here("_targets")) |> 
+    mutate(valor = n_cameras / total_pavimentado * 100) |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        total_pavimentado = "Extensão rodovias",
+        n_cameras = "Câmeras em rodovias",
+        valor = "Indicador VI.5"
+    ) |> 
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |>
+    fmt_number(
+        total_pavimentado, 
+        decimals = 2, 
+        dec_mark = ",", 
+        sep_mark = ".", 
+        pattern = "{x} km"
+    ) |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+```
+
+#### Indicador VI.6 - Taxa de infrações de velocidade por câmera de segurança
+
+O indicador VI.6 é calculado com base na seguinte equação:
+
+$$
+VI.6 = \frac{\sum i_v}{r_t};
+$$ {#eq-vi6}
+
+em que $i_v$ é a quantidade de infrações de excesso de velocidade (7455, 7463, 7471 -- ver @tbl-renainf-codinf)e $r_t$ é a quantidade total de câmeras de segurança. A @tbl-ind-vi6 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-renainf.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-vi6
+#| tbl-cap: "Cálculo do Indicador VI.6"
+
+tar_read(joined_vi6, store = here::here("_targets")) |> 
+    mutate(valor = n_infracoes / n_cameras) |> 
+    arrange(-valor) |> 
+    select(nome_uf, n_infracoes, n_cameras, valor) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        n_infracoes = "Infrações",
+        n_cameras = "Câmeras",
+        valor = "Indicador VI.6"
+    ) |> 
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+```
+
+#### Indicador VI.7 - Taxa de câmeras de segurança em capitais em relação à extensão de vias {#sec-ind-6-7}
+
+O indicador VI.7 é calculado com base na seguinte equação:
+
+$$
+VI.7 = \frac{r_c}{e_c} \times 100;
+$$ {#eq-vi7}
+
+em que $r_c$ é a quantidade de câmeras na capital e $e_c$ é a extensão de vias na capital. Utilizou-se dados do OSM (@sec-data-osm) e do INMETRO (@sec-data-inmetro).
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-vi7
+#| tbl-cap: "Cálculo do Indicador VI.7"
+
+tar_read(joined_vi7, store = here::here("_targets")) |> 
+    mutate(
+        dist_vias = units::drop_units(dist_vias) / 1000,
+        valor = cameras / dist_vias * 100
+    ) |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        nome_mun = "Município",
+        dist_vias = "Extensão",
+        cameras = "Câmeras",
+        valor = "Indicador VI.7"
+    ) |> 
+    fmt_number(
+        dist_vias, 
+        decimals = 0, 
+        sep_mark = ".", 
+        dec_mark = ",", 
+        pattern = "{x} km"
+    ) |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+```
+
+<!-- #### Indicador VI.08 - Taxa de pontos de monitoramento de velocidade em geral em relação à frota
+
+O indicador VI.08 é calculado com base na seguinte equação:
+
+$$
+VI.08 = \frac{p_t}{v_t} \times 10000;
+$$ {#eq-vi8}
+
+em que $p_t$ é a quantidade total de pontos de monitoramento de velocidade e $v_t$ é o tamanho total da frota de veículos. A @tbl-ind-vi8 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-renavam.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-vi8
+#| tbl-cap: "Cálculo do Indicador VI.08"
+
+tar_read(joined_pontos_fisc, store = here::here("_targets")) |> 
+    select(sigla_uf, total_pontos, frota_total) |>
+    mutate(valor = total_pontos / frota_total * 10000) |>
+    arrange(-valor) |>
+    gt() |>
+    cols_label(
+        sigla_uf = "UF",
+        total_pontos = "Pontos de monitoramento",
+        frota_total = "Frota de veículos",
+        valor = "Indicador VI.08"
+    ) |>
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |>
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |>
+    tab_options(table.font.size = "10pt")
+
+```
+
+#### Indicador VI.09 - Taxa de pontos de monitoramento de velocidade em rodovias em relação à frota
+
+O indicador VI.09 é calculado com base na seguinte equação:
+
+$$
+VI.09 = \frac{p_r}{v_t} \times 10000;
+$$ {#eq-vi9}
+
+em que $p_r$ é a quantidade total de pontos de monitoramento de velocidade em rodovias e $v_t$ é o tamanho total da frota de veículos. A @tbl-ind-vi9 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-renavam.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-vi9
+#| tbl-cap: "Cálculo do Indicador VI.09"
+
+tar_read(joined_pontos_fisc, store = here::here("_targets")) |> 
+    select(sigla_uf, Rodovia, frota_total) |>
+    mutate(valor = Rodovia / frota_total * 10000) |>
+    arrange(-valor) |>
+    gt() |>
+    cols_label(
+        sigla_uf = "UF",
+        Rodovia = "Pontos rodovias",
+        frota_total = "Frota de veículos",
+        valor = "Indicador VI.09"
+    ) |>
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |>
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |>
+    tab_options(table.font.size = "10pt")
+```
+
+#### Indicador VI.10 - Taxa de pontos de monitoramento de velocidade em vias urbanas em relação à frota
+
+O indicador VI.10 é calculado com base na seguinte equação:
+
+$$
+VI.10 = \frac{p_u}{v_t} \times 10000;
+$$ {#eq-vi10}
+
+em que $p_u$ é a quantidade total de pontos de monitoramento de velocidade em vias urbanas e $v_t$ é o tamanho total da frota de veículos. A @tbl-ind-vi10 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-renavam.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-vi10
+#| tbl-cap: "Cálculo do Indicador VI.10"
+
+tar_read(joined_pontos_fisc, store = here::here("_targets")) |> 
+    select(sigla_uf, `Via Urbana`, frota_total) |>
+    mutate(valor = `Via Urbana` / frota_total * 10000) |>
+    arrange(-valor) |>
+    gt() |>
+    cols_label(
+        sigla_uf = "UF",
+        `Via Urbana` = "Pontos vias urbanas",
+        frota_total = "Frota de veículos",
+        valor = "Indicador VI.10"
+    ) |>
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |>
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |>
+    tab_options(table.font.size = "10pt")
+```
+
+#### Indicador VI.11 - Taxa de pontos de monitoramento de velocidade em relação à extensão de rodovias federais pavimentadas
+
+O indicador VI.11 é calculado com base na seguinte equação:
+
+$$
+VI.11 = \frac{p_r}{e_t} \times 100;
+$$ {#eq-vi11}
+
+em que $p_r$ é a quantidade total de pontos de monitoramento de velocidade em rodovias e $e_t$ é a extensão de rodovias federais pavimentadas. A @tbl-ind-vi11 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-dnit.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-vi11
+#| tbl-cap: "Cálculo do Indicador VI.11"
+
+tar_read(joined_vi11, store = here::here("_targets")) |> 
+    mutate(valor = pontos_fisc / total_pavimentado * 100) |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        sigla_uf = "UF",
+        total_pavimentado = "Extensão rodovias",
+        pontos_fisc = "Pontos de monitoramento",
+        valor = "Indicador VI.11"
+    ) |> 
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |>
+    fmt_number(
+        total_pavimentado, 
+        decimals = 2, 
+        dec_mark = ",", 
+        sep_mark = ".", 
+        pattern = "{x} km"
+    ) |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt")
+```
+
+#### Indicador VI.12 - Taxa de pontos de monitoramento de velocidadeem capitais em relação à extensão de vias urbanas
+
+O indicador VI.12 é calculado com base na seguinte equação:
+
+$$
+VI.12 = \frac{p_c}{e_c} \times 100;
+$$ {#eq-vi12}
+
+em que $p_c$ é a quantidade total de pontos de monitoramento de velocidade na capital e $e_c$ é a extensão de vias urbanas. A @tbl-ind-vi12 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-osm.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-vi12
+#| tbl-cap: "Cálculo do Indicador VI.12"
+
+tar_read(joined_vi12, store = here::here("_targets")) |> 
+    mutate(
+        dist_vias = units::drop_units(dist_vias) / 1000,
+        valor = pontos_fiscalizacao / dist_vias * 100
+    ) |> 
+    arrange(-valor) |> 
+    select(-nome_mun) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        dist_vias = "Extensão vias",
+        pontos_fiscalizacao = "Pontos de monitoramento",
+        valor = "Indicador VI.12"
+    ) |> 
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |>
+    fmt_number(
+        dist_vias, 
+        decimals = 2, 
+        dec_mark = ",", 
+        sep_mark = ".", 
+        pattern = "{x} km"
+    ) |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt")
+```
+
+-->
+
+### Indicadores de resultado  {#sec-ind-results}
+
+A presente seção apresenta o cálculo dos indicadores de resultado.
+
+#### 0.1 - Índice de óbitos por veículos {#sec-ind-0-1}
+
+O indicador 0.1 foi calculado com base na seguinte equação:
+
+$$
+0.1 = \frac{o}{v_t} \times 10000;
+$$ {#eq-01}
+
+em que $o$ é a quantidade de óbitos no trânsito e $v_t$ é a frota total de veículos. A @tbl-ind-01 contém os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-sim e @sec-data-renavam.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-01
+#| tbl-cap: "Cálculo do Indicador 0.1"
+
+tar_read(joined_01, store = here::here("_targets")) |> 
+    mutate(valor = obitos / total_frota * 10000) |> 
+    select(nome_uf, obitos, total_frota, valor) |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        obitos = "Óbitos",
+        total_frota = "Frota de veículos",
+        valor = "Indicador 0.1"
+    ) |> 
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+```
+
+#### 0.2 - Índice de óbitos por habitantes {#sec-ind-0-2}
+
+O indicador 0.2 foi calculado com base na seguinte equação:
+
+$$
+0.2 = \frac{o}{h} \times 100000;
+$$ {#eq-02}
+
+em que $o$ é a quantidade de óbitos no trânsito e $h$ é a quantidade de habitantes em cada UF. A @tbl-ind-02 contém os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-sim e @sec-data-pop.
+
+\pagebreak
+
+```{r}
+#| label: tbl-ind-02
+#| tbl-cap: "Cálculo do Indicador 0.2"
+
+tar_read(joined_02, store = here::here("_targets")) |> 
+    mutate(valor = obitos / populacao * 100000) |> 
+    select(nome_uf, obitos, populacao, valor) |> 
+    arrange(-valor) |> 
+    gt() |> 
+    cols_label(
+        nome_uf = "UF",
+        obitos = "Óbitos",
+        populacao = "População",
+        valor = "Indicador 0.2"
+    ) |> 
+    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |> 
+    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
+    tab_options(table.font.size = "10pt") |> 
+    data_color(
+        columns = valor,
+        palette = "Blues"
+    )
+```
+
+#### 0.3 - Índice de óbitos por bilhão de quilômetros percorridos {#sec-ind-0-3}
+
+O indicador 0.3 foi coletado diretamente conforme indicado na @sec-data-bilhao, não sendo necessário aplicar nenhum cálculo adicional.
+
+## Análise de correlação {#sec-method-correlacao}
+
+Foi realizada uma análise de correlação entre os indicadores calculados de cada pilar com os indicadores de resultado. Esse processo teve como objetivo apresentar uma análise exploratória entre as variáveis, buscando identificar possíveis relações entre elas com a identificação de correlações estatisticamente significativas. Observa-se que a análise de correlação não foi elaborada de base para definir o cálculo dos indicadores compostos, mas sim para obter uma análise exploratória dos resultados.
+
+O método de correlação aplicado foi a Correlação de Spearman. Essa é uma medida não-paramétrica da associação entre duas variáveis que quantifica o grau de relação monotônica^[Em uma relação monotônica, as variáveis tendem a mudar juntas mas não necessariamente com base em uma taxa constante.] entre elas, usando as classificações ou ranqueamento dos dados. Diferente da correlação de Pearson, que mede relações lineares, a correlação de Spearman captura qualquer tipo de relação monotônica, seja ela linear ou não. A correlação de Spearman é mais robusta a *outliers* do que a correlação de Pearson, porque depende das posições relativas  dos dados e não dos seus valores exatos. Isso a torna ideal para dados ordinais ou que não seguem uma distribuição normal [@dodgeConciseEncyclopediaStatistics2010a].
+
+A Correlação de Spearman ($\rho$) é calculada da seguinte forma:
+
+$$
+\rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)};
+$$ {#eq-spearman}
+
+em que $d_i$ é a diferença entre os *ranks* das duas variáveis para o $i$-ésimo par de observações e $n$ é o número de observações. O resultado limita-se entre -1 e 1, em que -1 indica uma relação negativa perfeita, 0 indica nenhuma relação e 1 indica uma relação positiva perfeita. Neste trabalho, a correlação foi aplicada com auxílio da linguagem de programação R, utilizando a função `cor.test()` [@rcoreteam2021]. Os resultados deste processo estão apresentados na @sec-results-correlacao.
+
+## Análise de Componentes Principais {#sec-method-pca}
+
+A Análise de Componentes Principais (ACP), ou *Principal Component Analysis* (PCA), é um método estatístico que tem como objetivo reduzir a dimensionalidade de um conjunto de dados, mantendo o máximo de informação possível. A ACP é uma técnica de transformação linear que transforma os dados originais em um novo sistema de coordenadas, em que as variáveis são descorrelacionadas e ordenadas por importância. A primeira componente principal é a direção de maior variância dos dados, a segunda componente principal é a direção de segunda maior variância e assim por diante [@jamesIntroductionStatisticalLearning2021]. Para esse trabalho, a ACP foi aplicada para cada pilar.
+
+Antes de aplicar a ACP aos indicadores, foi necessário realizar dois passos preliminares: a padronização da escala (@sec-pca-norm) e a inversão da escala (@sec-pca-invert).
+
+### Padronização da escala {#sec-pca-norm}
+
+A padronização da escala é um passo importante para a aplicação da ACP, pois os indicadores possuem escalas diferentes e a variância dos indicadores pode ser influenciada por essa diferença. A padronização da escala é realizada para que todos os indicadores tenham média zero e desvio padrão igual a um. Isso é feito para que todos os indicadores tenham a mesma importância na análise, evitando que indicadores com escalas maiores dominem o processo de construção das componentes principais [@jamesIntroductionStatisticalLearning2021].
+
+A padronização de dados, também conhecida como normalização $z$-score, é o processo de transformar variáveis de diferentes escalas para uma escala comum, sem distorcer as diferenças nas amplitudes dos valores. Matematicamente, o processo de padronização envolve o cálculo do $z$-score de cada valor, o que permite comparar variáveis que originalmente estão em escalas diferentes. Esse processo é realizado com base na seguinte equação:
+
+$$
+z_i = \frac{x_i - \mu}{\sigma};
+$$ {#eq-zscore}
+
+em que $z_i$ é o valor padronizado de $x_i$ - o valor original do conjunto $X$ - $\mu$ é a média do conjunto $X$ e $\sigma$ é o desvio padrão do conjunto $X$. Após esse processo, a nova distribuição dos dados terá uma média 0 e um desvio padrão 1. Esse processo foi aplicado com auxílio da função `scale()` da linguagem de programação R [@rcoreteam2021].
+
+### Inversão da escala {#sec-pca-invert}
+
+A partir dos valores padronizados, foi aplicada a inversão da escala alguns indicadores. Conforme alertado por @Wegman2008a e @tesicIdentifyingMostSignificant2018, na construção de um índice composto é importante que os indicadores estejam na mesma direção. Para esse estudo, estabeleceu-se que indicadores que representam um bom desempenho tenham valores maiores e indicadores que representam um mau desempenho tenham valores menores.
+
+O processo matemático é feito com a seguinte equação:
+
+$$
+x' = max - (x - min);
+$$ {#eq-invert}
+
+em que $x'$ é o valor invertido, $x$ é o valor original, $max$ é o valor máximo do indicador e $min$ é o valor mínimo do indicador. Esse processo foi aplicado para os seguintes indicadores:
+
+- I.2: Percentual de campos não-informados nas bases do RENAEST;
+- II.1: Percentual de extensão de rodovias em condições péssimas e ruins na categoria Estado Geral;
+- II.2: Percentual de extensão de rodovias em condições péssimas e ruins na categoria Geometria;
+- II.3: Percentual de extensão de rodovias em condições péssimas e ruins na categoria Pavimento;
+- II.4: Percentual de extensão de rodovias em condições péssimas e ruins na categoria Sinalização;
+- III.1: Percentual de frota de motocicletas;
+- III.2: Percentual da frota com idade igual ou superior a 10 anos;
+- IV.2: Taxa de infrações por consumo de bebidas alcoólicas a cada 10 mil veículos;
+- IV.3: Taxa de infrações por excesso de velocidade a cada 10 mil veículos;
+- IV.4: Taxa de infrações por não utilização do cinto de segurança a cada 10 mil veículos;
+- IV.5: Taxa de infrações por não utilização do capacete a cada 10 mil veículos;
+- IV.6: Taxa de infrações por uso do celular na direção a cada 10 mil veículos;
+- IV.7: Taxa de infrações por não utilizar dispositivos de retenção a cada 10 mil veículos;
+- VI.1: Taxa de infrações por frota 
+- VI.6: Taxa de infrações de velocidade por câmera de segurança
+- 0.1: Índice de óbitos por veículos 
+- 0.2: Índice de óbitos por habitantes 
+- 0.3: Índice de óbitos por bilhão de quilômetros percorridos
+
+### Aplicação do método {#sec-pca-apply}
+
+A ACP foi aplicada com o auxílio da função `prcomp()` da linguagem de programação R. Como primeiro passo, essa função aplica o método de Decomposição em Valores Singulares, ou *Singular Value Decomposition* (SVD). Considerando a matriz de indicadores $X$, a SVD realiza a seguinte decomposição:
+
+$$
+X = UDV^T;
+$$ {#eq-svd}
+
+em que $U$ é uma matriz ortogonal, $D$ é uma matriz diagonal contendo os valores singulares (*Singular Value*) e $V^T$ é a matriz transposta contendo os autovetores $v_i$ que representam as direções das componentes principais. Com isso, o cálculo das componentes principais se baseia na multiplicação da matriz de indicadores $X$ pela matriz de autovetores $V$. Os autovalores $\lambda_i$ de cada componente principal são resultado do quadrado dos valores da matriz diagonal $D$ e a variância explicada de cada componente é a proporção do autovalor em relação à soma total dos autovalores ($\lambda_i / \sum \lambda$) [@rcoreteam2021].
+
+O cálculo da ACP foi realizado para cada pilar de indicadores e para os indicadores de resultado. Similar ao trabalho de @Wegman2008a, o critério de seleção das componentes principais foi o autovalor maior que 1. Esse critério é baseado na ideia de que as componentes principais com autovalores maiores que 1 explicam mais variância do que uma variável original e, portanto, são consideradas relevantes para a análise.
+
+## Cálculo dos índices compostos {#sec-method-composto}
+
+O cálculo dos índices compostos foi realizado com base nas componentes principais e suas variâncias explicadas obtidas na ACP. Para cada pilar, as componentes principais foram combinadas com base na relação com os indicadores originais, através de uma soma ponderada das componentes. A criação do índice composto $IC_p$ para o pilar $p$ foi realizado com a seguinte equação:
+
+$$
+IC_p = \sum \pm PC_n \times w_n;
+$$ {#eq-ic}
+
+em que $PC_n$ é a componente principal $n$ e $w_n$ é o peso da componente principal $n$. Os pesos foram definidos com base na variância explicada de cada componente principal. A variância explicada de cada componente principal foi calculada com base na proporção do autovalor em relação à soma total dos autovalores. O valor de $n$ depende da quantidade de componentes principais que foram selecionadas em cada pilar $p$. O sinal da componente principal depende da relação da mesma com os indicadores originais. Caso a componente principal tenha uma correlação direta com o desempenho da segurança, o sinal é positivo. Caso contrário, o sinal é negativo, assim mantendo a ideia de maiores valores indicarem um melhor desempenho, conforme estabelecido em @sec-pca-invert.
+
+Para facilitar a interpretação de $IC_p$, os valores foram normalizados para uma escala de 0 a 10. A normalização foi realizada com base na seguinte equação:
+
+$$
+IC_p' = \frac{IC_p - min(IC_p)}{max(IC_p) - min(IC_p)} \times 10;
+$$ {#eq-nota}
+
+em que $IC_p'$ é o valor normalizado de $IC_p$, $IC_p$ é o valor original do índice composto e $min(IC_p)$ e $max(IC_p)$ são, respectivamente, o valor mínimo e máximo do índice composto, para cada pilar $p$. Com esse processo, o estado com o melhor desempenho do pilar $p$ terá o valor 10 e o estado com o pior desempenho terá o valor 0.
+
+## Classificação dos estados {#sec-method-classificacao}
+
+A partir dos índices compostos calculados, foi realizada a classificação dos estados com base no desempenho da segurança viária em cada pilar de análise. A classificação foi realizada com base na escala de 5 estrelas, em que 1 estrela representa o pior desempenho e 5 estrelas o melhor desempenho. A classificação foi realizada com base na técnica de discretização por frequência igual, ou seja, cada um dos 5 intervalos estabelecidos possui uma quantidade similar de observações [@tanIntroductionDataMining2014]. O processo de discretização dos valores foi realizado com auxílio das funções `quantile()` e `cut()` da linguagem de programação R [@rcoreteam2021].

@@ -1,0 +1,11 @@
+# Conclusões {#sec-conclusoes}
+
+Este documento apresentou a segunda etapa do Projeto IRIS - Indicadores Rodoviários Integrados de Segurança. O objetivo dessa etapa foi apresentar a metodologia de desenvolvimento de índices compostos para cada pilar de indicadores e a classificação dos estados de acordo com o desempenho, possibilitando a comparação direta entre os mesmos.
+
+Após uma breve revisão de literatura sobre indicadores de desempenho e índices compostos (@sec-revbib), foi apresentado o método de criação dos índices e da classificação dos estados (@sec-method). A metodologia apresentou a aplicação da correlação de Spearman, a Análise de Componentes Principais (ACP), o cálculo dos índices compostos e o processo de classificação dos estados.
+
+Conforme observado nos resultados (@sec-results), a correlação de Spearman possibilitou a análise exploratória dos indicadores dos pilares e a relação deles com os indicadores de resultado final. A ACP possibilitou a redução da dimensionalidade dos conjuntos de indicadores nos pilares e as componentes principais resultantes foram utilizadas como base na construção dos índices compostos. Por fim, criou-se uma classificação com base em 5 níveis (ou estrelas) para cada pilar, utilizando um método de discretização com base nos valores numéricos dos índices compostos.
+
+O processo de *benchmarking* permitiu identificar as unidades da federação com os melhores e piores desempenhos. Considerando os seis pilares do Pnatrans e os indicadores de resultado, que consideram as taxas de óbitos, há um destaque positivo para o Rio Grande do Sul, Distrito Federal, Rio de Janeiro, Paraná e Goiás, que atingiram as maiores classificações médias. Do outro lado da escala, os estados do Amazonas, Pará, Amapá, Maranhão e Roraima apresentaram os menores desempenhos de segurança viária.
+
+O próximo passo do projeto contará com a criação de um *dashboard* com os resultados apresentados nessa etapa e na anterior. O painel facilitará a exploração e divulgação das informações resultantes. 

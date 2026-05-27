@@ -1,0 +1,1014 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+
+# Resultados {#sec-results}
+
+```{r}
+#| label: setup
+#| include: false
+
+library(
+    targets,
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+library(
+    gt, 
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+library(
+    tidyverse,
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+
+source(here::here("R/report_utils.R"))
+
+tar_load(tbl_ind_desc, store = here::here("_targets"))
+tar_load(df_cor_results, store = here::here("_targets"))
+tar_load(list_pca_stats, store = here::here("_targets"))
+tar_load(indicadores_notas, store = here::here("_targets"))
+tar_load(classificacao, store = here::here("_targets"))
+
+```
+
+O presente capítulo apresenta os resultados da análise exploratória dos indicadores elaborados (@sec-results-eda), da Análise de Componentes Principais (@sec-results-pca), dos índices compostos (@sec-results-compostos) e do *ranking* dos estados (@sec-results-ranking).
+
+## Análise exploratória dos indicadores {#sec-results-eda}
+
+A análise exploratória dos indicadores consiste em uma descrição estatística dos dados (@sec-results-dist) e correlação entre os indicadores (@sec-results-correlacao).
+
+### Análise de distribuição dos dados {#sec-results-dist}
+
+As seções a seguir apresentam os resultados por cada pilar de análise.
+
+#### Pilar I - Gestão da Segurança no Trânsito
+
+A @tbl-eda-pilar1 apresenta a estatística descritiva dos indicadores do Pilar I - Gestão da Segurança no Trânsito. O `r display_ind_names(tbl_ind_desc, "I.1")` - apresenta variações significativas entre as regiões. A região Norte possui uma média de 21,44%, a segunda menor entre as regiões, com valores variando entre 5,04% e 45,83%, e um desvio padrão de 15,84%, o que indica uma dispersão moderada. No Nordeste, a média é ligeiramente maior, de 22,87%, com variação de 5,80% a 48,91% e desvio padrão de 12,54%. No Sudeste, a média sobe para 42,35%, com uma maior dispersão (11,37% a 83,70%) e um desvio padrão de 34,47%, o que reflete mais variabilidade. A região Sul apresenta a maior média, 50,15%, e uma alta dispersão, com valores entre 14,29% e 98,19%, evidenciando um desvio padrão de 43,26%. O Centro-Oeste tem a maior média de todas, 57,17%, com um desvio padrão de 38,92%, indicando uma variação significativa entre 23,98% e 100,00%.
+
+O indicador `r display_ind_names(tbl_ind_desc, "I.2")` - também mostra grandes diferenças regionais. No Norte, a média é de 45,85%, com uma considerável variação de 18,52% a 100,00% e um desvio padrão elevado de 37,21%. O Nordeste tem uma média mais baixa, de 33,93%, com valores variando de 7,98% a 100,00% e desvio padrão de 25,98%, apontando uma menor dispersão. No Sudeste, a média cai ainda mais para 20,19%, com pouca variação (17,42% a 25,46%) e um desvio padrão de 3,71%, sugerindo mais consistência. A região Sul, por outro lado, apresenta a maior média de todas, com 71,00%, e uma variação ampla (12,99% a 100,00%), resultando em um desvio padrão de 50,24%, o mais alto entre as regiões. O Centro-Oeste, com a menor média de 18,06%, tem um desvio padrão de 2,13%, com valores variando de 16,24% a 20,82%.
+
+O `r display_ind_names(tbl_ind_desc, "I.3")` - apresenta uma média de 28,48 na região Norte, com um desvio padrão de 3,87 e variação de 22,90 a 32,21, indicando pouca dispersão. No Nordeste, a média é de 21,20, com uma variação entre 17,47 e 23,53 e desvio padrão de 2,07, mostrando dados mais concentrados. No Sudeste, a média é significativamente maior, com 49,52, variando entre 40,05 e 58,30, e um desvio padrão de 8,32, o que reflete uma maior variação. Na região Sul, a média é de 52,17, com valores entre 47,42 e 58,40, e um desvio padrão de 5,64, mostrando dispersão moderada. O Centro-Oeste apresenta a maior média, de 61,43, com um desvio padrão de 23,85 e uma variação ampla entre 37,40 e 92,81, refletindo a maior dispersão entre as regiões.
+
+Por fim, o `r display_ind_names(tbl_ind_desc, "I.4")` - apresenta uma média de 3,33 na região Norte, com pouca variação (1,70 a 5,20) e um desvio padrão de 1,46. O Nordeste tem uma média um pouco maior, de 5,51, com variação entre 2,40 e 9,60 e desvio padrão de 2,29, refletindo maior dispersão. No Sudeste, a média sobe para 8,03, com desvio padrão de 1,39 e uma variação de 6,20 a 9,30, indicando uma distribuição mais concentrada. A região Sul tem uma média similar, de 8,03, com valores entre 7,50 e 8,70, e o menor desvio padrão, de 0,61, sugerindo pouca variação. No Centro-Oeste, a média é de 6,85, com variação de 5,60 a 7,90 e desvio padrão de 0,95, refletindo dados relativamente estáveis.
+
+\pagebreak
+
+```{r}
+#| label: tbl-eda-pilar1
+#| tbl-cap: Estatística descritiva dos indicadores do Pilar I
+#| echo: false
+
+tar_read(list_gt_eda, store = here::here("_targets"))[[1]]
+```
+
+Os mapas da @fig-mapas-pilar1 apresentam os resultados do indicadores do Pilar I - Gestão da Segurança no Trânsito.
+
+```{r}
+#| label: fig-mapas-pilar1
+#| fig-cap: Mapas dos indicadores do Pilar I
+#| echo: false
+#| fig-width: 6
+#| fig-height: 6
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[1]]
+```
+
+#### Pilar II - Vias Seguras
+
+A @tbl-eda-pilar2 apresenta a estatística descritiva para os indicadores do Pilar II - Vias Seguras. O `r display_ind_names(tbl_ind_desc, "II.1")` - varia consideravelmente entre as regiões. No Norte, a média é de 46,64%, com um desvio padrão de 25,00%, variando de 21,23% a 83,95%. O Nordeste apresenta uma média significativamente menor, de 25,81%, com um desvio padrão de 11,00% e valores que oscilam entre 6,80% e 44,87%. No Sudeste, a média é de 22,32%, com uma dispersão maior, com desvio padrão de 17,03%, e valores entre 2,79% e 43,14%. No Sul, a média sobe um pouco para 25,63%, com um desvio padrão de 8,02%, sugerindo menor variação, com valores entre 17,27% e 33,26%. Por fim, no Centro-Oeste, a média é a mais baixa entre as regiões, com 13,69%, e o desvio padrão de 6,22%, variando de 7,58% a 21,84%.
+
+O indicador `r display_ind_names(tbl_ind_desc, "II.2")` - também exibe diferenças claras entre as regiões. No Norte, a média é de 56,88%, com um desvio padrão de 28,37%, e uma variação significativa, de 19,83% a 96,88%. O Nordeste apresenta uma média de 42,36%, com menor desvio padrão (6,94%) e variação entre 31,58% e 52,15%. No Sudeste, a média é de 36,33%, com uma variação entre 10,12% e 57,84%, e um desvio padrão de 21,64%. A região Sul tem uma média de 40,51%, com desvio padrão de 7,92% e variação entre 34,83% e 49,56%. No Centro-Oeste, a média é de 32,20%, com desvio padrão de 10,13%, e os valores oscilam entre 19,12% e 40,53%.
+
+No caso do `r display_ind_names(tbl_ind_desc, "II.3")`, o Norte tem uma média de 40,35%, com um desvio padrão de 25,43% e variação de 15,76% a 82,10%. O Nordeste, por sua vez, tem uma média menor, de 19,42%, com desvio padrão de 9,40% e variação de 5,95% a 36,86%. O Sudeste apresenta uma média de 22,71%, com um desvio padrão de 12,43%, e os valores oscilam entre 7,92% e 38,05%. No Sul, a média é de 25,29%, com desvio padrão de 7,98%, e oscilação entre 19,64% e 34,42%. O Centro-Oeste tem a menor média, com 14,22%, e um desvio padrão de 4,41%, com valores entre 10,86% e 20,62%.
+
+O indicador `r display_ind_names(tbl_ind_desc, "II.4")` - apresenta, no Norte, uma média de 42,33%, com desvio padrão de 15,42% e variação de 22,02% a 60,72%. No Nordeste, a média é consideravelmente menor, de 27,37%, com desvio padrão de 11,31% e valores entre 15,11% e 52,02%. No Sudeste, a média é de 11,15%, a menor entre todas as regiões, com desvio padrão de 9,91% e variação de 1,07% a 24,79%. No Sul, a média sobe para 20,89%, com desvio padrão de 7,80%, variando entre 11,90% e 25,89%. No Centro-Oeste, a média é de 12,56%, com desvio padrão de 6,53%, e os valores variam de 5,53% a 19,84%.
+
+Por fim, o `r display_ind_names(tbl_ind_desc, "II.5")` - mostra grandes variações. No Norte, a média é a mais baixa, de 1,79%, com desvio padrão de 1,45%, e oscilação de 0,00% a 3,55%. No Nordeste, a média sobe para 12,64%, com desvio padrão de 10,42%, e variação de 1,00% a 27,47%. No Sudeste, a média é de 29,25%, com desvio padrão de 23,23%, e os valores variam entre 6,74% e 59,12%, a maior amplitude entre as regiões. O Sul tem uma média de 17,62%, com desvio padrão de 8,21%, variando de 8,15% a 22,79%. O Centro-Oeste apresenta a segunda maior média, com 22,88%, e um desvio padrão de 23,42%, variando de 2,08% a 55,47%.
+
+\pagebreak
+
+```{r}
+#| label: tbl-eda-pilar2
+#| tbl-cap: Estatística descritiva dos indicadores do Pilar II
+#| echo: false
+
+tar_read(list_gt_eda, store = here::here("_targets"))[[2]]
+```
+
+Os mapas da @fig-mapas-pilar2 apresentam os resultados do indicadores do Pilar II - Vias Seguras.
+
+```{r}
+#| label: fig-mapas-pilar2
+#| fig-cap: Mapas dos indicadores do Pilar II
+#| echo: false
+#| fig-width: 6
+#| fig-height: 9
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[2]]
+```
+
+#### Pilar III - Segurança Veicular
+
+A @tbl-eda-pilar3 apresenta a estatística descritiva para os indicadores do Pilar III - Segurança Veicular. No indicador `r display_ind_names(tbl_ind_desc, "III.1")`, a região Norte apresenta uma média de 47,86%, com um desvio padrão de 6,15%, e os valores variam de 39,67% a 55,00%. O Nordeste tem uma média um pouco menor, de 45,86%, e uma variação ligeiramente maior, com desvio padrão de 7,61% e valores entre 37,73% e 60,12%. O Sudeste apresenta a menor média, com 24,06%, e um desvio padrão de 4,96%, com valores entre 19,40% e 30,32%. Já no Sul, a média é ainda menor, com 20,43%, e a menor variação entre as regiões, com desvio padrão de 2,07% e variação entre 18,42% e 22,55%. O Centro-Oeste se destaca com uma média de 29,31%, a segunda menor entre as regiões, mas com maior dispersão, com desvio padrão de 11,59% e valores entre 13,41% e 41,23%.
+
+O indicador `r display_ind_names(tbl_ind_desc, "III.2")` - mostra um valor relativamente elevado em todas as regiões. No Norte, a média é de 63,46%, com um desvio padrão de 4,02% e valores variando entre 59,00% e 68,20%. No Nordeste, a média sobe para 66,34%, com um desvio padrão menor, de 3,23%, e uma variação de 61,37% a 71,29%. O Sudeste tem a maior média, de 71,98%, com uma dispersão baixa, desvio padrão de 2,57%, e variação entre 69,37% e 74,67%. No Sul, a média também é alta, de 74,37%, com um desvio padrão de 4,28%, e valores que vão de 69,57% a 77,75%. O Centro-Oeste, por sua vez, apresenta uma média de 68,04%, com desvio padrão de 4,64% e uma variação entre 63,82% e 72,30%.
+
+Para o `{r} display_ind_names(tbl_ind_desc, "III.3")`, o Norte tem uma média de 44,53%, com desvio padrão de 5,22% e valores que variam entre 34,60% e 50,34%. O Nordeste possui uma média similar, de 41,47%, com um desvio padrão menor de 4,29%, e os valores variam entre 33,72% e 48,53%. O Sudeste registra uma média de 32,50%, com desvio padrão de 5,72% e valores entre 27,45% e 38,98%. No Sul, a média é de 32,81%, com um desvio padrão de 1,99%, e oscilação entre 31,37% e 35,09%. O Centro-Oeste possui uma média de 38,11%, com desvio padrão de 8,11%, e valores que vão de 28,15% a 47,87%.
+
+O indicador `r display_ind_names(tbl_ind_desc, "III.4")` - apresenta menores valores comparativamente. No Norte, a média é de 15,63%, com desvio padrão de 2,97%, variando de 10,29% a 18,57%. O Nordeste tem uma média um pouco menor, de 13,01%, com desvio padrão de 2,25% e valores entre 8,96% e 17,05%. No Sudeste, a média é de 10,26%, com desvio padrão de 3,24% e variação entre 7,03% e 13,51%. No Sul, a média é de 10,68%, com a menor variação entre as regiões, com desvio padrão de 1,64% e valores entre 9,17% e 12,43%. Por fim, o Centro-Oeste apresenta uma média de 12,83%, com desvio padrão de 4,35% e oscilação entre 7,84% e 18,38%.
+
+\pagebreak
+
+```{r}
+#| label: tbl-eda-pilar3
+#| tbl-cap: Estatística descritiva dos indicadores do Pilar III
+#| echo: false
+
+tar_read(list_gt_eda, store = here::here("_targets"))[[3]]
+```
+
+Os mapas da @fig-mapas-pilar3 apresentam os resultados do indicadores do Pilar III - Segurança Veicular.
+
+```{r}
+#| label: fig-mapas-pilar3
+#| fig-cap: Mapas dos indicadores do Pilar III
+#| echo: false
+#| fig-width: 6
+#| fig-height: 6
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[3]]
+```
+
+#### Pilar IV - Educação para o Trânsito
+
+A @tbl-eda-pilar4 apresenta a estatística descritiva para os indicadores do Pilar IV - Educação para o Trânsito. No indicador `{r} display_ind_names(tbl_ind_desc, "IV.1")`, a região Norte apresenta uma média de 83,57, com desvio padrão de 14,61 e valores que variam entre 63,98 e 105,68. O Nordeste tem uma média menor, de 66,14, com desvio padrão de 13,95 e variação entre 37,81 e 80,93. O Sudeste apresenta uma média maior, de 101,45, com desvio padrão de 23,71, e os valores variam de 76,66 a 129,17. No Sul, a média é ainda mais alta, com 138,32, e um desvio padrão de 29,37, variando entre 116,30 e 171,66. O Centro-Oeste também possui uma média alta, de 110,47, com desvio padrão de 21,07 e variação entre 84,00 e 135,50.
+
+O indicador `{r} display_ind_names(tbl_ind_desc, "IV.2")` - apresenta uma variação significativa entre as regiões. No Norte, a média é de 32,72, com desvio padrão de 44,39 e valores que variam de 4,54 a 131,35. No Nordeste, a média é muito menor, de 4,58, com um desvio padrão de 2,41 e uma variação de 1,41 a 9,49. O Sudeste tem uma média um pouco maior, de 8,12, com desvio padrão de 9,25 e valores entre 1,41 e 21,80. No Sul, a média é de 5,87, com desvio padrão de 1,68 e variação de 4,74 a 7,81. Já o Centro-Oeste apresenta uma média de 15,57, com desvio padrão de 8,59 e variação de 9,53 a 28,24.
+
+Para o `{r} display_ind_names(tbl_ind_desc, "IV.3")`, o Norte apresenta uma média de 1.764,67, com desvio padrão de 1.155,19 e valores que variam entre 530,82 e 3.456,85. O Nordeste tem a maior média entre as regiões, de 2.426,99, com desvio padrão de 714,05 e variação de 1.733,01 a 3.775,29. O Sudeste possui uma média de 3.661,99, com desvio padrão de 1.559,00 e variação de 2.749,39 a 5.993,95. O Sul tem uma média de 2.487,53, com desvio padrão de 814,86 e valores entre 1.634,05 e 3.257,31. O Centro-Oeste se destaca com a maior média, de 5.249,13, e também o maior desvio padrão, de 3.538,81, com uma variação entre 2.124,63 e 9.816,11.
+
+No indicador `{r} display_ind_names(tbl_ind_desc, "IV.4")`, o Norte tem uma média de 445,91, com desvio padrão de 399,31 e valores variando de 139,95 a 1.117,82. No Nordeste, a média é de 301,01, com desvio padrão de 185,27 e valores entre 153,32 e 771,69. O Sudeste apresenta uma média de 240,86, com desvio padrão de 118,01 e variação de 157,38 a 415,26. No Sul, a média é de 241,75, com desvio padrão de 93,92 e variação de 142,21 a 328,80. O Centro-Oeste tem uma média de 385,20, com desvio padrão de 58,94 e valores entre 298,07 e 424,89.
+
+O indicador `{r} display_ind_names(tbl_ind_desc, "IV.5")` - mostra uma média de 296,71 no Norte, com desvio padrão de 430,24 e variação de 24,30 a 1.082,36. No Nordeste, a média é de 306,77, com desvio padrão de 143,73 e valores que variam entre 169,04 e 571,10. O Sudeste possui uma média de 134,65, com desvio padrão de 175,57 e variação de 24,08 a 396,81. No Sul, a média é de 18,06, com desvio padrão de 9,10 e valores entre 9,13 e 27,33. No Centro-Oeste, a média é de 32,73, com desvio padrão de 15,26 e variação entre 20,55 e 54,36.
+
+Para o `{r} display_ind_names(tbl_ind_desc, "IV.6")`, o Norte tem uma média de 16,99, com desvio padrão de 8,50 e variação de 7,76 a 28,09. O Nordeste apresenta uma média de 19,23, com desvio padrão de 8,29 e variação entre 12,44 e 33,65. No Sudeste, a média é de 27,76, com desvio padrão de 12,71 e valores que variam de 19,82 a 46,70. No Sul, a média é de 11,18, com desvio padrão de 3,50 e variação de 8,04 a 14,95. Já o Centro-Oeste possui uma média de 32,71, com desvio padrão de 13,97 e variação de 19,28 a 50,50.
+
+Por fim, o indicador `{r} display_ind_names(tbl_ind_desc, "IV.7")` - apresenta uma média de 32,33 no Norte, com desvio padrão de 11,08 e variação entre 16,55 e 51,57. No Nordeste, a média é de 21,09, com desvio padrão de 5,05 e variação entre 12,74 e 27,99. O Sudeste tem uma média de 14,17, com desvio padrão de 3,20 e variação de 10,06 a 17,87. No Sul, a média é de 20,55, com desvio padrão de 8,18 e valores entre 12,83 e 29,13. No Centro-Oeste, a média é de 26,69, com desvio padrão de 7,94 e variação entre 19,55 e 36,63.
+
+\pagebreak
+
+```{r}
+#| label: tbl-eda-pilar4
+#| tbl-cap: Estatística descritiva dos indicadores do Pilar IV
+#| echo: false
+
+tar_read(list_gt_eda, store = here::here("_targets"))[[4]]
+```
+
+
+Os mapas da @fig-mapas-pilar4 apresentam os resultados do indicadores do Pilar IV - Educação para o Trânsito.
+
+```{r}
+#| label: fig-mapas-pilar4
+#| fig-cap: Mapas dos indicadores do Pilar IV
+#| echo: false
+#| fig-width: 6
+#| fig-height: 12
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[4]]
+```
+
+#### Pilar V - Vigilância, Promoção da Saúde e Atendimento as Vítimas no Trânsito
+
+A @tbl-eda-pilar5 apresenta a estatística descritiva para os indicadores do Pilar V - Vigilância, Promoção da Saúde e Atendimento as Vítimas no Trânsito. Para o `{r} display_ind_names(tbl_ind_desc, "V.1")`, a região Norte tem uma média de 18,23, com um desvio padrão de 2,79 e valores que variam de 12,99 a 22,09. O Nordeste apresenta uma média ligeiramente menor, de 17,16, com um desvio padrão de 1,06 e variação de 15,84 a 18,75. No Sudeste, a média é de 20,48, com desvio padrão de 1,09, variando entre 19,03 e 21,49. O Sul apresenta uma média de 19,64, com desvio padrão de 0,89 e valores que vão de 18,61 a 20,20. Já o Centro-Oeste apresenta a maior variação, com uma média de 20,48 e desvio padrão de 3,46, com valores entre 17,14 e 25,26.
+
+Para o `{r} display_ind_names(tbl_ind_desc, "V.2")`, a média na região Norte é de 1,85, com um desvio padrão de 0,39 e valores que variam de 1,43 a 2,57. No Nordeste, a média é um pouco maior, de 2,07, com desvio padrão de 0,30, variando de 1,36 a 2,35. O Sudeste tem uma média de 2,03, com desvio padrão de 0,05, com valores mais estáveis entre 1,97 e 2,08. O Sul apresenta uma média de 2,30, com um desvio padrão de 0,22, e variação de 2,13 a 2,55. Já o Centro-Oeste tem uma média de 2,28, com desvio padrão de 0,25 e valores entre 2,02 e 2,51.
+
+No `{r} display_ind_names(tbl_ind_desc, "V.3")`, o Norte apresenta uma média de 1,54, com desvio padrão de 0,30 e valores que variam de 1,22 a 1,98. O Nordeste tem uma média ligeiramente maior, de 1,64, com desvio padrão de 0,26 e valores que variam entre 1,01 e 1,88. No Sudeste, a média é de 1,27, com desvio padrão de 0,11 e variação de 1,15 a 1,39. No Sul, a média é de 1,60, com desvio padrão de 0,11, com valores entre 1,53 e 1,73. No Centro-Oeste, a média é de 1,52, com desvio padrão de 0,13 e variação de 1,36 a 1,64.
+
+Por fim, no `{r} display_ind_names(tbl_ind_desc, "V.4")`, o Norte apresenta a menor média, de 0,30, com desvio padrão de 0,16 e variação de 0,16 a 0,58. O Nordeste tem uma média um pouco maior, de 0,43, com desvio padrão de 0,11 e valores que variam entre 0,28 e 0,65. No Sudeste, a média é de 0,76, com desvio padrão de 0,11 e variação de 0,64 a 0,86. O Sul tem uma média de 0,70, com desvio padrão de 0,11, e valores que vão de 0,60 a 0,82. O Centro-Oeste apresenta uma média de 0,76, com desvio padrão de 0,24 e variação entre 0,48 e 1,02.
+
+\pagebreak
+
+```{r}
+#| label: tbl-eda-pilar5
+#| tbl-cap: Estatística descritiva dos indicadores do Pilar V
+#| echo: false
+
+tar_read(list_gt_eda, store = here::here("_targets"))[[5]]
+```
+
+
+Os mapas da @fig-mapas-pilar5 apresentam os resultados do indicadores do Pilar V - Vigilância, Promoção da Saúde e Atendimento as Vítimas no Trânsito.
+
+```{r}
+#| label: fig-mapas-pilar5
+#| fig-cap: Mapas dos indicadores do Pilar V
+#| echo: false
+#| fig-width: 6
+#| fig-height: 6
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[5]]
+```
+
+#### Pilar VI - Normatização e Fiscalização
+
+A @tbl-eda-pilar6 apresenta a estatística descritiva para os indicadores do Pilar VI - Normatização e Fiscalização. No Indicador `{r} display_ind_names(tbl_ind_desc, "VI.1")`, a região Norte apresenta a menor média, de 2.153,11, com um desvio padrão de 988,46, um mínimo de 919,03 e um máximo de 3.885,90. No Nordeste, a média sobe para 2.699,64, com um desvio padrão de 696,28, mínimo de 1.937,14 e máximo de 3.949,80. O Sudeste exibe uma média de 3.827,77, desvio padrão de 1.570,78, mínimo de 2.815,46 e máximo de 6.171,11. A região Sul tem uma média de 2.601,60, desvio padrão de 840,76, mínimo de 1.700,84 e máximo de 3.365,59. Por fim, o Centro-Oeste apresenta a maior média, de 5.365,75, com um desvio padrão de 3.548,94, mínimo de 2.348,45 e máximo de 10.082,53.
+
+No Indicador `{r} display_ind_names(tbl_ind_desc, "VI.2")`, a região Norte novamente tem a menor média, de 1,29, e um desvio padrão de 1,18, com um mínimo de 0,12 e máximo de 3,58. No Nordeste, a média é de 1,91, com desvio padrão de 0,88, mínimo de 0,84 e máximo de 3,75. A região Sudeste apresenta uma média de 1,81, desvio padrão de 0,21, mínimo de 1,62 e máximo de 2,09. Na região Sul, a média é de 2,00, com desvio padrão de 0,25, mínimo de 1,74 e máximo de 2,24. O Centro-Oeste tem a maior média deste indicador, de 4,09, com desvio padrão de 2,57, mínimo de 1,85 e máximo de 7,50.
+
+No Indicador `{r} display_ind_names(tbl_ind_desc, "VI.3")`, a região Norte possui uma média de 0,55 e um desvio padrão de 0,65, com mínimo de 0,06 e máximo de 1,74. No Nordeste, a média é de 1,25, desvio padrão de 0,54, mínimo de 0,34 e máximo de 2,36. O Sudeste apresenta uma média de 1,13, com desvio padrão de 0,47, mínimo de 0,49 e máximo de 1,58. Na região Sul, a média é de 0,68, desvio padrão de 0,40, mínimo de 0,33 e máximo de 1,11. O Centro-Oeste, por sua vez, tem a maior média, de 2,62, com desvio padrão de 2,34, mínimo de 0,75 e máximo de 5,92.
+
+Para o Indicador `{r} display_ind_names(tbl_ind_desc, "VI.4")`, a média na região Norte é de 0,74, com desvio padrão de 0,67, mínimo de 0,00 e máximo de 1,84. No Nordeste, a média sobe para 0,66, com desvio padrão de 0,50, mínimo de 2,18 e máximo de 41,62. No Sudeste, a média é de 0,67, desvio padrão de 0,51, mínimo de 0,11 e máximo de 152,50. A região Sul apresenta uma média de 1,33, com desvio padrão de 0,18, mínimo de 7,88 e máximo de 16,63. Finalmente, o Centro-Oeste tem uma média de 1,47, desvio padrão de 1,41, mínimo de 4,78 e máximo de 561,99.
+
+No Indicador `{r} display_ind_names(tbl_ind_desc, "VI.5")`, a média na região Norte é de 3,41, com um desvio padrão de 4,04, mínimo de 0,17 e máximo de 10,13. No Nordeste, a média é de 18,33, com desvio padrão de 13,09, mínimo de 2,18 e máximo de 41,62. O Sudeste apresenta uma média de 68,47, desvio padrão de 58,95, mínimo de 18,88 e máximo de 152,50. A região Sul tem uma média de 13,26, com desvio padrão de 4,71, mínimo de 7,88 e máximo de 16,63. O Centro-Oeste apresenta uma média de 152,27, com desvio padrão de 273,53, mínimo de 845,04 e máximo de 1.424,37.
+
+Para o Indicador `{r} display_ind_names(tbl_ind_desc, "VI.6")`, a média na região Norte é de 2.042,74, com desvio padrão de 1.430,40, mínimo de 755,11 e máximo de 4.520,46. No Nordeste, a média é de 1.392,66, com desvio padrão de 507,09, mínimo de 809,59 e máximo de 2.129,29. O Sudeste apresenta uma média de 1.934,21, com desvio padrão de 605,67, mínimo de 1.525,78 e máximo de 2.822,44. A região Sul tem uma média de 1.228,15, com desvio padrão de 546,73, mínimo de 699,29 e máximo de 1.791,14. O Centro-Oeste apresenta a maior média, de 1.205,51, com desvio padrão de 250,40, mínimo de 845,04 e máximo de 1.424,37.
+
+No Indicador `{r} display_ind_names(tbl_ind_desc, "VI.7")`, a média na região Norte é de 1,46, com desvio padrão de 1,54, mínimo de 0,20 e máximo de 4,49. No Nordeste, a média é de 3,73, com desvio padrão de 2,14, mínimo de 0,78 e máximo de 6,98. O Sudeste apresenta uma média de 4,32, com desvio padrão de 3,26, mínimo de 0,35 e máximo de 8,05. A região Sul tem uma média de 4,89, com desvio padrão de 4,73, mínimo de 0,16 e máximo de 9,63. O Centro-Oeste possui a maior média, de 5,65, com desvio padrão de 4,19, mínimo de 1,86 e máximo de 11,09.
+
+<!--
+
+No Indicador `{r} display_ind_names(tbl_ind_desc, "VI.08")`, a média na região Norte é de 1,21, com desvio padrão de 1,12, mínimo de 0,12 e máximo de 3,41. No Nordeste, a média é de 1,61, com desvio padrão de 0,80, mínimo de 0,78 e máximo de 3,37. O Sudeste apresenta uma média de 1,62, com desvio padrão de 0,14, mínimo de 1,51 e máximo de 1,81. A região Sul tem uma média de 1,64, com desvio padrão de 0,03, mínimo de 1,61 e máximo de 1,68. Por fim, o Centro-Oeste tem a maior média, de 3,14, com desvio padrão de 1,55, mínimo de 1,51 e máximo de 5,07.
+
+No Indicador `{r} display_ind_names(tbl_ind_desc, "VI.09")`, a média na região Norte é de 0,54, com desvio padrão de 0,64, mínimo de 0,06 e máximo de 1,71. No Nordeste, a média é de 1,02, com desvio padrão de 0,50, mínimo de 0,30 e máximo de 2,15. O Sudeste apresenta uma média de 1,02, com desvio padrão de 0,42, mínimo de 0,44 e máximo de 1,43. A região Sul tem uma média de 0,58, com desvio padrão de 0,30, mínimo de 0,29 e máximo de 0,90. O Centro-Oeste possui a maior média, de 2,04, com desvio padrão de 1,46, mínimo de 0,24 e máximo de 4,03.
+
+Para o Indicador `{r} display_ind_names(tbl_ind_desc, "VI.10")`, a média na região Norte é de 0,66, com desvio padrão de 0,60, mínimo de 0,00 e máximo de 1,69. No Nordeste, a média é de 0,60, com desvio padrão de 0,45, mínimo de 0,00 e máximo de 1,41. O Sudeste apresenta uma média de 0,60, com desvio padrão de 0,45, mínimo de 0,07 e máximo de 1,17. A região Sul tem uma média de 1,06, com desvio padrão de 0,29, mínimo de 0,74 e máximo de 1,32. O Centro-Oeste apresenta a maior média, de 1,10, com desvio padrão de 0,24, mínimo de 0,79 e máximo de 1,38.
+
+No Indicador `{r} display_ind_names(tbl_ind_desc, "VI.11")`, a média na região Norte é de 3,33, com desvio padrão de 3,88, mínimo de 0,17 e máximo de 9,65. No Nordeste, a média é de 14,85, com desvio padrão de 16,94, mínimo de 1,98 e máximo de 56,70. O Sudeste apresenta uma média de 58,53, com desvio padrão de 58,58, mínimo de 2,81 e máximo de 153,50. A região Sul tem uma média de 13,29, com desvio padrão de 5,86, mínimo de 5,55 e máximo de 21,67. O Centro-Oeste possui a maior média, de 138,47, com desvio padrão de 231,10, mínimo de 4,09 e máximo de 753,02.
+
+Por fim, no Indicador `{r} display_ind_names(tbl_ind_desc, "VI.11")`, a média na região Norte é de 2,73, com desvio padrão de 2,67, mínimo de 0,29 e máximo de 8,84. No Nordeste, a média é de 4,11, com desvio padrão de 2,43, mínimo de 1,45 e máximo de 7,96. O Sudeste apresenta uma média de 10,79, com desvio padrão de 11,27, mínimo de 1,23 e máximo de 27,44. A região Sul tem uma média de 4,05, com desvio padrão de 2,07, mínimo de 1,40 e máximo de 7,80. O Centro-Oeste apresenta a maior média, de 10,05, com desvio padrão de 4,77, mínimo de 1,70 e máximo de 18,39. 
+
+-->
+
+\pagebreak
+
+```{r}
+#| label: tbl-eda-pilar6
+#| tbl-cap: Estatística descritiva dos indicadores do Pilar VI
+#| echo: false
+
+tar_read(list_gt_eda, store = here::here("_targets"))[[6]]
+```
+
+
+Os mapas da @fig-mapas-pilar6 apresentam os resultados do indicadores do Pilar VI - Normatização e Fiscalização.
+
+```{r}
+#| label: fig-mapas-pilar6
+#| fig-cap: Mapas dos indicadores do Pilar VI
+#| echo: false
+#| fig-width: 6
+#| fig-height: 12
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[6]]
+```
+
+#### Indicadores de resultado
+
+A @tbl-eda-pilar-resultado apresenta a estatística descritiva por região do país dos indicadores de resultado. No indicador `{r} display_ind_names(tbl_ind_desc, "0.1")`, a média da região Norte (4,98) é ligeiramente superior à do Nordeste (4,96), enquanto o Sudeste (2,54) e o Sul (2,59) apresentam médias significativamente mais baixas. A região Centro-Oeste (3,49) também fica abaixo do Norte e Nordeste. O desvio padrão é mais alto na região Norte (1,37), indicando uma maior variabilidade em relação à média, em comparação ao Nordeste (1,30) e Centro-Oeste (1,28). O Sul (0,50) e o Sudeste (0,88) têm desvios padrão mais baixos, sugerindo menor variabilidade.
+
+No indicador `{r} display_ind_names(tbl_ind_desc, "0.2")`, a média do Centro-Oeste (22,99) é a mais alta, seguida pelo Norte (19,19) e Sul (19,24), enquanto o Nordeste (17,68) e o Sudeste (13,96) apresentam valores mais baixos. O desvio padrão do indicador 0.2 é mais alto na região Norte (8,94), indicando uma maior dispersão dos dados, em comparação ao Nordeste (4,68), Sudeste (4,35) e Sul (4,00), que têm desvios padrão mais baixos, mostrando que seus dados são mais homogêneos.
+
+No indicador `{r} display_ind_names(tbl_ind_desc, "0.3")`, a região Nordeste (52,73) se destaca com a maior média, seguida pela Centro-Oeste (31,56) e Norte (32,61). O Sudeste (29,08) e o Sul (28,42) têm médias inferiores. O desvio padrão é mais alto na região Nordeste (12,92), indicando uma ampla variação em relação à média, seguido pelo Norte (8,32) e Centro-Oeste (7,80). O Sudeste (7,80) e o Sul (4,34) têm desvios padrão menores, indicando menor dispersão.
+
+\pagebreak
+
+```{r}
+#| label: tbl-eda-pilar-resultado
+#| tbl-cap: Estatística descritiva dos indicadores de resultado
+#| echo: false
+
+tar_read(list_gt_eda, store = here::here("_targets"))[[7]]
+```
+
+Os mapas da @fig-mapas-pilar6 apresentam os resultados do indicadores de resultado.
+
+```{r}
+#| label: fig-mapas-resultados
+#| fig-cap: Mapas dos indicadores de resultado
+#| echo: false
+#| fig-width: 6
+#| fig-height: 6
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[7]]
+```
+
+### Análise de correlação entre os indicadores {#sec-results-correlacao}
+
+A @fig-correlacao-pilar1 apresenta os resultados da correlação de Spearman entre os indicadores do Pilar I - Gestão da Segurança no Trânsito - e os indicadores de resultado. Neste gráfico e nos seguintes, as células em branco indicam correlações não significativas ($p$-valor > 0,05). Considerando a correlação entre os indicadores do Pilar I e os indicadores de resultado, observou-se uma correlação significativa entre os indicadores:
+
+- `r display_ind_names(tbl_ind_desc, "I.1")` - e `r display_ind_names(tbl_ind_desc, "0.1")`: `r display_cor_results(df_cor_results, "0.1", "i.1")`;
+
+- `r display_ind_names(tbl_ind_desc, "I.3")` - e `r display_ind_names(tbl_ind_desc, "0.1")`: `r display_cor_results(df_cor_results, "0.1", "i.3")`;
+
+- `r display_ind_names(tbl_ind_desc, "I.4")` - e `r display_ind_names(tbl_ind_desc, "0.1")`: `r display_cor_results(df_cor_results, "0.1", "i.4")`;
+
+- `r display_ind_names(tbl_ind_desc, "I.3")` - e `r display_ind_names(tbl_ind_desc, "0.3")`: `r display_cor_results(df_cor_results, "0.3", "i.3")`.
+
+Considerando a correlação entre os indicadores do Pilar I, observou-se uma correlação significativa entre os indicadores:
+
+- `r display_ind_names(tbl_ind_desc, "I.3")` e `r display_ind_names(tbl_ind_desc, "I.1")`: `r display_cor_results(df_cor_results, "i.1", "i.3")`;
+
+- `r display_ind_names(tbl_ind_desc, "I.4")` e `r display_ind_names(tbl_ind_desc, "I.3")`: `r display_cor_results(df_cor_results, "i.3", "i.4")`.
+
+
+```{r}
+#| label: fig-correlacao-pilar1
+#| fig-cap: Correlação entre os indicadores do Pilar I
+#| echo: false
+#| fig-width: 4
+#| fig-height: 4
+#| fig-dpi: 300
+
+tar_read(list_cor_matrix, store = here::here("_targets"))[[1]]
+```
+
+A @fig-correlacao-pilar2 apresenta os resultados da correlação de Spearman entre os indicadores do Pilar II - Vias Seguras - e os indicadores de resultado. O gráfico inclui correlações significativas entre os indicadores do Pilar II e os indicadores de resultado:
+
+- `r display_ind_names(tbl_ind_desc, "II.4")` e `r display_ind_names(tbl_ind_desc, "0.1")`: `r display_cor_results(df_cor_results, "0.1", "ii.4")`;
+
+- `r display_ind_names(tbl_ind_desc, "II.5")` e `r display_ind_names(tbl_ind_desc, "0.1")`: `r display_cor_results(df_cor_results, "0.1", "ii.5")`;
+
+- `r display_ind_names(tbl_ind_desc, "II.3")` e `r display_ind_names(tbl_ind_desc, "0.2")`: `r display_cor_results(df_cor_results, "0.2", "ii.3")`;
+
+Entre os indicadores do Pilar II, houve uma correlação direta e significativa entre os indicadores II.1, II.2, II.3 e II.4. Também foram observadas correlações inversas:
+
+- `r display_ind_names(tbl_ind_desc, "II.5")` e `r display_ind_names(tbl_ind_desc, "II.1")`: `r display_cor_results(df_cor_results, "ii.1", "ii.5")`;
+
+- `r display_ind_names(tbl_ind_desc, "II.5")` e `r display_ind_names(tbl_ind_desc, "II.4")`: `r display_cor_results(df_cor_results, "ii.4", "ii.5")`.
+
+```{r}
+#| label: fig-correlacao-pilar2
+#| fig-cap: Correlação entre os indicadores do Pilar II
+#| echo: false
+#| fig-width: 4
+#| fig-height: 4
+#| fig-dpi: 300
+
+tar_read(list_cor_matrix, store = here::here("_targets"))[[2]]
+```
+
+Os resultados das correlações para o Pilar III - Segurança Veicular - estão apresentados na @fig-correlacao-pilar3. Entre os indicadores do Pilar III e os indicadores de resultado, foram observadas correlações significativas entre:
+
+- `r display_ind_names(tbl_ind_desc, "III.1")` e `r display_ind_names(tbl_ind_desc, "0.1")`: `r display_cor_results(df_cor_results, "0.1", "iii.1")`;
+
+- `r display_ind_names(tbl_ind_desc, "III.2")` e `r display_ind_names(tbl_ind_desc, "0.1")`: `r display_cor_results(df_cor_results, "0.1", "iii.2")`;
+
+- `r display_ind_names(tbl_ind_desc, "III.3")` e `r display_ind_names(tbl_ind_desc, "0.1")`: `r display_cor_results(df_cor_results, "0.1", "iii.3")`;
+
+- `r display_ind_names(tbl_ind_desc, "III.4")` e `r display_ind_names(tbl_ind_desc, "0.1")`: `r display_cor_results(df_cor_results, "0.1", "iii.4")`.
+
+- `r display_ind_names(tbl_ind_desc, "III.3")` e `r display_ind_names(tbl_ind_desc, "0.2")`: `r display_cor_results(df_cor_results, "0.2", "iii.3")`.
+
+- `r display_ind_names(tbl_ind_desc, "III.4")` e `r display_ind_names(tbl_ind_desc, "0.2")`: `r display_cor_results(df_cor_results, "0.2", "iii.4")`.
+
+- `r display_ind_names(tbl_ind_desc, "III.1")` e `r display_ind_names(tbl_ind_desc, "0.3")`: `r display_cor_results(df_cor_results, "0.3", "iii.1")`.
+
+- `r display_ind_names(tbl_ind_desc, "III.3")` e `r display_ind_names(tbl_ind_desc, "0.3")`: `r display_cor_results(df_cor_results, "0.3", "iii.3")`.
+
+Considerando apenas os indicadores do Pilar III, foram observadas correlações significativas entre todos os indicadores. III.1, III.3 e III.4 apresentaram uma correlação direta e significativa entre si, enquanto III.2 apresentou correlação inversa com os demais indicadores do pilar.
+
+```{r}
+#| label: fig-correlacao-pilar3
+#| fig-cap: Correlação entre os indicadores do Pilar III
+#| echo: false
+#| fig-width: 4
+#| fig-height: 4
+#| fig-dpi: 300
+
+tar_read(list_cor_matrix, store = here::here("_targets"))[[3]]
+```
+
+A @fig-correlacao-pilar4 apresenta os resultados da correlação de Spearman entre os indicadores do Pilar IV - Educação para o Trânsito - e os indicadores de resultado. Observa-se que o indicador `{r} display_ind_names(tbl_ind_desc, "0.1")` tem uma correlação negativa com `{r} display_ind_names(tbl_ind_desc, "IV.1")` (-0,69), mas exibe correlações positivas tanto com `{r} display_ind_names(tbl_ind_desc, "IV.5")` (0,39) quanto com `{r} display_ind_names(tbl_ind_desc, "IV.7")` (0,38). Já o indicador `{r} display_ind_names(tbl_ind_desc, "0.3")` apresenta uma correlação negativa com IV.1 (-0,70) e com `{r} display_ind_names(tbl_ind_desc, "IV.2")` (-0,45), enquanto a sua correlação com IV.5 é positiva (0,52). Os indicadores IV.1 e IV.5 possuem uma correlação negativa significativa de -0,72. O indicador IV.2 também tem uma correlação negativa com IV.5 (-0,43), porém, uma correlação positiva com IV.7 (0,51). Por fim, o indicador `{r} display_ind_names(tbl_ind_desc, "IV.4")` - mostra correlações positivas tanto com `{r} display_ind_names(tbl_ind_desc, "IV.6")` (0,43) quanto com IV.7 (0,64), reforçando a existência de associações positivas entre esses indicadores.
+
+```{r}
+#| label: fig-correlacao-pilar4
+#| fig-cap: Correlação entre os indicadores do Pilar IV
+#| echo: false
+#| fig-width: 4
+#| fig-height: 4
+#| fig-dpi: 300
+
+tar_read(list_cor_matrix, store = here::here("_targets"))[[4]]
+```
+
+A @fig-correlacao-pilar5 apresenta os resultados da correlação de Spearman entre os indicadores do Pilar V - Vigilância, Promoção da Saúde e Atendimento as Vítimas no Trânsito - e os indicadores de resultado. O indicador 0.1 tem uma correlação negativa com `{r} display_ind_names(tbl_ind_desc, "V.1")` (-0,45), uma correlação positiva com `{r} display_ind_names(tbl_ind_desc, "V.3")` (0,40) e uma correlação negativa com `{r} display_ind_names(tbl_ind_desc, "V.4")` (-0,62). O indicador 0.2 apresenta uma correlação positiva com V.3 (0,48). Já o indicador 0.3 possui uma correlação negativa com V.1 (-0,57). Por fim, o indicador `{r} display_ind_names(tbl_ind_desc, "V.2")` - mostra correlações positivas tanto com V.3 (0,66) quanto com V.4 (0,61), sugerindo associações positivas entre esses indicadores.
+
+```{r}
+#| label: fig-correlacao-pilar5
+#| fig-cap: Correlação entre os indicadores do Pilar V
+#| echo: false
+#| fig-width: 4
+#| fig-height: 4
+#| fig-dpi: 300
+
+tar_read(list_cor_matrix, store = here::here("_targets"))[[5]]
+```
+
+Os resultados das correlações para o Pilar VI - Normatização e Fiscalização - estão apresentados na @fig-correlacao-pilar6. Em geral, observa-se uma grande quantidade de correlações significativas, com algumas correlações negativas, especialmente entre os indicadores 0.1 e `{r} display_ind_names(tbl_ind_desc, "VI.5")`. Por outro lado, muitos pares de indicadores mostram correlações positivas significativas, especialmente entre VI.1 e outros indicadores, indicando relações mais fortes entre eles. O indicador VI.6 apresentou uma correlação inversa com os indicadores VI.2, VI.3 e VI.4.
+
+```{r}
+#| label: fig-correlacao-pilar6
+#| fig-cap: Correlação entre os indicadores do Pilar VI
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+#| fig-dpi: 300
+
+tar_read(list_cor_matrix, store = here::here("_targets"))[[6]]
+```
+
+## Análise de Componentes Principais {#sec-results-pca}
+
+Essa seção apresenta os resultados da aplicação da Análise de Componentes Principais para cada pilar de indicadores. Os valores padronizados estão apresentados no @sec-padronizacao e os valores com a escala invertida estão apresentados no @sec-inversao.
+
+### Pilar I - Gestão da Segurança no Trânsito
+
+A @tbl-pca-stats-pilar1 apresenta a relação das componentes principais com os indicadores originais do Pilar I - Gestão da Segurança no Trânsito e os autovalores e variâncias de cada componente. Os autovalores resultantes indicam que apenas PC1 e PC2 serão considerados na construção do índice composto. Observa-se que o PC1, responsável por 49% da variância total e com um autovalor de 1,96, apresenta fortes correlações positivas com os indicadores I.1 (0,61) e I.3 (0,63), além de uma correlação moderada com I.4 (0,49) e uma pequena correlação inversa com I.2 (-0,02). O PC2, que explica 27% da variância com um autovalor de 1,06, é fortemente influenciado negativamente pelo indicador I.2 (-0,94), enquanto I.1 (0,24), I.3 (-0,10) e I.4 (-0,22) apresentam correlações mais fracas.
+
+A @tbl-pca-results-pilar1 inclui as componentes principais resultantes para cada UF, referente ao Pilar I. A @fig-pca-pilar1 apresenta a dispersão das componentes principais e a relação com os indicadores originais, através dos vetores indicados.
+
+```{r}
+#| label: tbl-pca-stats-pilar1
+#| tbl-cap: Relação das componentes principais com os indicadores originais - Pilar I
+#| echo: false
+
+tar_read(list_pca_stats_gt, store = here::here("_targets"))[[1]]
+```
+
+```{r}
+#| label: tbl-pca-results-pilar1
+#| tbl-cap: Componentes principais resultantes - Pilar I
+#| echo: false
+
+tar_read(list_pca_results_gt, store = here::here("_targets"))[[1]]
+```
+
+```{r}
+#| label: fig-pca-pilar1
+#| fig-cap: Dispersão das componentes principais - Pilar I
+#| echo: false
+#| fig-width: 6
+#| fig-height: 4
+#| fig-dpi: 300
+
+
+tar_read(pca_plots, store = here::here("_targets"))[[1]]
+```
+
+### Pilar II - Vias Seguras
+
+A @tbl-pca-stats-pilar2 apresenta a relação das componentes principais com os indicadores originais do Pilar II - Vias Seguras e os autovalores e variâncias de cada componente. Os autovalores resultantes indicam que apenas PC1 será considerado na construção do índice composto. Observa-se que o PC1 explica 76% da variância total, com um autovalor de 3,80. Todos os indicadores têm correlações inversas com este componente, sendo as mais fortes para II.1 (-0,51), II.2 (-0,47), II.3 (-0,47) e II.4 (-0,46), enquanto II.5 apresenta uma correlação negativa um pouco menor (-0,30).
+
+A @tbl-pca-results-pilar2 inclui as componentes principais resultantes para cada UF, referente ao Pilar II. A @fig-pca-pilar2 apresenta a dispersão das componentes principais e a relação com os indicadores originais, através dos vetores indicados.
+
+```{r}
+#| label: tbl-pca-stats-pilar2
+#| tbl-cap: Relação das componentes principais com os indicadores originais - Pilar II
+#| echo: false
+
+tar_read(list_pca_stats_gt, store = here::here("_targets"))[[2]]
+```
+
+\pagebreak
+
+```{r}
+#| label: tbl-pca-results-pilar2
+#| tbl-cap: Componentes principais resultantes - Pilar II
+#| echo: false
+
+tar_read(list_pca_results_gt, store = here::here("_targets"))[[2]]
+```
+
+```{r}
+#| label: fig-pca-pilar2
+#| fig-cap: Dispersão das componentes principais - Pilar II
+#| echo: false
+#| fig-width: 6
+#| fig-height: 4
+#| fig-dpi: 300
+
+
+tar_read(pca_plots, store = here::here("_targets"))[[2]]
+```
+
+
+### Pilar III - Segurança Veicular
+
+A @tbl-pca-stats-pilar3 apresenta a relação das componentes principais com os indicadores originais do Pilar III - Segurança Veicular e os autovalores e variâncias de cada componente. Os autovalores resultantes indicam que apenas PC1 será considerado na construção do índice composto. Observa-se que o PC1 explica 76% da variância total, com um autovalor de 3,03. O indicador III.1 apresenta uma correlação positiva (0,52) com este componente, enquanto III.2 (-0,41), III.3 (-0,54) e III.4 (-0,51) possuem correlações negativas. Esses resultados indicam que o PC1 reflete uma combinação de relações opostas entre os indicadores.
+
+A @tbl-pca-results-pilar3 inclui as componentes principais resultantes para cada UF, referente ao Pilar III. A @fig-pca-pilar3 apresenta a dispersão das componentes principais e a relação com os indicadores originais, através dos vetores indicados.
+
+```{r}
+#| label: tbl-pca-stats-pilar3
+#| tbl-cap: Relação das componentes principais com os indicadores originais - Pilar III
+#| echo: false
+
+tar_read(list_pca_stats_gt, store = here::here("_targets"))[[3]]
+```
+
+\pagebreak
+
+```{r}
+#| label: tbl-pca-results-pilar3
+#| tbl-cap: Componentes principais resultantes - Pilar III
+#| echo: false
+
+tar_read(list_pca_results_gt, store = here::here("_targets"))[[3]]
+```
+
+```{r}
+#| label: fig-pca-pilar3
+#| fig-cap: Dispersão das componentes principais - Pilar III
+#| echo: false
+#| fig-width: 6
+#| fig-height: 4
+#| fig-dpi: 300
+
+
+tar_read(pca_plots, store = here::here("_targets"))[[3]]
+```
+
+### Pilar IV - Educação para o Trânsito
+
+A @tbl-pca-stats-pilar4 apresenta a relação das componentes principais com os indicadores originais do Pilar IV - Educação para o Trânsito e os autovalores e variâncias de cada componente. Os autovalores resultantes indicam que PC1, PC2 e PC3 serão considerados na construção do índice composto. Observa-se que os três primeiros componentes explicam juntos 74% da variância total. 
+
+O PC1, responsável por 32% da variância, apresenta as maiores correlações positivas com o indicador IV.3 (0,48) e IV.6 (0,24), enquanto os indicadores IV.7 (-0,48), IV.4 (-0,44), IV.1 (-0,39) e IV.5 (-0,35) mostram correlações negativas. O indicador IV.2 tem uma correlação negativa mais leve com o PC1 (-0,08). No PC2, que explica 21% da variância, os indicadores IV.4 (0,51) e IV.6 (0,51) apresentam as maiores correlações positivas, seguidos por IV.7 (0,43) e IV.2 (0,24). Por outro lado, IV.1 (-0,37) tem uma correlação negativa moderada, e IV.5 (-0,17) exibe uma correlação negativa mais leve, enquanto IV.3 apresenta uma correlação positiva moderada (0,26). O PC3, que também explica 21% da variância, é mais fortemente correlacionado positivamente com IV.5 (0,54), seguido por IV.6 (0,41), IV.1 (0,33) e IV.3 (0,37). O indicador IV.2 mostra uma correlação negativa moderada (-0,48), enquanto IV.7 (-0,16) e IV.4 (0,18) apresentam correlações mais leves com esse componente.
+
+A @tbl-pca-results-pilar4 inclui as componentes principais resultantes para cada UF, referente ao Pilar IV. A @fig-pca-pilar4 apresenta a dispersão das componentes principais e a relação com os indicadores originais, através dos vetores indicados.
+
+
+```{r}
+#| label: tbl-pca-stats-pilar4
+#| tbl-cap: Relação das componentes principais com os indicadores originais - Pilar IV
+#| echo: false
+
+tar_read(list_pca_stats_gt, store = here::here("_targets"))[[4]]
+```
+
+```{r}
+#| label: tbl-pca-results-pilar4
+#| tbl-cap: Componentes principais resultantes - Pilar IV
+#| echo: false
+
+tar_read(list_pca_results_gt, store = here::here("_targets"))[[4]]
+```
+
+```{r}
+#| label: fig-pca-pilar4
+#| fig-cap: Dispersão das componentes principais - Pilar IV
+#| echo: false
+#| fig-width: 7
+#| fig-height: 7
+#| fig-dpi: 300
+
+
+tar_read(pca_plots, store = here::here("_targets"))[[4]]
+```
+
+### Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito
+
+A @tbl-pca-stats-pilar5 apresenta a relação das componentes principais com os indicadores originais do Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito e os autovalores e variâncias de cada componente. Os autovalores resultantes indicam que PC1 e PC2 serão considerados na construção do índice composto. Observa-se que os primeiros componentes explicam juntos 86% da variância total.
+
+O PC1, responsável por 50% da variância, apresenta correlações negativas com todos os indicadores. O PC2, que explica 36% da variância, tem correlações positivas com os indicadores V.1 (0,52) e V.4 (0,40), enquanto V.3 (-0,71) apresenta uma forte correlação negativa, e V.2 (-0,26) mostra uma correlação negativa moderada.
+
+A @tbl-pca-results-pilar5 inclui as componentes principais resultantes para cada UF, referente ao Pilar V. A @fig-pca-pilar5 apresenta a dispersão das componentes principais e a relação com os indicadores originais, através dos vetores indicados.
+
+```{r}
+#| label: tbl-pca-stats-pilar5
+#| tbl-cap: Relação das componentes principais com os indicadores originais - Pilar V
+#| echo: false
+
+tar_read(list_pca_stats_gt, store = here::here("_targets"))[[5]]
+```
+
+```{r}
+#| label: tbl-pca-results-pilar5
+#| tbl-cap: Componentes principais resultantes - Pilar V
+#| echo: false
+
+tar_read(list_pca_results_gt, store = here::here("_targets"))[[5]]
+```
+
+```{r}
+#| label: fig-pca-pilar5
+#| fig-cap: Dispersão das componentes principais - Pilar V
+#| echo: false
+#| fig-width: 6
+#| fig-height: 4
+#| fig-dpi: 300
+
+tar_read(pca_plots, store = here::here("_targets"))[[5]]
+```
+
+### Pilar VI - Normatização e Fiscalização
+
+A @tbl-pca-stats-pilar6 apresenta a relação das componentes principais com os indicadores originais do Pilar VI - Normatização e Fiscalização e os autovalores e variâncias de cada componente. Os autovalores resultantes indicam que PC1 e PC2 serão considerados na construção do índice composto. Observa-se que os primeiros componentes explicam juntos 83% da variância total. O PC1, que representa 64% da variância, apresenta correlações positivas com quase todos indicadores, com exceção de VI.6. O PC2, com 19% da variância, apresenta correlações positivas com VI.1, VI.3, VI.5, VI.6 e VI.7 e correlações negativas com VI.2 e  VI.4.
+
+A @tbl-pca-results-pilar6 inclui as componentes principais resultantes para cada UF, referente ao Pilar VI. A @fig-pca-pilar6 apresenta a dispersão das componentes principais e a relação com os indicadores originais, através dos vetores indicados.
+
+```{r}
+#| label: tbl-pca-stats-pilar6
+#| tbl-cap: Relação das componentes principais com os indicadores originais - Pilar VI
+#| echo: false
+
+tar_read(list_pca_stats_gt, store = here::here("_targets"))[[6]]
+```
+
+\pagebreak
+
+```{r}
+#| label: tbl-pca-results-pilar6
+#| tbl-cap: Componentes principais resultantes - Pilar VI
+#| echo: false
+
+tar_read(list_pca_results_gt, store = here::here("_targets"))[[6]]
+```
+
+```{r}
+#| label: fig-pca-pilar6
+#| fig-cap: Dispersão das componentes principais - Pilar VI
+#| echo: false
+#| fig-width: 6
+#| fig-height: 4
+#| fig-dpi: 300
+
+tar_read(pca_plots, store = here::here("_targets"))[[6]]
+```
+
+
+### Indicadores de resultado
+
+A @tbl-pca-stats-resultado apresenta a relação das componentes principais com os indicadores de resultado e os autovalores e variâncias de cada componente. Os autovalores resultantes indicam que apenas PC1 será considerado na construção do índice composto. PC1 possui um autovalor de 2,06 e explica 69% da variância. Todas os indicadores possuem uma correlação inversa com PC1.
+
+A @tbl-pca-results-resultado inclui as componentes principais resultantes para cada UF, referente aos indicadores de resultado. A @fig-pca-resultado apresenta a dispersão das componentes principais e a relação com os indicadores originais, através dos vetores indicados.
+
+```{r}
+#| label: tbl-pca-stats-resultado
+#| tbl-cap: Relação das componentes principais com os indicadores originais - Indicadores de resultado
+#| echo: false
+
+tar_read(list_pca_stats_gt, store = here::here("_targets"))[[7]]
+```
+
+\pagebreak
+
+```{r}
+#| label: tbl-pca-results-resultado
+#| tbl-cap: Componentes principais resultantes - Indicadores de resultado
+#| echo: false
+
+tar_read(list_pca_results_gt, store = here::here("_targets"))[[7]]
+```
+
+```{r}
+#| label: fig-pca-resultado
+#| fig-cap: Dispersão das componentes principais - Indicadores de resultado
+#| echo: false
+#| fig-width: 6
+#| fig-height: 4
+#| fig-dpi: 300
+
+tar_read(pca_plots, store = here::here("_targets"))[[7]]
+```
+
+## Índices compostos {#sec-results-compostos}
+
+Essa seção apresenta os resultados do cálculo dos índices compostos para cada pilar e para os indicadores de resultado. Entre a @tbl-compostos-pilar1 e a @tbl-compostos-resultado estão apresentados os valores das componentes principais consideradas para o cálculo, o índice composto resultante (calculado pela @eq-ic) a nota resultante (calculado pela @eq-nota) para cada UF.
+
+A @tbl-compostos-pilar1 inclui os índices compostos e as notas para cada UF, referente ao Pilar I - Gestão da Segurança no Trânsito. Para o calculo do índice composto, considerou-se que **maiores** valores de PC1 e **menores** valores de PC2 refletem um maior desempenho da segurança. O índice composto para o Pilar I ($IC_I$) foi calculado com base na @eq-ic-pilar1.
+
+$$
+IC_I = +PC_1 \times 0,489 - PC_2 \times 0,265
+$$ {#eq-ic-pilar1}
+
+Com base nas notas resultantes, as UFs com os melhores desempenhos no Pilar I são `{r} display_notas(indicadores_notas, "Pilar I", "max")` e com os piores desempenhos são `{r} display_notas(indicadores_notas, "Pilar I", "min")`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-compostos-pilar1
+#| tbl-cap: Índices compostos e notas do Pilar I
+#| echo: false
+
+tar_read(list_gt_compostos, store = here::here("_targets"))[[1]]
+```
+
+A @tbl-compostos-pilar2 inclui os índices compostos e as notas para cada UF, referente ao Pilar II - Vias Seguras. Para o calculo do índice composto, considerou-se que **menores** valores de PC1 refletem um maior desempenho da segurança. O índice composto para o Pilar II ($IC_{II}$) foi calculado com base na @eq-ic-pilar2.
+
+$$
+IC_{II} = -PC_1 \times 0,760
+$$ {#eq-ic-pilar2}
+
+Com base nas notas resultantes, as UFs com os melhores desempenhos no Pilar II são `{r} display_notas(indicadores_notas, "Pilar II", "max")` e com os piores desempenhos são `{r} display_notas(indicadores_notas, "Pilar II", "min")`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-compostos-pilar2
+#| tbl-cap: Índices compostos e notas do Pilar II
+#| echo: false
+
+tar_read(list_gt_compostos, store = here::here("_targets"))[[2]]
+```
+
+A @tbl-compostos-pilar3 inclui os índices compostos e as notas para cada UF, referente ao Pilar III - Segurança Veicular. Para o calculo do índice composto, considerou-se que **menores** valores de PC1 refletem um maior desempenho da segurança. O índice composto para o Pilar III ($IC_{III}$) foi calculado com base na @eq-ic-pilar3.
+
+$$
+IC_{III} = -PC_1 \times 0,757
+$$ {#eq-ic-pilar3}
+
+Com base nas notas resultantes, as UFs com os melhores desempenhos no Pilar III são `{r} display_notas(indicadores_notas, "Pilar III", "max")` e com os piores desempenhos são `{r} display_notas(indicadores_notas, "Pilar III", "min")`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-compostos-pilar3
+#| tbl-cap: Índices compostos e notas do Pilar III
+#| echo: false
+
+tar_read(list_gt_compostos, store = here::here("_targets"))[[3]]
+```
+
+A @tbl-compostos-pilar4 inclui os índices compostos e as notas para cada UF, referente ao Pilar IV - Educação para o Trânsito. Para o calculo do índice composto, considerou-se que **menores** valores de PC1, **maiores** valores de PC2 e **maiores** valores de PC3 refletem um maior desempenho da segurança. O índice composto para o Pilar IV ($IC_{IV}$) foi calculado com base na @eq-ic-pilar4.
+
+$$
+IC_{IV} = -PC_1 \times 0,318 + PC_2 \times 0,206 + PC_3 \times 0,205
+$$ {#eq-ic-pilar4}
+
+Com base nas notas resultantes, as UFs com os melhores desempenhos no Pilar IV são `{r} display_notas(indicadores_notas, "Pilar IV", "max")` e com os piores desempenhos são `{r} display_notas(indicadores_notas, "Pilar IV", "min")`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-compostos-pilar4
+#| tbl-cap: Índices compostos e notas do Pilar IV
+#| echo: false
+
+tar_read(list_gt_compostos, store = here::here("_targets"))[[4]]
+```
+
+A @tbl-compostos-pilar5 inclui os índices compostos e as notas para cada UF, referente ao Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito. Para o calculo do índice composto, considerou-se que **menores** valores de PC1 e **menores** valores de PC2 refletem um maior desempenho da segurança. O índice composto para o Pilar V ($IC_{V}$) foi calculado com base na @eq-ic-pilar5.
+
+$$
+IC_{V} = -PC_1 \times 0,495 - PC_2 \times 0,355
+$$ {#eq-ic-pilar5}
+
+Com base nas notas resultantes, as UFs com os melhores desempenhos no Pilar V são `{r} display_notas(indicadores_notas, "Pilar V", "max")` e com os piores desempenhos são `{r} display_notas(indicadores_notas, "Pilar V", "min")`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-compostos-pilar5
+#| tbl-cap: Índices compostos e notas do Pilar V
+#| echo: false
+
+tar_read(list_gt_compostos, store = here::here("_targets"))[[5]]
+```
+
+A @tbl-compostos-pilar6 inclui os índices compostos e as notas para cada UF, referente ao Pilar VI - Normatização e Fiscalização. Para o calculo do índice composto, considerou-se que **maiores** valores de PC1 e PC2 refletem um maior desempenho da segurança. O índice composto para o Pilar VI ($IC_{VI}$) foi calculado com base na @eq-ic-pilar6.
+
+$$
+IC_{VI} = +PC_1 \times 0,643 + PC_2 \times 0,185
+$$ {#eq-ic-pilar6}
+
+Com base nas notas resultantes, as UFs com os melhores desempenhos no Pilar VI são `{r} display_notas(indicadores_notas, "Pilar VI", "max")` e com os piores desempenhos são `{r} display_notas(indicadores_notas, "Pilar VI", "min")`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-compostos-pilar6
+#| tbl-cap: Índices compostos e notas do Pilar VI
+#| echo: false
+
+tar_read(list_gt_compostos, store = here::here("_targets"))[[6]]
+```
+
+Por fim, a @tbl-compostos-resultado inclui os índices compostos e as notas para cada UF, referente aos indicadores de resultado. Para o calculo do índice composto, considerou-se que **menores** valores de PC1 refletem um maior desempenho da segurança. O índice composto para os indicadores de resultado ($IC_{0}$) foi calculado com base na @eq-ic-resultados.
+
+$$
+IC_{0} = -PC_1 \times 0,686
+$$ {#eq-ic-resultados}
+
+Com base nas notas resultantes, as UFs com os melhores desempenhos considerando os indicadores de resultado são `{r} display_notas(indicadores_notas, "Resultado final", "max")` e com os piores desempenhos são `{r} display_notas(indicadores_notas, "Resultado final", "min")`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-compostos-resultado
+#| tbl-cap: Índices compostos e notas dos indicadores de resultado
+#| echo: false
+
+tar_read(list_gt_compostos, store = here::here("_targets"))[[7]]
+```
+
+## Ranking dos estados {#sec-results-ranking}
+
+O último passo para a elaboração do *benchmarking* entre os estados consiste na classificação com base no processo descrito na @sec-method-classificacao. Aqui estão apresentados os resultados desse processo para cada pilar de indicadores e um ranking geral entre as UFs, considerando todos os resultados. Com base nas notas, criou-se uma classificação com base em 5 níveis, em que o nível mais baixo é representado por uma estrela e o nível mais alto é representado por 5 estrelas. 
+
+### Pilar I - Gestão da Segurança no Trânsito
+
+A @tbl-class-pilar1 apresenta as notas e a classificação resultante das UFs no Pilar I - Gestão da Segurança no Trânsito. A @fig-map-classificacao-pilar1 apresenta o mapa com a classificação dos estados. As UFs classificadas na melhor categoria (5 estrelas) foram `{r} display_classificacao(classificacao, "Pilar I", 5)`. Na categoria mais baixa (1 estrela), foram as UFs `{r} display_classificacao(classificacao, "Pilar I", 1)`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-class-pilar1
+#| tbl-cap: Classificação no Pilar I
+#| echo: false
+
+tar_read(list_gt_classificacao, store = here::here("_targets"))[[1]]
+```
+
+```{r}
+#| label: fig-map-classificacao-pilar1
+#| fig-cap: Mapa da classificação do Pilar I
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+
+tar_read(list_map_classificacao, store = here::here("_targets"))[[1]]
+```
+
+### Pilar II - Vias Seguras
+
+A @tbl-class-pilar2 apresenta as notas e a classificação resultante das UFs no Pilar II - Vias Seguras. A @fig-map-classificacao-pilar2 apresenta o mapa com a classificação dos estados. As UFs classificadas na melhor categoria (5 estrelas) foram `{r} display_classificacao(classificacao, "Pilar II", 5)`. Na categoria mais baixa (1 estrela), foram as UFs `{r} display_classificacao(classificacao, "Pilar II", 1)`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-class-pilar2
+#| tbl-cap: Classificação no Pilar II
+#| echo: false
+
+tar_read(list_gt_classificacao, store = here::here("_targets"))[[2]]
+```
+
+```{r}
+#| label: fig-map-classificacao-pilar2
+#| fig-cap: Mapa da classificação do Pilar II
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+
+tar_read(list_map_classificacao, store = here::here("_targets"))[[2]]
+```
+
+### Pilar III - Segurança Veicular
+
+A @tbl-class-pilar3 apresenta as notas e a classificação resultante das UFs no Pilar III - Segurança Veicular. A @fig-map-classificacao-pilar3 apresenta o mapa com a classificação dos estados. As UFs classificadas na melhor categoria (5 estrelas) foram `{r} display_classificacao(classificacao, "Pilar III", 5)`. Na categoria mais baixa (1 estrela), foram as UFs `{r} display_classificacao(classificacao, "Pilar III", 1)`.
+
+\pagebreak
+
+
+```{r}
+#| label: tbl-class-pilar3
+#| tbl-cap: Classificação no Pilar III
+#| echo: false
+
+tar_read(list_gt_classificacao, store = here::here("_targets"))[[3]]
+```
+
+```{r}
+#| label: fig-map-classificacao-pilar3
+#| fig-cap: Mapa da classificação do Pilar III
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+
+tar_read(list_map_classificacao, store = here::here("_targets"))[[3]]
+```
+
+### Pilar IV - Educação para o Trânsito
+
+A @tbl-class-pilar4 apresenta as notas e a classificação resultante das UFs no Pilar IV - Educação para o Trânsito. A @fig-map-classificacao-pilar4 apresenta o mapa com a classificação dos estados. As UFs classificadas na melhor categoria (5 estrelas) foram `{r} display_classificacao(classificacao, "Pilar IV", 5)`. Na categoria mais baixa (1 estrela), foram as UFs `{r} display_classificacao(classificacao, "Pilar IV", 1)`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-class-pilar4
+#| tbl-cap: Classificação no Pilar IV
+#| echo: false
+
+tar_read(list_gt_classificacao, store = here::here("_targets"))[[4]]
+```
+
+```{r}
+#| label: fig-map-classificacao-pilar4
+#| fig-cap: Mapa da classificação do Pilar IV
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+
+tar_read(list_map_classificacao, store = here::here("_targets"))[[4]]
+```
+
+### Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito
+
+A @tbl-class-pilar5 apresenta as notas e a classificação resultante das UFs no Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito. A @fig-map-classificacao-pilar5 apresenta o mapa com a classificação dos estados. As UFs classificadas na melhor categoria (5 estrelas) foram `{r} display_classificacao(classificacao, "Pilar V", 5)`. Na categoria mais baixa (1 estrela), foram as UFs `{r} display_classificacao(classificacao, "Pilar V", 1)`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-class-pilar5
+#| tbl-cap: Classificação no Pilar V
+#| echo: false
+
+tar_read(list_gt_classificacao, store = here::here("_targets"))[[5]]
+```
+
+```{r}
+#| label: fig-map-classificacao-pilar5
+#| fig-cap: Mapa da classificação do Pilar V
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+
+tar_read(list_map_classificacao, store = here::here("_targets"))[[5]]
+```
+
+### Pilar VI - Normatização e Fiscalização
+
+A @tbl-class-pilar6 apresenta as notas e a classificação resultante das UFs no Pilar VI - Normatização e Fiscalização. A @fig-map-classificacao-pilar6 apresenta o mapa com a classificação dos estados. As UFs classificadas na melhor categoria (5 estrelas) foram `{r} display_classificacao(classificacao, "Pilar VI", 5)`. Na categoria mais baixa (1 estrela), foram as UFs `{r} display_classificacao(classificacao, "Pilar VI", 1)`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-class-pilar6
+#| tbl-cap: Classificação no Pilar VI
+#| echo: false
+
+tar_read(list_gt_classificacao, store = here::here("_targets"))[[6]]
+```
+
+```{r}
+#| label: fig-map-classificacao-pilar6
+#| fig-cap: Mapa da classificação do Pilar VI
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+
+tar_read(list_map_classificacao, store = here::here("_targets"))[[6]]
+```
+
+### Indicadores de resultado
+
+A @tbl-class-resultados apresenta as notas e a classificação resultante das UFs considerando os indicadores de resultado. A @fig-map-classificacao-resultado apresenta o mapa com a classificação dos estados. As UFs classificadas na melhor categoria (5 estrelas) foram `{r} display_classificacao(classificacao, "Resultado final", 5)`. Na categoria mais baixa (1 estrela), foram as UFs `{r} display_classificacao(classificacao, "Resultado final", 1)`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-class-resultados
+#| tbl-cap: Classificação nos indicadores de resultado
+#| echo: false
+
+tar_read(list_gt_classificacao, store = here::here("_targets"))[[7]]
+```
+
+```{r}
+#| label: fig-map-classificacao-resultado
+#| fig-cap: Mapa da classificação dos indicadores de resultado
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+
+tar_read(list_map_classificacao, store = here::here("_targets"))[[7]]
+```
+
+### Ranking geral
+
+Com base em todas as notas e classificações dos estados nos pilares é possível analisar de forma geral o desempenho. A @fig-boxplot mostra a distribuição das notas por UF e a @fig-media-notas mostra a média das classificações por UF, ambas considerando os seis pilares e os indicadores de resultado.
+
+Ordenando os resultados pela mediana das notas, a @fig-boxplot ilustra que Distrito Federal, São Paulo, Rio de Janeiro, Rondônia e Mato Grosso apresentam os melhores desempenhos. Por outro lado, o mesmo gráfico mostra de Amazonas, Piauí, Pará, Acre e Amapá apresentam o pior desempenho.
+
+```{r}
+#| label: fig-boxplot
+#| fig-cap: Distribuição das notas por UF
+#| echo: false
+#| fig-width: 6
+#| fig-height: 6
+
+tar_read(boxplot_notas, store = here::here("_targets"))
+```
+
+No @fig-media-notas o *ranking* está organizado pela média das classificações. Na melhor posição com uma média de 4,0, tem-se o Distrito Federal com o melhor desempenho, seguido do Rio Grande do Sul com a média de 3,9. Em seguida, na terceira melhor posição, tem-se os estados de Rio de Janeiro, Paraná e Goiás, com a média 3,7. Seguindo a ordem, tem-se o estados de São Paulo com a média de 3,6. Pernambuco, Mato Grosso do Sul e Ceará apresentaram a mesma média de 3,3. Pouco mais abaixo, tem-se Rondônia e Mato Grosso, Rio Grande do Norte e Espírito Santo com média de 3,1. Atingindo a média 3,0, observa-se cinco estados: Tocantins, Sergipe, Santa Catarina, Paraíba e Minas Gerais. Bahia vem em seguida com uma média 2,7, Piauí e Alagoas com 2,6 e Acre com 2,4. Por fim, os piores desempenhos são do Maranhão (2,3), Roraima (2,3) Amapá (2,1), Pará (2,1) e Amazonas (1,9).
+
+```{r}
+#| label: fig-media-notas
+#| fig-cap: Média das classificações por UF
+#| echo: false
+#| fig-width: 6
+#| fig-height: 5
+
+tar_read(media_classificacao, store = here::here("_targets"))
+```
+

@@ -1,0 +1,95 @@
+# Mapas dos indicadores {#sec-appendix-mapas}
+
+```{r}
+#| label: setup
+#| include: false
+
+library(
+    targets,
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+library(
+    tidyverse,
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+```
+
+
+```{r}
+#| label: fig-mapas-pilar1
+#| fig-cap: Mapas dos indicadores do Pilar I
+#| echo: false
+#| fig-width: 6
+#| fig-height: 6
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[1]]
+```
+
+```{r}
+#| label: fig-mapas-pilar2
+#| fig-cap: Mapas dos indicadores do Pilar II
+#| echo: false
+#| fig-width: 6
+#| fig-height: 9
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[2]]
+```
+
+```{r}
+#| label: fig-mapas-pilar3
+#| fig-cap: Mapas dos indicadores do Pilar III
+#| echo: false
+#| fig-width: 6
+#| fig-height: 6
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[3]]
+```
+
+```{r}
+#| label: fig-mapas-pilar4
+#| fig-cap: Mapas dos indicadores do Pilar IV
+#| echo: false
+#| fig-width: 6
+#| fig-height: 12
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[4]]
+```
+
+```{r}
+#| label: fig-mapas-pilar5
+#| fig-cap: Mapas dos indicadores do Pilar V
+#| echo: false
+#| fig-width: 6
+#| fig-height: 6
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[5]]
+```
+
+```{r}
+#| label: fig-mapas-pilar6
+#| fig-cap: Mapas dos indicadores do Pilar VI
+#| echo: false
+#| fig-width: 6
+#| fig-height: 12
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[6]]
+```
+
+```{r}
+#| label: fig-mapas-resultados
+#| fig-cap: Mapas dos indicadores de resultado
+#| echo: false
+#| fig-width: 6
+#| fig-height: 6
+#| fig-dpi: 300
+
+tar_read(map_indicadores, store = here::here("_targets"))[[7]]
+```
+
+

@@ -1,0 +1,23 @@
+# Conclusões {#sec-conclusoes}
+
+Este documento apresentou a primeira etapa do Projeto IRIS - Indicadorees Rodoviários Integrados de Segurança. O objetivo dessa etapa foi apresentar a metodologia de coleta dos dados nas fontes oficiais brasileiras e a construção dos indicadores de desempenho da segurança viária para cada pilar do Pnatrans, além da construção dos indicadores de resultado.
+
+Após uma breve revisão de literatura sobre indicadores de desempenho e Pnatrans (@sec-revbib), foi possível apresentar as etapas da metodologia (@sec-method), com o processo de definição dos indicadores, coleta nas fontes e cálculo dos indicadores. Por fim, essa primeira etapa também trouxe os resultados preliminares dos indicadores calculados (@sec-results).
+
+<!-- ## Limitações
+
+A busca por dados de acesso público em diferentes fontes e instituições traz um desafio na tentativa de considerar sempre os valores mais atualizados e do mesmo período. No caso do DATASUS-SIM (@sec-data-sim), por exemplo, só foi possível
+utilizar os dados de 2022, pois os dados de 2023 ainda não estão consolidados.
+
+Também há uma limitação em relação aos indicadores que poderiam ser definidos mais não foram por falta de uma fonte unificada e consolidada a nível federal. No Pilar IV (Educação para o Trânsito), não foi possível estabelecer que meça diretamente a quantidade de campanhas educativas, a qualidade da formação de condutores ou a educação para o trânsito entre os mais jovens. Situação similar ocorre com o Pilar VI (Normatização e fiscalização)
+
+- Indicadores do pilar 4
+    - Nao tem nenhum que meça diretamente quantidade de campanhas, qualidade da formação de condutores e a aplicação da educação na formação dos mais jovens.
+- Indicadores do pilar 6
+    - Não tem nada medindo as ações de fiscalização, só as infrações resultantes.
+- Indicadores com direções distintas (maior ou menor é melhor?)
+-->
+
+ <!-- ## Próximos passos --> 
+
+O próximo passo desse projeto contará com a criação de indicadores compostos para cada pilar definido, a fim de facilitar o processo de *benchmarking* entre os estados. Também será contemplado um indicador composto final com base em todos os pilares, possibilitando a criação de uma nota média final para cada localidade. Prevê-se a análise de correção entre os indicadores de desempenho com os indicadores de resultado final, buscando observar a influência direta nos óbitos no trânsito de cada estado.

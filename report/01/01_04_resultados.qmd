@@ -1,0 +1,198 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+
+# Resultados preliminares {#sec-results}
+
+```{r}
+#| label: setup
+#| include: false
+library(
+    targets,
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+library(
+    gt,
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+library(
+    janitor,
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+library(
+    tidyverse,
+    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+)
+
+tar_load(indicadores, store = here::here("_targets"))
+tar_load(tbl_ind_desc, store = here::here("_targets"))
+source(here::here("R/report_utils.R"))
+```
+
+O presente capítulo apresenta os resultados preliminares de todos os indicadores em cada das 27 unidades da federação do Brasil. Da @tbl-result-1 até a @tbl-result os resultados estão organizados por pilar de análise.
+
+## Pilar I - Gestão da Segurança no Trânsito
+
+A @tbl-result-1 apresenta os resultados dos indicadores do Pilar I - Gestão da Segurança no Trânsito. Considerando os resultados do indicador I.1 - Municípios integrados ao SNT - observa-se que os estados com melhor desempenho são `r display_results(indicadores, "i.1", perc = TRUE, max = TRUE)`. Os estados com menores resultados são `r display_results(indicadores, "i.1", perc = TRUE, max = FALSE)`. O Distrito Federal apresentou um valor "NA", ou vazio, por tecnicamente não possuir nenhum município (no cálculo da ACP, ele foi considerado como 100%). O indicador I.1 apresentou uma `r display_stats(indicadores, "i.1", perc = TRUE)`.
+
+Para os resultados do indicador I.2 (Campos não informados nas bases de acidentes e vítimas do RENAEST), observa-se que os estados com os maiores valores são `r display_results(indicadores, "i.2", perc = TRUE, max = TRUE)`. Os estados com menores valores resultantes são `r display_results(indicadores, "i.2", perc = TRUE, max = FALSE)`. O indicador I.2 apresentou uma `r display_stats(indicadores, "i.2", perc = TRUE)`.
+
+Considerando os resultados do indicador I.3 - PIB per capita - tem-se que os estados que apresenta os maiores valores são `r display_results(indicadores, "i.3", perc = FALSE, max = TRUE)`. Os estados com menores valores são `r display_results(indicadores, "i.3", perc = FALSE, max = FALSE)`. O indicador I.3 apresentou uma `r display_stats(indicadores, "i.3", perc = FALSE)`.
+
+Por fim, para os resultados do indicador I.4 - Nota média em relação à disponibilidade de informações no portal do Detran - observa-se que os estados com os maiores valores são `r display_results(indicadores, "i.4", perc = FALSE, max = TRUE)`. Os estados com menores valores resultantes são `r display_results(indicadores, "i.4", perc = FALSE, max = FALSE)`. O indicador I.4 apresentou uma `r display_stats(indicadores, "i.4", perc = FALSE)`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-result-1
+#| tbl-cap: Indicadores do Pilar I - Gestão da Segurança no Trânsito
+
+tar_read(gt_resultados, store = here::here("_targets"))[[1]] |> 
+    fmt_percent(columns = i.1:i.2, decimals = 2, dec_mark = ",", sep_mark = ".")
+```
+
+## Pilar II - Vias Seguras
+
+A @tbl-result-2 apresenta os indicadores resultantes do Pilar II - Vias Seguras. Considerando os resultados do indicador II.1 - Extensão de rodovias em condições péssimas e ruins na categoria Estado Geral - observa-se que os estados com os maiores valores são `r display_results(indicadores, "ii.1", perc = TRUE, max = TRUE)`. Os estados com menores valores são `r display_results(indicadores, "ii.1", perc = TRUE, max = FALSE)`. O indicador II.1 apresentou uma `r display_stats(indicadores, "ii.1", perc = TRUE)`.
+
+Para o indicador II.2 - Extensão de rodovias em condições péssimas e ruins na categoria Geometria - observa-se que os estados com os maiores valores são `r display_results(indicadores, "ii.2", perc = TRUE, max = TRUE)`. Os estados com menores valores são `r display_results(indicadores, "ii.2", perc = TRUE, max = FALSE)`. O indicador II.2 apresentou uma `r display_stats(indicadores, "ii.2", perc = TRUE)`.
+
+Considerando os resultados do indicador II.3 - Extensão de rodovias em condições péssimas e ruins na categoria Pavimento - observa-se que os estados com os maiores valores são `r display_results(indicadores, "ii.3", perc = TRUE, max = TRUE)`. Os estados com menores valores são `r display_results(indicadores, "ii.3", perc = TRUE, max = FALSE)`. O indicador II.3 apresentou uma `r display_stats(indicadores, "ii.3", perc = TRUE)`. 
+
+Para os resultados do indicador II.4 - Extensão de rodovias em condições péssimas e ruins na categoria Sinalização - os estados com os maiores valores resultantes são `r display_results(indicadores, "ii.4", perc = TRUE, max = TRUE)`. Os estados com menores valores são `r display_results(indicadores, "ii.4", perc = TRUE, max = FALSE)`. O indicador II.4 apresentou uma `r display_stats(indicadores, "ii.4", perc = TRUE)`.
+
+Por fim, considerando os resultados do indicador II.5 - Extensão de rodovias com pistas duplas - obteve-se valores em que os estados com os maiores resultados são `r display_results(indicadores, "ii.5", perc = TRUE, max = TRUE)`. Os estados com menores valores são `r display_results(indicadores, "ii.5", perc = TRUE, max = FALSE)`. O indicador II.5 apresentou uma `r display_stats(indicadores, "ii.5", perc = TRUE)`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-result-2
+#| tbl-cap: Indicadores do Pilar II - Vias Seguras
+
+tar_read(gt_resultados, store = here::here("_targets"))[[2]] |> 
+    fmt_percent(decimals = 2, dec_mark = ",", sep_mark = ".")
+```
+
+
+## Pilar III - Segurança Veicular
+
+A @tbl-result-3 apresenta os indicadores resultantes do Pilar III - Segurança Veicular. Em relação aos resultados do indicador III.1 - Percentual de frota de motocicletas - observa-se que as UFs com os maiores valores são `r display_results(indicadores, "iii.1", perc = TRUE, max = TRUE)`. As UFs com menores valores são `r display_results(indicadores, "iii.1", perc = TRUE, max = FALSE)`. O indicador III.1 apresentou uma `r display_stats(indicadores, "iii.1", perc = TRUE)`. 
+
+Considerando os resultados do indicador III.2 - Percentual da frota com idade igual ou superior a 10 anos - observa-se que as UFs com os maiores valores são `r display_results(indicadores, "iii.2", perc = TRUE, max = TRUE)`. As UFs com menores valores são `r display_results(indicadores, "iii.2", perc = TRUE, max = FALSE)`. O indicador III.2 apresentou uma `r display_stats(indicadores, "iii.2", perc = TRUE)`.
+
+Para os resultados do indicador III.3 - Percentual mínimo de veículos com Airbag/ABS na frota, tem-se que os estados com os maiores valores são `r display_results(indicadores, "iii.3", perc = TRUE, max = TRUE)`. As UFs com menores valores são `r display_results(indicadores, "iii.3", perc = TRUE, max = FALSE)`. O indicador III.3 apresentou uma `r display_stats(indicadores, "iii.3", perc = TRUE)`.
+
+Por fim, para o indicador III.4 - Percentual mínimo de veículos com ISOFIX - observa-se que os estados com os maiores valores são `r display_results(indicadores, "iii.4", perc = TRUE, max = TRUE)`. As UFs com menores valores são `r display_results(indicadores, "iii.4", perc = TRUE, max = FALSE)`. O indicador III.4 apresentou uma `r display_stats(indicadores, "iii.4", perc = TRUE)`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-result-3
+#| tbl-cap: Indicadores do Pilar III - Segurança Veicular
+
+tar_read(gt_resultados, store = here::here("_targets"))[[3]] |> 
+    fmt_percent(decimals = 2, dec_mark = ",", sep_mark = ".")
+```
+
+## Pilar IV - Educação para o Trânsito
+
+A @tbl-result-4 inclui os resultados para os indicadores do Pilar IV - Educação para o Trânsito. No indicador IV.1 - Razão entre condutores habilitados a conduzir motocicletas e frota de motocicletas - os estados com os maiores valores resultantes são `r display_results(indicadores, "iv.1", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "iv.1", perc = FALSE, max = FALSE)`. O indicador IV.1 apresentou uma `r display_stats(indicadores, "iv.1", perc = FALSE)`.
+
+Considerando o indicador IV.2 - Taxa de infrações por consumo de bebidas alcoólicas a cada 10 mil veículos - os estados com os maiores valores resultantes são `r display_results(indicadores, "iv.2", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "iv.2", perc = FALSE, max = FALSE)`. O indicador IV.2 apresentou uma `r display_stats(indicadores, "iv.2", perc = FALSE)`.
+
+Para o indicador IV.3 - Taxa de infrações por excesso de velocidade a cada 10 mil veículos - os estados com os maiores valores resultantes são `r display_results(indicadores, "iv.3", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "iv.3", perc = FALSE, max = FALSE)`. O indicador IV.3 apresentou uma `r display_stats(indicadores, "iv.3", perc = FALSE)`.
+
+Considerando os resultados do indicador IV.4 - Taxa de infrações por não utilizar cinto de segurança a cada 10 mil veículos - os estados com os maiores valores resultantes são `r display_results(indicadores, "iv.4", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "iv.4", perc = FALSE, max = FALSE)`. O indicador IV.4 apresentou uma `r display_stats(indicadores, "iv.4", perc = FALSE)`.
+
+Para o indicador IV.5 - Taxa de infrações por não utilizar capacete a cada 10 mil motocicletas - os estados com os maiores valores resultantes são `r display_results(indicadores, "iv.5", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "iv.5", perc = FALSE, max = FALSE)`. O indicador IV.5 apresentou uma `r display_stats(indicadores, "iv.5", perc = FALSE)`.
+
+Observando os resultados do indicador IV.6 - Taxa de infrações por utilizar celular na direção a cada 10 mil veículos - os estados com os maiores valores são `r display_results(indicadores, "iv.6", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "iv.6", perc = FALSE, max = FALSE)`. O indicador IV.6 apresentou uma `r display_stats(indicadores, "iv.6", perc = FALSE)`.
+
+Por fim, considerando os resultados do indicador IV.7 - Taxa de infrações por cometidas por não utilizar dispositivos de retenção a cada 10 mil veículos - os estados com os maiores valores são `r display_results(indicadores, "iv.7", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "iv.7", perc = FALSE, max = FALSE)`. O indicador IV.7 apresentou uma `r display_stats(indicadores, "iv.7", perc = FALSE)`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-result-4
+#| tbl-cap: Indicadores do Pilar IV - Educação para o Trânsito
+
+tar_read(gt_resultados, store = here::here("_targets"))[[4]]
+```
+
+## Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito
+
+A @tbl-result-5 apresenta os resultados dos indicadores do Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito. Para o indicador V.1 - Taxa de Profissionais que atuam na área da saúde per capita - os estados com maiores valores são `r display_results(indicadores, "v.1", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "v.1", perc = FALSE, max = FALSE)`. O indicador V.1 apresentou uma `r display_stats(indicadores, "v.1", perc = FALSE)`.
+
+Considerando o indicador V.2 - Taxa de leitos totais per capita - os estados com maiores valores são `r display_results(indicadores, "v.2", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "v.2", perc = FALSE, max = FALSE)`. O indicador V.2 apresentou uma `r display_stats(indicadores, "v.2", perc = FALSE)`.
+
+Para o indicador V.3 - Taxa de leitos SUS per capita - os estados com maiores valores são `r display_results(indicadores, "v.3", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "v.3", perc = FALSE, max = FALSE)`. O indicador V.3 apresentou uma `r display_stats(indicadores, "v.3", perc = FALSE)`.
+
+Por fim, observa-se que nos valores do indicador V.4 - Taxa de leitos não-SUS per capita - os estados com maiores resultados são `r display_results(indicadores, "v.4", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "v.4", perc = FALSE, max = FALSE)`. O indicador V.4 apresentou uma `r display_stats(indicadores, "v.4", perc = FALSE)`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-result-5
+#| tbl-cap: Indicadores do Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito
+
+tar_read(gt_resultados, store = here::here("_targets"))[[5]]
+```
+
+
+## Pilar VI - Normatização e Fiscalização
+
+A @tbl-result-6 apresenta os resultados dos indicadores do Pilar VI - Normatização e Fiscalização. Considerando o indicador `r display_ind_names(tbl_ind_desc, "VI.1")` - os estados com maiores resultados são `r display_results(indicadores, "vi.1", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "vi.1", perc = FALSE, max = FALSE)`. O indicador VI.1 apresentou uma `r display_stats(indicadores, "vi.1", perc = FALSE)`.
+
+Para o indicador `r display_ind_names(tbl_ind_desc, "VI.2")`- os estados com maiores resultados são `r display_results(indicadores, "vi.2", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "vi.2", perc = FALSE, max = FALSE)`. O indicador VI.2 apresentou uma `r display_stats(indicadores, "vi.2", perc = FALSE)`.
+
+No indicador `r display_ind_names(tbl_ind_desc, "VI.3")` - os estados com maiores resultados são `r display_results(indicadores, "vi.3", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "vi.3", perc = FALSE, max = FALSE)`. O indicador VI.3 apresentou uma `r display_stats(indicadores, "vi.3", perc = FALSE)`.
+
+Considerando o indicador `r display_ind_names(tbl_ind_desc, "VI.4")` - os estados com maiores resultados são `r display_results(indicadores, "vi.4", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "vi.4", perc = FALSE, max = FALSE)`. O indicador VI.4 apresentou uma `r display_stats(indicadores, "vi.4", perc = FALSE)`.
+
+No indicador `r display_ind_names(tbl_ind_desc, "VI.5")` - os estados com maiores resultados são `r display_results(indicadores, "vi.5", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "vi.5", perc = FALSE, max = FALSE)`. O indicador VI.5 apresentou uma `r display_stats(indicadores, "vi.5", perc = FALSE)`.
+
+No indicador `r display_ind_names(tbl_ind_desc, "VI.6")` - os estados com maiores resultados são `r display_results(indicadores, "vi.6", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "vi.6", perc = FALSE, max = FALSE)`. O indicador VI.6 apresentou uma `r display_stats(indicadores, "vi.6", perc = FALSE)`.
+
+Para o indicador `r display_ind_names(tbl_ind_desc, "VI.7")` - as UF com maiores resultados são `r display_results(indicadores, "vi.7", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "vi.7", perc = FALSE, max = FALSE)`. O indicador VI.7 apresentou uma `r display_stats(indicadores, "vi.7", perc = FALSE)`.
+
+<!-- Considerando o indicador `r display_ind_names(tbl_ind_desc, "VI.08")` - os estados com maiores resultados são `r display_results(indicadores, "vi.08", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "vi.08", perc = FALSE, max = FALSE)`. O indicador VI.08 apresentou uma `r display_stats(indicadores, "vi.08", perc = FALSE)`.
+
+Para o indicador `r display_ind_names(tbl_ind_desc, "VI.09")` - os estados com maiores resultados são `r display_results(indicadores, "vi.09", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "vi.09", perc = FALSE, max = FALSE)`. O indicador VI.09 apresentou uma `r display_stats(indicadores, "vi.09", perc = FALSE)`.
+
+No indicador `r display_ind_names(tbl_ind_desc, "VI.10")` - os estados com maiores resultados são `r display_results(indicadores, "vi.10", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "vi.10", perc = FALSE, max = FALSE)`. O indicador VI.10 apresentou uma `r display_stats(indicadores, "vi.10", perc = FALSE)`.
+
+Considerando o indicador `r display_ind_names(tbl_ind_desc, "VI.11")` - os estados com maiores resultados são `r display_results(indicadores, "vi.11", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "vi.11", perc = FALSE, max = FALSE)`. O indicador VI.11 apresentou uma `r display_stats(indicadores, "vi.11", perc = FALSE)`.
+
+Por fim, para o indicador `r display_ind_names(tbl_ind_desc, "VI.12")` - os estados com maiores resultados são `r display_results(indicadores, "vi.12", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "vi.12", perc = FALSE, max = FALSE)`. O indicador VI.12 apresentou uma `r display_stats(indicadores, "vi.12", perc = FALSE)`.
+
+\newpage
+-->
+
+\pagebreak
+
+```{r}
+#| label: tbl-result-6
+#| tbl-cap: Indicadores do Pilar VI - Normatização e Fiscalização
+
+tar_read(gt_resultados, store = here::here("_targets"))[[6]] |> 
+    tab_options(table.font.size = "10pt")
+```
+
+## Indicadores de resultado
+
+A @tbl-result inclui os indicadores de resultado. Para o indicador 0.1 - Índice de óbitos por veículos - os estados com maiores resultados são `r display_results(indicadores, "0.1", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "0.1", perc = FALSE, max = FALSE)`. O indicador 0.1 apresentou uma `r display_stats(indicadores, "0.1", perc = FALSE)`.
+
+Considerando o indicador 0.2 - Índice de óbitos por população - os estados com maiores resultados são `r display_results(indicadores, "0.2", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "0.2", perc = FALSE, max = FALSE)`. O indicador 0.2 apresentou uma `r display_stats(indicadores, "0.2", perc = FALSE)`.
+
+Por fim, para o indicador 0.3 - Índice de óbitos por quilometragem - os estados com maiores resultados são `r display_results(indicadores, "0.3", perc = FALSE, max = TRUE)`. Os estados com os menores valores são `r display_results(indicadores, "0.3", perc = FALSE, max = FALSE)`. O indicador 0.2 apresentou uma `r display_stats(indicadores, "0.3", perc = FALSE)`.
+
+\pagebreak
+
+```{r}
+#| label: tbl-result
+#| tbl-cap: Indicadores de resultado
+
+tar_read(gt_resultados, store = here::here("_targets"))[[7]]
+```
+

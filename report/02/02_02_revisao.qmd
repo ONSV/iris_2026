@@ -1,0 +1,42 @@
+# Revisão de literatura {#sec-revbib}
+
+A natureza multidisciplinar da segurança viária exige que os tomadores de decisão considerem diversos fatores contribuintes ao seu desempenho. Vários desses fatores podem ser combinados por meio de um indicador composto que tem sido cada vez mais utilizado em comparações internacionais entre países. A precisão de um indicador composto não depende apenas da seleção de indicadores, criação de de pesos o métodos de agregação, mas também na correlação destes indicadores com a ocorrência e gravidade dos sinistros de trânsito [@tesicIdentifyingMostSignificant2018]. 
+
+Como definição, tem-se os **Indicadores de Desempenho da Segurança Viária**, ou *Safety Performance Index* (SPI), que são as medidas que refletem as condições operacionais de um sistema que influenciam o desempenho da mobilidade segura. A combinação de SPIs em um indicador composto resulta na criação de um **Índice Composto de Segurança Viária**, ou *Road Safety Performance Index* (RSPI), que é uma medida que reflete o desempenho da segurança viária de uma localidade [@tesicIdentifyingMostSignificant2018]. 
+
+Ao construir um RSPI, @tesicIdentifyingMostSignificant2018 recomendam que não só a quantidade de SPIs é importante, mas também a correlação desses SPIs com os indicadores de resultado, incluindo óbitos, feridos e sinistros. Também é crucial que os SPIs apontem para o mesmo lado da escala, ou seja, todos eles devem ter a mesma direção na relação com os indicadores de resultado.
+
+Para @Wegman2008a, a criação de um RSPI podem trazer vantagens e desvantagens na avaliação de desempenho da segurança viária. Entre as vantagens, tem-se as seguintes considerações:
+
+- Podem resumir realidades complexas com o objetivo de apoiar os tomadores de decisão;
+- São mais fáceis de interpretar do que uma grande quantidade de SPIs separados;
+- Facilitam a comunicação com o público em geral (ou seja, cidadãos, mídia, etc.)
+- Permitem a comparação de dimensões complexas de forma eficaz.
+
+Como desvantagens, os autores apontam que a criação de RSPIs:
+
+- Podem passar uma mensagem incorreta se forem mal construídos ou interpretados;
+- Podem levar a conclusões simplistas;
+- Podem ser mal utilizados se o processo de construção não for transparente e/ou carecer de princípios estatísticos ou conceituais sólidos;
+- Podem disfarçar falhas graves em algumas dimensões e aumentar a dificuldade de identificar a ação corretiva adequada, se o processo de construção não for transparente;
+- Podem levar a políticas inadequadas se dimensões de desempenho que são difíceis de medir forem ignoradas.
+
+Alguns profissionais tendem a evitar a criação de índices compostos, pois sentem que o extenso trabalho de coleta e processamento de dados é “desperdiçado” ou “ocultado” atrás de um único número de relevância questionável. Entretanto, para *stakeholders*, existe uma importante vantagem em resumir processos complexos em uma única medida para comparar o desempenho da segurança viária de diferentes locais [@Wegman2008a].
+
+@elvikDevelopmentRoadSafety2024 lista as características mais importantes de um RSPI:
+
+- **Abrangência**: Refere-se à inclusão de várias medidas de segurança viária, garantindo que diferentes aspectos do sistema viário sejam refletidos no índice.
+- **Flexibilidade**: A capacidade de o índice ser ajustado ao longo do tempo com novos dados ou medidas relevantes, permitindo sua evolução com mudanças nas políticas de segurança.
+- **Sensibilidade**: O índice deve ser capaz de refletir mudanças significativas na segurança viária, de modo que qualquer melhoria ou deterioração seja claramente capturada.
+- **Decomponibilidade**: O índice deve ser capaz de ser desmembrado em seus componentes principais e SPIs originais, permitindo uma análise detalhada de cada um dos fatores que o compõem.
+
+@Wegman2008a também listam as características e os processos mais importantes para se considerar na elaboração de um RSPI:
+
+- **Normalização** ou **padronização**: os indicadores utilizados devem ser comparáveis, ou seja, seguir uma escala similar para que possam ser combinados de forma adequada;
+- **Agregação ponderada**: utilizar técnicas para combinar valores numéricos de diferentes escalas;
+- **Relação com outras variáveis**: os indicadores compostos devem ter uma correlação com os indicadores originais e/ou outros indicadores já estabelecidos na área da segurança viária;
+- **Transformação para os dados originais**: os índices compostos devem ser transparentes e permitir a decomposição para os indicadores originais.
+
+No projeto SUNFlowerNext, @Wegman2008a elaboraram um *benchmark* de segurança viária entre 27 países da União Europeia. Esse processo incluiu a criação de um RSPI com base em 4 grupos de indicadores: (i) desempenho das políticas de segurança viária; (ii) indicadores de resultado; (iii) indicadores de desempenho da segurança viária - SPIs; e (iv) características locais e socioeconômicas. Os autores aplicaram a metodologia de Análise de Componentes Principais (ACP), com o principal objetivo de criar componentes principais que agregam a maior quantidade possível de variação dos valores originais com a menor quantidade possível de componentes. O índice composto foi criado com base na soma ponderada das componentes principais obtidas, em que o peso é definido pela variância de cada componente principal. O projeto incluiu a aplicação da ACP considerando cada grupo de indicadores de forma separada e outra aplicação para todos os indicadores de forma única.
+
+Conforme descrito a seguir no @sec-method, o Projeto IRIS adotará uma abordagem semelhante ao projeto SUNFlowerNext, com a aplicação da ACP para cada Pilar de indicadores, a fim de criar um índice composto para cada grupo.

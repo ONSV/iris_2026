@@ -1,0 +1,111 @@
+# Estrutura {#sec-estrutura}
+
+A lista a seguir apresenta a estrutura dos arquivos e pastas na raiz do repositório:
+
+- `LICENSE`: Licença MIT do projeto.
+
+- `R`: Pasta com todos os scripts em R.
+
+- `README.md`: Documentação do repositório.
+
+- `_targets`: Pasta que armazena todos os objetos gerados pelo `{targets}`. Não editar os arquivos dessa pasta.
+
+- `_targets.R`: Script que controla a execução com o `{targets}`.
+
+- `app`: Pasta que inclui os arquivos do dashboard.
+
+- `data-raw`: Pasta com os dados brutos de entrada do projeto.
+
+- `indicadores-seg-viaria.Rproj`: Arquivo de projeto do RStudio.
+
+- `renv`: Pasta com os pacotes e controle do `{renv}`.
+
+- `renv.lock`: Arquivo do `{renv}` que controla as versões do R e dos pacotes.
+
+- `report`: Pasta com os projetos do Quarto Markdown que geram os relatórios em PDF e DOCX
+
+## Controle de pacotes e dependências {#sec-estrutura-pkg} 
+
+Os arquivos `renv` e `renv.lock` são utilizados pelo `{renv}` para gerenciar as dependências do projeto. De acordo com a própria documentação do `{renv}` [@renv2024]:
+
+> "A biblioteca do projeto, `renv/library`, é uma biblioteca que contém todos os pacotes atualmente usados pelo seu projeto. Essa é a mágica principal que faz o renv funcionar: em vez de ter uma única biblioteca do seu computador/sistema contendo os pacotes usados em todos os projetos, o renv fornece uma biblioteca separada para cada projeto. Isso traz os benefícios do isolamento: projetos diferentes podem usar versões diferentes de pacotes e instalar, atualizar ou remover pacotes em um projeto sem afetar nenhum outro projeto."
+
+Assim, o usuário pode utilizar os comandos `renv::install()` para instalar novos pacotes, `renv::snapshot()` para registrar e atualizar as informações controladas pelo `renv.lock` e `renv::restore()` caso queira instalar todos os pacotes utilizados pelo projeto.
+
+## Controle de *pipeline* {#sec-estrutura-pipeline}
+
+A pasta `_targets` e o arquivo `_targets.R` são gerados pelo pacote `{targets}`. Não modificar de forma manual a pasta `_targets/`, editar apenas o `_targets.R` caso seja necessário mudar a ordem de execução do projeto ou adicionar/remover passos da execução.
+
+## Dados brutos {#sec-estrutura-data}
+
+A pasta `data-raw` armazena os dados brutos de entrada do projeto. Cada subdiretório contém uma fonte distinta. Alguns arquivos não estão no repositório devido ao seu tamanho (ver @sec-exec-import) ou por não necessitarem de arquivos salvos para a sua importação (download direto pelo código, *webscraping*, pacotes de dados ou APIs).
+
+## Funções {#sec-estrutura-funcoes}
+
+A pasta `R` contém todos os scripts em R utilizados na pipeline do projeto. Os scripts `import_*.R` contêm funções que carregam, processam e armazenam os dados brutos presentes em `data-raw`. Cada script é responsável pelo processamento de uma das fontes de dados utilizadas no trabalho.
+
+Os scripts `indicadores_*.R` contêm as funções que calculam os indicadores de desempenho da segurança viária. Cada script é responsável por calcular os indicadores de seu respectivo pilar, com base nos dados processados pela importação. O script `indicadores_join.R` une todos os indicadores calculados em um só objeto.
+
+O script `correlacao.R` contém as funções que calculam a correlação de Spearman entre os indicadores e que criam os correlogramas utilizados nos relatórios. Todo o processo de aplicação da Análise de Componentes Principais (ACP), cálculo dos índices compostos e estabelecimento da classificação dos estados foi elaborado com as funções presentes no script `compostos.R`. 
+
+Os scripts `tbl_*.R` são responsáveis por organizar os dados e resultados das tabelas que são apresentadas nos relatórios, tanto nas partes de metodologia quanto nas partes de resultados. Todos os mapas apresentados nos relatórios foram gerados por funções presentes no script `mapas.R`. A mesma organização foi feita com as funções que geram os gráficos do relatórios, que estão presentes em `plots.R`, e também com as funções que geram os gráficos dinâmicos (`plot_dinamicos.R`). As funções de `report_utils.R` auxiliam na renderização dos resultados em texto presente nos relatórios.
+
+Por fim, os scripts `targets_*.R` contêm listas que controlam a ordem de execução pelo `{targets}`. Esses arquivos são importados diretamente pelo `_targets.R` na raiz do projeto.
+
+## Relatórios {#sec-estrutura-relatorios}
+
+A pasta `report` apresenta os projetos do Quarto Markdown para cada relatório do IRIS. Esses projetos estão organizados em pastas numeradas pela respectiva entrega:
+
+- `report/01`: Relatório de metodologia
+
+- `report/02`: Relatório de resultados
+
+- `report/04`: Relatório final
+
+- `report/05`: Instruções de atualização dos dados
+
+- `report/07`: Slides de apresentação do projeto em PDF e PPTX.
+
+- `report/08`: Infográficos dinâmicos gerados a partir de `R/plot_dinamicos.R`
+
+As pastas 01, 02, 04 e 05 têm a seguinte estrutura:
+
+- `index.qmd`: Principal arquivo do relatório, contém a apresentação e o resumo.
+
+- `*.qmd`: Demais arquivos de markdown. Cada arquivo contém um capítulo do relatório
+
+- `img/`: Pasta com imagens externas, não geradas por código. 
+
+- `docs/`: Pasta com o *output* da renderização, contendo arquivos PDF e DOCX
+
+- `_quarto.yml`: Arquivo com a configuração e metadados do relatório
+
+- `references.bib`: Arquivo BibTeX com as referências bibliográficas
+
+- `apa.csl`: Arquivo CSL com a estilização e padronização das referências.
+
+## Dashboard {#sec-estrutura-dashboard}
+
+A pasta `app` apresenta os scripts e dados utilizados no dashboard do IRIS. A pasta tem a seguinte estrutura:
+
+- `data`: Pasta com os dados em formado RDS (binário do R), utilizados no dashboard.
+
+- `R`: scripts em R utilizados no dashboard
+
+  - `data.R`: carrega os objetos do `{targets}` e salva em `data`
+
+  - `mapa.R`: apresenta funções que criam os mapas utilizados
+
+  - `plots.R`: apresenta funções que criam os gráficos
+
+  - `table.R`: apresenta funções que criam as tabelas
+
+- `www`: pasta com imagens externas, não geradas por código, e com arquivo `style.css` que controla o estilo de alguns elementos do painel (Não editar manualmente).
+
+- `about.md`: arquivo em Markdown com o texto presente na página "Sobre".
+
+- `home.md`: arquivo em Markdown com o texto presente na página "Início".
+
+- `style.scss`: arquivo que controla o estilo de alguns elementos do menu de navegação do painel. Ao compilar o dashboard, esse arquivo é transformado para `www/styles.css`, que por sua vez é lido pelo dashboard.
+
+- `app.R`: script com o código-fonte do dashboard.

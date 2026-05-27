@@ -1,0 +1,25 @@
+# Conclusões {#sec-conclusao}
+
+Este documento apresentou a metodologia completa e os resultados do Projeto IRIS - Indicadores Rodoviários Integrados de Segurança. Após a revisão de literatura sobre indicadores de desempenho e índices compostos (@sec-revbib), foi apresentado o método com o processo de coleta dos dados, construção dos indicadores de desempenho da segurança viária e dos índices compostos (@sec-method). A principal ferramenta utilizada para construir o índice foi a Análise de Componentes Principais, o que possibilitou a redução da dimensionalidade dos conjuntos de indicadores em cada pilar do Pnatrans. Com os resultados da ACP, foram criados os índices compostos, que por sua vez serviu de base para a classificação dos estados com base em um sistema de 5 níveis (ou estrelas) para cada pilar do Pnatrans, mais o pilar dos indicadores de resultado.
+
+Ao fim da @sec-results, foram apresentados os resultados do processo de *benchmarking* entre os estados, possibilitando identificar as unidades da federação com os melhores e piores desempenhos. Ao considerar o desempenho em todos os pilares, há um destaque positivo para o Rio Grande do Sul, Distrito Federal, Rio de Janeiro, Paraná e Goiás, que atingiram as maiores classificações médias. Do outro lado da escala, os estados do Amazonas, Pará, Amapá, Maranhão e Roraima apresentaram os menores desempenhos de segurança viária.
+
+Considerando os resultados por pilar, os estados referência de melhor desempenho (com classificação 5 de 5) estão listados a seguir:
+
+- Pilar I: Rio de Janeiro, São Paulo, Rio Grande do Sul, Mato Grosso do Sul, Mato Grosso, Distrito Federal;
+
+- Pilar II: Alagoas, Rio de Janeiro, São Paulo, Paraná, Mato Grosso do Sul, Distrito Federal;
+
+- Pilar III: Acre, Roraima, Pará, Tocantins, Maranhão, Mato Grosso;
+
+- Pilar IV: Tocantins, Sergipe, Minas Gerais, Espírito Santo, Santa Catarina, Rio Grande do Sul;
+
+- Pilar V: Rondônia, Piauí, Paraíba, Pernambuco, Rio Grande do Sul, Goiás;
+
+- Pilar VI: Tocantins, Ceará, Paraíba, Rio de Janeiro, Goiás, Distrito Federal;
+
+- Indicadores de resultado: Rio de Janeiro, São Paulo, Rio Grande do Sul, Distrito Federal, Amapá e Acre.
+
+Importante observar que a proposta do IRIS é criar um *ranking* relativo entre os estados, ou seja, o valor absoluto do índice só tem significância prática quando ele é utilizado para realizar a comparação entre os entes. Através do desenvolvimento desse projeto, foi possível contribuir para o processo de gestão da segurança no trânsito no Brasil, conforme as diretrizes do Pilar I do próprio Pnatrans. A partir de pesquisas anteriores desenvolvidas por @bastosRoadSafetyStrategic2014, @santosPlanoNacionalReducao2023 e @borszczINDICADORESDESEMPENHOSEGURANCA2023a foi possível criar esse projeto que visa aprimorar o processo de análise de desempenho da segurança viária no Brasil.
+
+A construção desse projeto considera a atualização periódica desses índices e indicadores, possibilitando um acompanhamento contínuo da segurança viária no Brasil. O método também permite a inserção ou remoção de indicadores de desempenho, conforme a necessidade identificada.

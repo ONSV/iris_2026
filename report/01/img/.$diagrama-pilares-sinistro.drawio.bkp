@@ -1,0 +1,70 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.5 Chrome/126.0.6478.183 Electron/31.3.0 Safari/537.36" version="24.7.5">
+  <diagram name="Page-1" id="x6H4T889RKTm6R8mrVmh">
+    <mxGraphModel dx="954" dy="587" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-2" value="Pilares Pnatrans" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-3" value="I. Gestão da Segurança no Trânsito" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d80073;strokeColor=#A50040;fontColor=#ffffff;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="130" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-4" value="II. Vias Seguras" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#008a00;strokeColor=#005700;fontColor=#ffffff;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="210" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-5" value="III. Segurança Veicular" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3c800;strokeColor=#B09500;fontColor=#000000;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="290" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-6" value="IV. Educação para o Trânsito" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=#ffffff;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="370" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-7" value="V. Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e51400;strokeColor=#B20000;fontColor=#ffffff;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="450" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-8" value="VI. Normatização e Fiscalização" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#76608a;strokeColor=#432D57;fontColor=#ffffff;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="530" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-9" value="&lt;p style=&quot;margin: 0px; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-stretch: normal; font-size: 15px; line-height: normal; text-align: start;&quot; class=&quot;p1&quot;&gt;Linha do tempo dos indicadores na ocorrência e severidade dos sinistros&lt;/p&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fontSize=15;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=default;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="220" y="80" width="595" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-10" value="I.1 Municipalização&lt;div&gt;I.2 Campos RENAEST&lt;/div&gt;&lt;div&gt;I.3 PIB per capita&lt;/div&gt;&lt;div&gt;I.4 Desempenho Detran&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="220" y="130" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-11" value="II.1 Condições gerais&lt;div style=&quot;font-size: 11px;&quot;&gt;II.2 Geometria&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;II.3 Pavimento&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;II.4 Sinalização&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;II.5 Pista dupla&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="360" y="210" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-12" value="III.1 Frota de motos&lt;div&gt;III.2 Idade da frota&lt;/div&gt;&lt;div&gt;III.3 Airbag e ABS&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="360" y="290" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-13" value="IV.1 Condutores habilit.&lt;div style=&quot;font-size: 12px;&quot;&gt;IV.2 Álcool&lt;/div&gt;&lt;div style=&quot;font-size: 12px;&quot;&gt;IV.3 Velocidade&lt;/div&gt;&lt;div style=&quot;font-size: 12px;&quot;&gt;IV.6 Celular&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="360" y="370" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-14" value="III.1 Frota de motos&lt;div&gt;III.2 Idade da frota&lt;/div&gt;&lt;div&gt;III.3 Airbag e ABS&lt;/div&gt;&lt;div&gt;III.4 ISOFIX&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="500" y="290" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-15" value="&lt;div&gt;IV.3 Velocidade&lt;/div&gt;IV.4 Cinto&lt;div&gt;IV.5 Capacete&lt;br&gt;&lt;div&gt;IV.7 Equip. retenção&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="500" y="370" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-16" value="I. Gestão da Segurança no Trânsito" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="640" y="450" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-17" value="I. Gestão da Segurança no Trânsito" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="360" y="530" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-19" value="Pré-sinistro" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="360" y="620" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-20" value="Durante" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="500" y="620" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-21" value="Pós-sinistro" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="640" y="620" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="tE6jNrSV-VnPDMMNzqT6-24" value="Estrutura" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="220" y="620" width="130" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
