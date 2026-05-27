@@ -1,16 +1,16 @@
 create_table_list <- function() {
   list(
-    ano_2022 = list(
-      estado_geral_2022 = "TABELA 72",
-      pavimento_2022 = "TABELA 73",
-      sinalizacao_2022 = "TABELA 74",
-      geometria_2022 = "TABELA 75"
-    ),
     ano_2023 = list(
       estado_geral_2023 = "TABELA 72",
       pavimento_2023 = "TABELA 73",
       sinalizacao_2023 = "TABELA 74",
       geometria_2023 = "TABELA 75"
+    ),
+    ano_2024 = list(
+      estado_geral_2024 = "TABELA 72",
+      pavimento_2024 = "TABELA 73",
+      sinalizacao_2024 = "TABELA 74",
+      geometria_2024 = "TABELA 75"
     )
   )
 }
