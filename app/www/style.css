@@ -1,0 +1,20 @@
+/*-- scss:defaults --*/
+/*-- scss:rules --*/
+.navbar .nav-item {
+  background-color: white;
+  border-radius: 8px;
+}
+
+.navbar .nav-item .nav-link {
+  font-size: 1rem;
+  color: #00496D;
+}
+
+.navbar .nav-item .nav-link.active {
+  color: #00496D;
+  font-weight: bold;
+}
+
+.bslib-nav-item.nav-item {
+  background-color: #00496D;
+}

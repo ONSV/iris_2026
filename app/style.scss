@@ -1,0 +1,41 @@
+/*-- scss:defaults --*/
+// $nav-link-font-size: 1
+$color-blue-onsv: #00496D;
+$color-yellow-onsv: #f7951d;
+
+/*-- scss:rules --*/
+//.navbar .nav-link {
+//    font-size: 1rem;
+//    color: $color-blue-onsv;
+    //&.active {
+    //    color: white;
+    //    background-color: $color-yellow-onsv;
+    //    border-radius: 8px;
+    //}
+//}
+
+.navbar {
+    .nav-item {
+        background-color: white;
+        border-radius: 8px;
+        .nav-link {
+            font-size: 1rem;
+            color: $color-blue-onsv;
+            &.active {
+                color: $color-blue-onsv;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.bslib-nav-item.nav-item {
+    background-color: #00496D;
+}
+
+
+
+//.nav .nav-link.active{
+//    color: $color-blue-onsv;
+//    background-color: white;
+//}
