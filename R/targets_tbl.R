@@ -14,14 +14,14 @@ targets_tbl <- list(
     # Fontes de dados
     tar_target(
         list_tbl_cnt,
-        map(cnt$tabelas_2023, make_gt_cnt)
+        map(cnt$tabelas_2024, make_gt_cnt)
     ),
     # Indicadores
     tar_target(tbl_codinf, make_codinf_tbl()),
     tar_target(
         list_tbl_pilar2,
         map2(
-            cnt$tabelas_2023,
+            cnt$tabelas_2024,
             paste0("Indicador ", c("II.1", "II.2", "II.3", "II.4")),
             make_gt_pilar2
         )

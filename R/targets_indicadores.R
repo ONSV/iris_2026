@@ -19,7 +19,7 @@ targets_indicadores <- list(
     tar_target(
         list_indicadores_cnt,
         map2(
-            cnt$tabelas_2023, 
+            cnt$tabelas_2024, 
             c("ii.1", "ii.3", "ii.4", "ii.2"), 
             calc_indicadores_cnt
         )
