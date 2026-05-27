@@ -9,7 +9,7 @@ calc_indicadores_cnt <- function(df_cnt, input_indicador) {
 
 calc_ii5 <- function(df_dnit) {
   df_dnit |> 
-    filter(ano == 2023) |> 
+    filter(ano == 2024) |> 
     mutate(
       valor = pista_dupla / total_pavimentado,
       indicador = "ii.5"
