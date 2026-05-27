@@ -18,36 +18,36 @@ targets_import <- list(
     tar_target(raw_pdf_list, map(cnt_path, pdf_text)),
     tar_target(table_list, create_table_list()),
     tar_target(
-        page_number_2022,
-        map(table_list$ano_2022, grep, x = raw_pdf_list[[1]])
-    ),
-    tar_target(
         page_number_2023,
-        map(table_list$ano_2023, grep, x = raw_pdf_list[[2]])
+        map(table_list$ano_2023, grep, x = raw_pdf_list[[1]])
     ),
     tar_target(
-        list_raw_tables_2022,
-        map(
-            page_number_2022,
-            get_raw_table,
-            raw_text = raw_pdf_list[[1]]
-        )
+        page_number_2024,
+        map(table_list$ano_2024, grep, x = raw_pdf_list[[2]])
     ),
     tar_target(
         list_raw_tables_2023,
         map(
             page_number_2023,
             get_raw_table,
+            raw_text = raw_pdf_list[[1]]
+        )
+    ),
+    tar_target(
+        list_raw_tables_2024,
+        map(
+            page_number_2024,
+            get_raw_table,
             raw_text = raw_pdf_list[[2]]
         )
     ),
-    tar_target(list_df_2022, map(list_raw_tables_2022, cnt_transform_to_df)),
     tar_target(list_df_2023, map(list_raw_tables_2023, cnt_transform_to_df)),
+    tar_target(list_df_2024, map(list_raw_tables_2024, cnt_transform_to_df)),
     tar_target(
         cnt,
         list(
-            tabelas_2022 = map(list_df_2022, arrange_cnt_df, ano = 2022),
-            tabelas_2023 = map(list_df_2023, arrange_cnt_df, ano = 2023)
+            tabelas_2023 = map(list_df_2023, arrange_cnt_df, ano = 2023),
+            tabelas_2024 = map(list_df_2024, arrange_cnt_df, ano = 2024)
         )
     ),
     # import_cameras.R
