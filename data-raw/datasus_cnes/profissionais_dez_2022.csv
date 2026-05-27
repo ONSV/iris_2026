@@ -1,0 +1,41 @@
+CNES - Recursos Humanos - Profissionais - Indivíduos - segundo CBO 2002 - Brasil
+Quantidade por Unidade da Federação
+Período:Dez/2022
+"Unidade da Federação";"Quantidade"
+"11 Rondônia";32656
+"12 Acre";15492
+"13 Amazonas";68052
+"14 Roraima";12477
+"15 Pará";107154
+"16 Amapá";15622
+"17 Tocantins";34028
+"21 Maranhão";106752
+"22 Piauí";50992
+"23 Ceará";143568
+"24 Rio Grande do Norte";59602
+"25 Paraíba";67769
+"26 Pernambuco";145158
+"27 Alagoas";54218
+"28 Sergipe";40680
+"29 Bahia";233491
+"31 Minas Gerais";438879
+"32 Espírito Santo";81486
+"33 Rio de Janeiro";339211
+"35 São Paulo";851605
+"41 Paraná";208158
+"42 Santa Catarina";139714
+"43 Rio Grande do Sul";218692
+"50 Mato Grosso do Sul";56356
+"51 Mato Grosso";65084
+"52 Goiás";118011
+"53 Distrito Federal";76917
+"Total";3781824
+ Fonte: Ministério da Saúde - Cadastro Nacional dos Estabelecimentos de Saúde do Brasil - CNES
+ Nota:
+ - Os dados relativos ao Cadastro Nacional de Estabelecimentos de Saúde (CNES) exibidos no TABNET referem-se aos registros constantes no Banco de Dados Nacional do CNES com status ATIVO.
+ - A partir do processamento de junho de 2012, houve mudança na classificação da natureza e esfera dos estabelecimentos. Com isso, temos que:
+ 
+ Até maio de 2012 estas informações estão disponíveis como "Natureza" e "Esfera Administrativa".
+ De junho de 2012 a outubro de 2015, estão disponíveis tanto como "Natureza" e "Esfera Administrativa", como "Natureza Jurídica" e "Esfera Jurídica".
+ A partir de novembro de 2015, estão disponíveis como "Natureza Jurídica" e "Esfera Jurídica".
+ 
