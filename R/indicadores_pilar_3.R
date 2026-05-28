@@ -1,6 +1,6 @@
 calc_iii1 <- function(df_renavam) {
   df_renavam |> 
-    filter(ano == 2023) |> 
+    filter(ano == 2024) |> 
     select(-ano) |> 
     pivot_wider(names_from = modal, values_from = frota) |> 
     mutate(
@@ -22,7 +22,7 @@ calc_iii2 <- function(df_renavam_idade) {
       !ano_modelo %in% c("Não se Aplica", "Não Identificado")
     ) |> 
     mutate(
-      idade = 2024 - as.numeric(ano_modelo),
+      idade = 2025 - as.numeric(ano_modelo),
       acima_10_anos = idade >= 10
     ) |> 
     group_by(uf, acima_10_anos) |> 
