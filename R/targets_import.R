@@ -107,7 +107,7 @@ targets_import <- list(
     tar_target(renainf_raw, download_renainf_2023(renainf_url)),
     tar_target(renainf, arrange_renainf(renainf_raw)),
     # import_renavam.R
-    tar_target(renavam_2011_2023, read_renavam_2011_2023(fleetbr::fleetbr)),
+    tar_target(renavam_2011_2024, read_renavam_2011_2024(fleetbr::fleetbr)),
     tar_target(
         path_old_renavam,
         list.files("data-raw/renavam", full.names = TRUE, pattern = "tipo")
@@ -127,10 +127,10 @@ targets_import <- list(
         map2(list_old_renavam, c(2009, 2010), arrange_old_renavam) |> 
             reduce(bind_rows)
     ),
-    tar_target(renavam, bind_rows(renavam_2011_2023, old_renavam)),
+    tar_target(renavam, bind_rows(renavam_2011_2024, old_renavam)),
     tar_target(
         df_renavam_idade, 
-        read_excel("data-raw/renavam/renavam_idade_2023.xlsx")
+        read_excel("data-raw/renavam/renavam_idade_2024.xlsx")
     ),
     tar_target(renavam_idade, arrange_renavam_idade(df_renavam_idade)),
     # import_snt.R
