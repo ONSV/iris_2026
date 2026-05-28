@@ -53,7 +53,7 @@ calc_iii3 <- function(df_renavam) {
       valor = novos_equipados_acum / frota_total,
       indicador = "iii.3"
     ) |> 
-    filter(ano == 2023) |> 
+    filter(ano == 2024) |> 
     ungroup() |> 
     select(sigla_uf = uf, indicador, valor)
 }
