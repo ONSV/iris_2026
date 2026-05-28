@@ -1,6 +1,6 @@
 filter_frota_motos <- function(df_renavam) {
     df_motos <- df_renavam |>
-        filter(ano == 2023, modal %in% c("MOTOCICLETA", "MOTONETA")) |>
+        filter(ano == 2024, modal %in% c("MOTOCICLETA", "MOTONETA")) |>
         group_by(uf) |>
         summarise(frota = sum(frota))
     return(df_motos)   
@@ -8,7 +8,7 @@ filter_frota_motos <- function(df_renavam) {
 
 join_iv1 <- function(df_renach, df_motos) {
     df_condutores <- df_renach |>
-        filter(ano == 2023) |>
+        filter(ano == 2024) |>
         group_by(uf) |>
         summarise(condutores = sum(n_condutores))
     
