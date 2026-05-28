@@ -381,7 +381,7 @@ Organiza os dados de infrações do RENAINF, limpando e unificando os códigos d
 
 ### `import_renavam.R`
 
-#### `read_renavam_2011_2023()`
+#### `read_renavam_2011_2024()`
 
 **Descrição**  
 
