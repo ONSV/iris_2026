@@ -1,4 +1,4 @@
-read_renavam_2011_2023 <- function(pkg_df) {
+read_renavam_2011_2024 <- function(pkg_df) {
   pkg_df |> 
     filter(mes == 12, modal != "TOTAL") |> 
     select(-mes)
