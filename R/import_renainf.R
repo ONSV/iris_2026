@@ -1,23 +1,32 @@
-download_renainf_2023 <- function(url) {
-  data_urls <-
-    read_html(url) |>
-    html_nodes(".internal-link") |>
-    html_attr("href")
-
-  csv_urls <- grep(".csv", data_urls, value = TRUE)
-
-  csv_2023_urls <- grep("2023", csv_urls, value = TRUE)
-
-  ago_url <- "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renainf/csv/2023_08_infracoes_com_np.csv"
-
-  csv_2023_urls[12] <- ago_url
-
-  suppressMessages(
-    raw_infracoes <-
-      map(csv_2023_urls, read_csv2) |>
-      reduce(bind_rows)
-  )
-  return(raw_infracoes)
+download_renainf_2024 <- function(url) {
+    data_urls <-
+        read_html(url) |>
+        html_nodes(".internal-link") |>
+        html_attr("href")
+    
+    csv_urls <- grep(".csv", data_urls, value = TRUE)
+    
+    csv_2024_urls <- grep("2024", csv_urls, value = TRUE)
+    
+    suppressMessages(
+        raw_infracoes <-
+            map(csv_2024_urls, \(link) read_csv(link, locale = locale(encoding = "UTF-16LE"))) |>
+            reduce(bind_rows) |> 
+            pivot_longer(
+                cols = -1, 
+                names_to = "UF",
+                values_to = "Quantidade"
+            ) |> filter(`Quantidade` != "Qt Infração c/ NP") |>
+            rename(Cod_Infração = `UF Jurisdição Veículo (Desc)`) |> 
+            relocate(`UF`, .before = `Cod_Infração`) |>
+            mutate(
+                `Cod_Infração` = as.double(`Cod_Infração`),
+                `Quantidade` = as.numeric(str_remove_all(`Quantidade`, "\\.")),
+                `Cod _Infração` = NA,
+                Cod_Infracao = NA
+            ) 
+    )
+    return(raw_infracoes)
 }
 
 arrange_renainf <- function(raw_df) {
