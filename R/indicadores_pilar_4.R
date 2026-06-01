@@ -87,7 +87,7 @@ calc_iv3 <- function(df_joined) {
 join_iv4 <- function(df_renavam, df_renainf, df_uf) {
     df_renavam |> 
         filter(
-            ano == 2023, 
+            ano == 2024, 
             modal %in% c(
                 "AUTOMOVEL", "CAMINHONETE", "CAMIONETA", "CAMINHAO",
                 "CAMINHAO TRATOR", "UTILITARIO", "MICRO-ONIBUS", "ONIBUS"
