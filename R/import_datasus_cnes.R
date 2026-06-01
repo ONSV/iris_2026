@@ -25,7 +25,7 @@ arrange_cnes_df <- function(df) {
       extra = "merge"
     )
   
-  clean_df$ano <- c(rep(2022, 27), rep(2023, 27))
+  clean_df$ano <- c(rep(2023, 27), rep(2024, 27))
   return(clean_df)
 }
 

@@ -1,0 +1,44 @@
+CNES - Recursos Físicos - Hospitalar - Leitos de internação - Brasil
+Quantidade SUS por Unidade da Federação
+Período:Dez/2024
+"Unidade da Federação";"Quantidade_SUS"
+"11 Rondônia";3795
+"12 Acre";1426
+"13 Amazonas";5509
+"14 Roraima";1298
+"15 Pará";11235
+"16 Amapá";1485
+"17 Tocantins";2619
+"21 Maranhão";13023
+"22 Piauí";6127
+"23 Ceará";15381
+"24 Rio Grande do Norte";6229
+"25 Paraíba";7492
+"26 Pernambuco";16566
+"27 Alagoas";5378
+"28 Sergipe";2432
+"29 Bahia";24900
+"31 Minas Gerais";29092
+"32 Espírito Santo";6030
+"33 Rio de Janeiro";20909
+"35 São Paulo";54923
+"41 Paraná";19204
+"42 Santa Catarina";11614
+"43 Rio Grande do Sul";20147
+"50 Mato Grosso do Sul";3987
+"51 Mato Grosso";6073
+"52 Goiás";12089
+"53 Distrito Federal";4933
+"Total";313896
+ A partir da competência de Janeiro 2010 os dados referentes
+ a leitos Complementares foram retirados da consulta referente
+ a leitos de Internação, passando a constituir uma consulta específica conforme descrito na Nota Técnica.
+ Fonte: Ministério da Saúde - Cadastro Nacional dos Estabelecimentos de Saúde do Brasil - CNES
+ Nota:
+ - Os dados relativos ao Cadastro Nacional de Estabelecimentos de Saúde (CNES) exibidos no TABNET referem-se aos registros constantes no Banco de Dados Nacional do CNES com status ATIVO.
+ - A partir do processamento de junho de 2012, houve mudança na classificação da natureza e esfera dos estabelecimentos. Com isso, temos que:
+ 
+ Até maio de 2012 estas informações estão disponíveis como "Natureza" e "Esfera Administrativa".
+ De junho de 2012 a outubro de 2015, estão disponíveis tanto como "Natureza" e "Esfera Administrativa", como "Natureza Jurídica" e "Esfera Jurídica".
+ A partir de novembro de 2015, estão disponíveis como "Natureza Jurídica" e "Esfera Jurídica".
+ 
