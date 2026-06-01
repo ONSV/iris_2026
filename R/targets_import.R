@@ -84,9 +84,14 @@ targets_import <- list(
     tar_target(ibge_pib, clean_ibge_pib_df(raw_ibge_pib_df)),
     # import_ibge_pop.R
     tar_target(
+        pop_csv_file,
+        "data-raw/ibge_pop/ibge_pop.csv",
+        format = "file"
+    ),
+    tar_target(
         raw_ibge_pop,
         read_csv2(
-            "data-raw/ibge_pop/ibge_pop.csv",
+            pop_csv_file,
             locale = locale(encoding = "latin1"), 
             skip = 3, 
             n_max = 27
