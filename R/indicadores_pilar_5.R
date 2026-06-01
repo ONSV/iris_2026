@@ -1,8 +1,8 @@
 join_v <- function(df_datasus_cnes, df_ibge_pop) {
     df_datasus_cnes |> 
-        filter(ano == 2023) |> 
+        filter(ano == 2024) |> 
         left_join(
-            df_ibge_pop |> filter(ano == 2023) |> select(cod_uf, populacao),
+            df_ibge_pop |> filter(ano == 2024) |> select(cod_uf, populacao),
             by = "cod_uf"
         )
 }
