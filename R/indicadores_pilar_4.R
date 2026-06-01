@@ -26,7 +26,7 @@ calc_iv1 <- function(df_joined) {
 
 calc_frota_reduzida <- function(df_renavam) {
     df_renavam |> 
-        filter(ano == 2023) |> 
+        filter(ano == 2024) |> 
         select(-ano) |> 
         pivot_wider(names_from = modal, values_from = frota) |> 
         mutate(
