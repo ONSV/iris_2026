@@ -155,7 +155,7 @@ calc_iv6 <- function(df_joined) {
 join_iv7 <- function(df_renavam, df_renainf, df_uf) {
     df_renavam |> 
         filter(
-            ano == 2023,
+            ano == 2024,
             modal %in% c("AUTOMOVEL", "CAMINHONETE", "CAMIONETA", "UTILITARIO")
         ) |> 
         group_by(uf) |> 
