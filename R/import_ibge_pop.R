@@ -6,6 +6,6 @@ arrange_ibge_pop <- function(raw_df) {
       sep = " ",
       extra = "merge"
     ) |> 
-    pivot_longer(`2018`:`2023`, names_to = "ano", values_to = "populacao")
+    pivot_longer(`2019`:`2024`, names_to = "ano", values_to = "populacao")
 }
 
