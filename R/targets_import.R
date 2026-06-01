@@ -104,7 +104,7 @@ targets_import <- list(
     tar_target(renaest, join_renaest(renaest_list, arrange_renaest)),
     # import_renainf.R
     tar_target(renainf_url, "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/estatisticas-quantidade-de-infracoes-denatran"),
-    tar_target(renainf_raw, download_renainf_2023(renainf_url)),
+    tar_target(renainf_raw, download_renainf_2024(renainf_url)),
     tar_target(renainf, arrange_renainf(renainf_raw)),
     # import_renavam.R
     tar_target(renavam_2011_2024, read_renavam_2011_2024(fleetbr::fleetbr)),
