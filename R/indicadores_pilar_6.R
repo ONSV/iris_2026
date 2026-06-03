@@ -1,6 +1,6 @@
 calc_frota_total_uf <- function(df_renavam) {
     df_renavam |> 
-        filter(ano == 2023) |> 
+        filter(ano == 2024) |> 
         group_by(uf) |> 
         summarise(frota_total = sum(frota))
 }
@@ -59,7 +59,7 @@ calc_cameras_frota <- function(df_joined) {
 
 calc_extensao <- function(df_dnit) {
     df_extensao <- df_dnit |> 
-        filter(ano == 2023) |> 
+        filter(ano == 2024) |> 
         select(nome_uf, total_pavimentado)
     
     return(df_extensao)
@@ -184,7 +184,7 @@ calc_indicadores_pontos <- function(df_joined_pontos_fisc_uf) {
 
 join_vi11 <- function(df_pontos_fisc_uf, df_dnit) {
     df_pontos_fisc_uf |> 
-        left_join(df_dnit |> filter(ano == 2023), by = "sigla_uf") |> 
+        left_join(df_dnit |> filter(ano == 2024), by = "sigla_uf") |> 
         select(sigla_uf, pontos_fisc = Rodovia, total_pavimentado)
 }
 
