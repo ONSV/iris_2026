@@ -51,7 +51,8 @@ targets_import <- list(
         )
     ),
     # import_cameras.R
-    tar_target(df_cameras, read_excel("data-raw/cameras/cameras.xlsx")),
+    tar_target(path_cameras, "data-raw/cameras/cameras.xlsx", format = "file"),
+    tar_target(df_cameras, read_excel(path_cameras)),
     tar_target(cameras, arrange_cameras_df(df_cameras)),
     tar_target(pontos_fiscalizacao, calc_pontos_fiscalizacao(df_cameras)),
     tar_target(pontos_fisc_uf, calc_pontos_fisc_uf(pontos_fiscalizacao)),
