@@ -1,6 +1,6 @@
 join_01 <- function(df_renavam, df_datasus_sim, df_uf) {
     df_renavam |> 
-        filter(ano == 2023) |> 
+        filter(ano == 2024) |> 
         group_by(uf) |> 
         summarise(total_frota = sum(frota)) |> 
         left_join(df_uf, by = c("uf" = "sigla_uf")) |> 
@@ -19,7 +19,7 @@ calc_01 <- function(joined_df) {
 
 join_02 <- function(df_ibge_pop, df_datasus_sim) {
     df_ibge_pop |> 
-        filter(ano == 2023) |> 
+        filter(ano == 2024) |> 
         left_join(df_datasus_sim, by = "cod_uf")
 }
 
