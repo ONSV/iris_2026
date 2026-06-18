@@ -4,7 +4,7 @@ O processo de coleta e construção das informações apresentadas nesse painel 
 
 #### Autoria
 
-Painel elaborado por Pedro Augusto Borges dos Santos (pedro.borges@onsv.org.br). Esse trabalho é um produto da cooperação técnica entre o Observatório Nacional de Segurança Viária e a Universidade Federal do Paraná.
+Painel criado por Pedro Augusto Borges dos Santos (pedro.borges@onsv.org.br) e atualizado por Ana Beatriz da Silva Marques (ana.marques@onsv.org.br). Esse trabalho é um produto da cooperação técnica entre o Observatório Nacional de Segurança Viária e a Universidade Federal do Paraná.
 
 IRIS - Indicadores Rodoviários Integrados de Segurança por Observatório Nacional de Segurança Viária e Universidade Federal do Paraná está licenciada sob CC BY-NC 4.0. Para ver uma cópia desta licença, acesse http://creativecommons.org/licenses/by-nc/4.0/.
 
@@ -12,4 +12,4 @@ Dúvidas, sugestões e comentários podem ser enviados para o e-mail [onsv@onsv.
 
 #### Versionamento
 
-**v0.3.0 2025-01-09**
+**v0.3.0 2026-06-04**
