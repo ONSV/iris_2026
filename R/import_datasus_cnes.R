@@ -36,7 +36,8 @@ join_cnes_df <- function(clean_list) {
       n_leitos_nao_sus = quantidade_nao_sus,
       n_leitos_sus = quantidade_sus,
       n_leitos = quantidade_existente,
-      n_profissionais = quantidade
+      n_profissionais = quantidade,
+      n_unidades_moveis = equipamentos_existentes
     ) |> 
     select(cod_uf, nome_uf, ano, starts_with("n"))
 }
