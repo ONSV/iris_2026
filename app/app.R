@@ -996,6 +996,37 @@ pilar05_panel <- nav_panel(
                         )
                     )
                 )
+            ),
+            tabPanel(
+                title = "Indicador V.5",
+                card(
+                    tags$h5("Taxa de unidades móveis per capita [n / 1000 hab.]"),
+                    max_height = "80px"
+                ),
+                layout_columns(
+                    card(
+                        full_screen = TRUE,
+                        card_body(
+                            class = "p-0",
+                            withSpinner(
+                                leafletOutput(
+                                    "mapav5",
+                                    height = ind_map_height
+                                ),
+                                type = 8,
+                                color = "#00496d"
+                            )
+                        )
+                    ),
+                    card(
+                        full_screen = TRUE,
+                        withSpinner(
+                            DTOutput("tblv5"),
+                            type = 8,
+                            color = "#00496d"
+                        )
+                    )
+                )
             )
         )
     )
@@ -1704,6 +1735,9 @@ server <- function(input, output, session) {
     output$mapav4 <- renderLeaflet({
         plot_indicadores_leaflet(sf_indicadores, "v.4")
     })
+    output$mapav5 <- renderLeaflet({
+        plot_indicadores_leaflet(sf_indicadores, "v.5")
+    })
     output$mapapilar6 <- renderLeaflet({
         plot_classificacao_leaflet(sf_classificacao, "Pilar VI")
     })
@@ -1832,6 +1866,9 @@ server <- function(input, output, session) {
     })
     output$tblv4 <- renderDT({
         make_ind_dt(sf_indicadores, "v.4")
+    })
+    output$tblv5 <- renderDT({
+        make_ind_dt(sf_indicadores, "v.5")
     })
     output$tblpilar6 <- renderDT({
         make_class_dt(sf_classificacao, "Pilar VI")
