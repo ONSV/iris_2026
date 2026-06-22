@@ -1,0 +1,41 @@
+CNES - Recursos Físicos - Equipamentos - Brasil;
+Tipo de Estabelecimento: UNIDADE MOVEL TERRESTRE, UNIDADE MOVEL DE NIVEL PRE-HOSPITALAR NA AREA DE URGENCIA;
+Período:Dez/2023;
+Unidade da Federação;Equipamentos_Existentes
+11 Rondônia;145
+12 Acre;151
+13 Amazonas;480
+14 Roraima;137
+15 Pará;653
+16 Amapá;60
+17 Tocantins;207
+21 Maranhão;831
+22 Piauí;383
+23 Ceará;909
+24 Rio Grande do Norte;234
+25 Paraíba;774
+26 Pernambuco;1161
+27 Alagoas;25
+28 Sergipe;88
+29 Bahia;3004
+31 Minas Gerais;4618
+32 Espírito Santo;662
+33 Rio de Janeiro;2433
+35 São Paulo;5981
+41 Paraná;2400
+42 Santa Catarina;1253
+43 Rio Grande do Sul;1038
+50 Mato Grosso do Sul;324
+51 Mato Grosso;663
+52 Goiás;1079
+53 Distrito Federal;232
+Total;29925
+ Fonte: Ministério da Saúde - Cadastro Nacional dos Estabelecimentos de Saúde do Brasil - CNES;
+ Nota:;
+ - Os dados relativos ao Cadastro Nacional de Estabelecimentos de Saúde (CNES) exibidos no TABNET referem-se aos registros constantes no Banco de Dados Nacional do CNES com status ATIVO.;
+ - A partir do processamento de junho de 2012, houve mudança na classificação da natureza e esfera dos estabelecimentos. Com isso, temos que:;
+ ;
+" Até maio de 2012 estas informações estão disponíveis como ""Natureza"" e ""Esfera Administrativa"".";
+" De junho de 2012 a outubro de 2015, estão disponíveis tanto como ""Natureza"" e ""Esfera Administrativa"", como ""Natureza Jurídica"" e ""Esfera Jurídica"".";
+" A partir de novembro de 2015, estão disponíveis como ""Natureza Jurídica"" e ""Esfera Jurídica"".";
+ ;
