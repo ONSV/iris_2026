@@ -4,10 +4,10 @@ targets_import <- list(
     # import_datasus_cnes.R
     tar_target(
         file_patterns, 
-        c("leitos_nsus", "leitos_sus", "totais", "profissionais")
+        c("leitos_nsus", "leitos_sus", "totais", "profissionais", "unidades_moveis")
     ),
     tar_target(file_paths, map(file_patterns, extract_cnes_path)),
-    tar_target(list_raw_df, map(file_paths, read_cnes_files)),
+    tar_target(list_raw_df, map(file_paths, read_cnes_files), cue = tar_cue(mode = "always")),
     tar_target(list_clean_df, map(list_raw_df, arrange_cnes_df)),
     tar_target(datasus_cnes, join_cnes_df(list_clean_df)),
     # import_cnes.R
