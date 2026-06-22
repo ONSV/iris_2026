@@ -18,7 +18,7 @@ make_tbl_ind_class <- function() {
             "II.1, II.2, II.3, II.4, II.5", 
             "III.1, III.2, III.3, III.4", 
             "IV.1, IV.2, IV.3, IV.4, IV.5, IV.6, IV.7", 
-            "V.1, V.2, V.3, V.4", 
+            "V.1, V.2, V.3, V.4, V.5", 
             "VI.1, VI.2, VI.3, VI.4, VI.5, VI.6, VI.7",
             "0.1, 0.2, 0.3"
         )
@@ -32,7 +32,7 @@ make_desc_ind_tbl <- function() {
             "II.1", "II.2", "II.3", "II.4", "II.5",
             "III.1", "III.2", "III.3", "III.4",
             "IV.1", "IV.2", "IV.3", "IV.4", "IV.5", "IV.6", "IV.7",
-            "V.1", "V.2", "V.3", "V.4",
+            "V.1", "V.2", "V.3", "V.4", "V.5",
             "VI.1", "VI.2", "VI.3", "VI.4", "VI.5", "VI.6", "VI.7",
             "0.1", "0.2", "0.3"
         ),
@@ -66,6 +66,7 @@ make_desc_ind_tbl <- function() {
             "Taxa de leitos totais per capita",
             "Taxa de leitos SUS per capita",
             "Taxa de leitos não SUS per capita",
+            "Taxa de unidades móveis per capita",
             # Pilar VI
             "Taxa de infrações por frota",
             "Taxa de câmeras de segurança em geral em relacao à frota",
@@ -114,6 +115,7 @@ make_desc_ind_tbl <- function() {
             "n / 1000 hab.",
             "n / 1000 hab.",
             "n / 1000 hab.",
+            "n / 1000 hab.",
             # Pilar 6
             "n / 10 mil veic.",
             "n / 10 mil veic.",
@@ -134,51 +136,52 @@ make_desc_ind_tbl <- function() {
         ),
         fonte = c(
             # Pilar 1
-            "SNT (2024)",
-            "RENAEST (2023)",
-            "IBGE (2021)",
+            "SNT (2025)",
+            "RENAEST (2024)",
+            "IBGE (2024)",
             "ONSV (2024)",
             # Pilar 2
-            "CNT (2023)",
-            "CNT (2023)",
-            "CNT (2023)",
-            "CNT (2023)",
-            "DNIT (2023)",
+            "CNT (2024)",
+            "CNT (2024)",
+            "CNT (2024)",
+            "CNT (2024)",
+            "DNIT (2024)",
             # Pilar 3
-            "RENAVAM (2023)",
-            "RENAVAM (2023)",
-            "RENAVAM (2023)",
-            "RENAVAM (2023)",
+            "RENAVAM (2024)",
+            "RENAVAM (2024)",
+            "RENAVAM (2024)",
+            "RENAVAM (2024)",
             # Pilar 4
-            "RENACH (2023); RENAVAM (2023)",
-            "RENAINF (2023); RENAVAM (2023)",
-            "RENAINF (2023); RENAVAM (2023)",
-            "RENAINF (2023); RENAVAM (2023)",
-            "RENAINF (2023); RENAVAM (2023)",
-            "RENAINF (2023); RENAVAM (2023)",
-            "RENAINF (2023); RENAVAM (2023)",
+            "RENACH (2024); RENAVAM (2024)",
+            "RENAINF (2024); RENAVAM (2024)",
+            "RENAINF (2024); RENAVAM (2024)",
+            "RENAINF (2024); RENAVAM (2024)",
+            "RENAINF (2024); RENAVAM (2024)",
+            "RENAINF (2024); RENAVAM (2024)",
+            "RENAINF (2024); RENAVAM (2024)",
             # Pilar 5
-            "DATASUS (2023); IBGE (2023)",
-            "DATASUS (2023); IBGE (2023)",
-            "DATASUS (2023); IBGE (2023)",
-            "DATASUS (2023); IBGE (2023)",
+            "DATASUS (2024); IBGE (2024)",
+            "DATASUS (2024); IBGE (2024)",
+            "DATASUS (2024); IBGE (2024)",
+            "DATASUS (2024); IBGE (2024)",
+            "DATASUS (2024); IBGE (2024)",
             # Pilar 6
-            "RENAINF (2023); RENAVAM (2023)",
-            "INMETRO (2023); RENAVAM (2023)",
-            "INMETRO (2023); RENAVAM (2023)",
-            "INMETRO (2023); RENAVAM (2023)",
-            "INMETRO (2023); DNIT (2023)",
-            "RENAINF (2023); INMETRO (2023)",
-            "INMETRO (2023); OSM (2024)",
+            "RENAINF (2024); RENAVAM (2024)",
+            "INMETRO (2024); RENAVAM (2024)",
+            "INMETRO (2024); RENAVAM (2024)",
+            "INMETRO (2024); RENAVAM (2024)",
+            "INMETRO (2024); DNIT (2024)",
+            "RENAINF (2024); INMETRO (2024)",
+            "INMETRO (2024); OSM (2024)",
             # "INMETRO (2023); RENAVAM (2023)",
             # "INMETRO (2023); RENAVAM (2023)",
             # "INMETRO (2023); RENAVAM (2023)",
             # "INMETRO (2023); DNIT (2023)",
             # "INMETRO (2023); OSM (2024)",
             # Resultado
-            "DATASUS (2022); RENAVAM (2022)",
-            "DATASUS (2022); IBGE (2022)",
-            "ONSV (2023)"
+            "DATASUS (2024); RENAVAM (2024)",
+            "DATASUS (2024); IBGE (2024)",
+            "ONSV (2024)"
         )
     )
 }
@@ -226,8 +229,8 @@ make_fontes_tbl <- function() {
             "Qtde. de municípios integrados ao SNT"
         ),
         ano_utilizado = c(
-            "2023", "2023", "2023", "2021 a 2023", "2021", "2023", "2024",
-            "2020", "2024", "2023", "2023", "2023", "2010 a 2023", "2024"
+            "2024", "2024", "2024", "2022 a 2024", "2023", "2024", "2025",
+            "2024", "2024", "2024", "2024", "2024", "2010 a 2024", "2025"
         )
     )
 }
