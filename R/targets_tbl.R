@@ -28,7 +28,7 @@ targets_tbl <- list(
     ),
     tar_target(
         pilarv_var, 
-        c("n_profissionais", "n_leitos", "n_leitos_sus", "n_leitos_nao_sus")
+        c("n_profissionais", "n_leitos", "n_leitos_sus", "n_leitos_nao_sus", "n_unidades_moveis")
     ),
     tar_target(
         list_tbl_pilar5,
@@ -39,8 +39,8 @@ targets_tbl <- list(
         pmap(
             list(
                 list_tbl_pilar5,
-                c("Profissionais", "Leitos", "Leitos SUS", "Leitos não-SUS"),
-                paste0("Indicador ", c("V.1", "V.2", "V.3", "V.4"))
+                c("Profissionais", "Leitos", "Leitos SUS", "Leitos não-SUS", "Unidades móveis"),
+                paste0("Indicador ", c("V.1", "V.2", "V.3", "V.4", "V.5"))
             ),
             make_pilar5_gt
         )
