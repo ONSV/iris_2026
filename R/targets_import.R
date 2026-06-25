@@ -158,7 +158,7 @@ targets_import <- list(
     tar_target(taxabilhao, create_taxabilhao()),
     # import_uf.R
     tar_target(uf, create_uf(raw_municipios)),
-    tar_target(sf_uf, read_state()),
+    tar_target(sf_uf, read_state(year = 2010, code_state = "all")),
     # import_osm.R
     tar_target(
         osm, 
