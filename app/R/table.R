@@ -221,3 +221,69 @@ make_gt_class_inicio <- function(sf_class) {
         tab_options(table.width = pct(100))
 }
 
+
+make_dt_variacao <- function(ind_data_24, ind_data_23, pilar_input, uf_input) {
+    df_24 <- ind_data_24 |> mutate(ano = 2024)
+    df_23 <-  ind_data_23 |> mutate(ano = 2023)
+    
+    
+    base_variacao <- df_24 |> bind_rows(df_23) |>
+        separate(col = indicador_upper, into = c("pilar", "ind"), sep = "\\.", remove = FALSE) |>
+        mutate(pil = "Pilar") |>
+        unite(col = pilar, pil, pilar, sep = " ") |>
+        mutate(pilar = ifelse(pilar == "Pilar 0", "Pilar VII", pilar)) |>
+        select(cod_uf, nome_uf, pilar, indicador_upper, descricao, ano, valor) |>
+        pivot_wider(names_from = ano, values_from = valor) |>
+        relocate(`2023`, .before = `2024`) |>
+        mutate(
+            variacao_cor = if_else(`2023` == 0, NA_real_, ((`2024` - `2023`) / `2023`) * 100),
+            variacao = case_when(
+                `2023` == 0 & `2024` == 0 ~ "0,00%",   
+                `2023` == 0 & `2024` > 0  ~ "NA", 
+                is.na(`2023`) & `2024` > 0  ~ "Novo",
+                variacao_cor > 0.001      ~ paste0(format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%", " ▲"),
+                variacao_cor < -0.001     ~ paste0(format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%", " ▼"),
+                TRUE ~ paste0(format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%")
+            )
+        )
+    
+    if (uf_input != "Todos"){
+    base_variacao <- base_variacao |> filter(nome_uf == uf_input)
+    }
+    
+    if (pilar_input != "Todos") {
+        base_variacao <- base_variacao |> filter(pilar == pilar_input)
+    }
+    
+    base_variacao |>
+        select(-cod_uf) |> 
+        datatable(
+            colnames = c("Estado", "Pilar", "Indicador", "Descrição", "2023", "2024", "variacao_texto_velha", "Variação (%)"),
+            class = 'cell-border compact',
+            options = list(
+                pageLength = 12,
+                dom = 'ltip',
+                # scrollY = "600px",
+                columnDefs = list(
+                    list(targets = 6, visible = FALSE),
+                    list(className = 'dt-center', targets = c(0, 4, 5, 7))
+                ),
+                language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json')
+            ),
+            rownames = FALSE
+        ) |> 
+        formatRound(columns = c("2023", "2024"), digits = 2, mark = ",", dec.mark = ".") |>
+        formatStyle(
+            columns = "variacao",         
+            valueColumns = "variacao_cor", 
+            backgroundColor = styleInterval(
+                cuts = c(-0.001, 0.001),    
+                values = c("#ffe6cc", "#ffffff", "#D5EEFB")
+            ),
+            color = styleInterval(
+                cuts = c(-0.001, 0.001),
+                values = c("#EA6A24",  "#000000", "#00496d")
+            )
+        )
+}
+
