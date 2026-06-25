@@ -7,6 +7,7 @@ library(shinycssloaders)
 library(DT)
 library(sf)
 library(dplyr)
+library(tidyr)
 library(gt)
 library(plotly)
 library(stringr)
@@ -20,6 +21,7 @@ source("R/plots.R")
 sf_classificacao <- readRDS("data/sf_classificacao.rds")
 sf_indicadores <- readRDS("data/sf_indicadores.rds")
 ind_desc_data <- readRDS("data/ind_desc_data.rds")
+ind_desc_data_23 <- readRDS("data/ind_desc_data_2023.rds")
 
 #############################################################
 
@@ -1599,6 +1601,37 @@ uf_panel <- nav_panel(
     )
 )
 
+variacao_panel <- nav_panel(
+    value = "variacao",
+    title = "Variação",
+    icon = bsicons::bs_icon("graph-up-arrow"),
+    value_box(
+        title = NULL,
+        value = "Variação dos indicadores (2023-2024)",
+        height = 100
+    ),
+    layout_sidebar(
+        fillable = FALSE,
+        height = "750px",
+        sidebar = sidebar(
+            title = "Filtros",
+            selectInput(
+                inputId = "uf_select",
+                label = "Selecione o Estado:",
+                choices = c("Todos", sort(unique(ind_desc_data$nome_uf))),
+                selected = "Todos"
+            ),
+            selectInput(
+                inputId = "pilar_select",
+                label = "Selecione o Pilar:",
+                choices = c("Todos", "Pilar I", "Pilar II", "Pilar III", "Pilar IV", "Pilar V", "Pilar VI", "Pilar VII"),
+                selected = "Todos"
+            )
+        ),
+        DT::DTOutput("tabela_variacao", height = "750px")
+    )
+)
+
 about_panel <- nav_panel(
     value = "about",
     title = "Sobre",
@@ -1624,6 +1657,7 @@ ui <- bslib::page_navbar(
     home_panel,
     pilar_panel,
     uf_panel,
+    variacao_panel,
     about_panel,
     nav_spacer(),
     nav_spacer(),
@@ -2047,7 +2081,12 @@ server <- function(input, output, session) {
     output$tblbenchmark <- render_gt(
         render_tblbenchmark()
     )
-
+    output$tabela_variacao <- renderDT(
+        make_dt_variacao(ind_desc_data, 
+                         ind_desc_data_23,
+                         input$pilar_select, 
+                         input$uf_select)
+    )
 
 }
 
