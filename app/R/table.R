@@ -302,3 +302,75 @@ make_dt_variacao <- function(ind_24, ind_23, pilar_input, uf_input) {
         )
 }
 
+make_dt_pilares <- function(class_24, class_23, pilar_input, uf_input){
+    df_24 <- class_24 |> st_drop_geometry() |> mutate(ano = 2024)
+    df_23 <-  class_23 |> st_drop_geometry() |> mutate(ano = 2023)
+    
+    base_variacao <- df_24 |> bind_rows(df_23) |>
+        st_drop_geometry() |>
+        select(-c(name_region, star, classificacao_numeric)) |> 
+        pivot_wider(
+            names_from = ano,
+            values_from = nota
+        ) |> 
+        relocate(`2023`, .before = `2024`) |>
+        mutate(pilar = ifelse(pilar == "Resultado final", "Pilar VII", pilar),
+               descricao = case_when(
+                   pilar == "Pilar I" ~ "Gestão da Segurança no Trânsito",
+                   pilar == "Pilar II" ~ "Vias Seguras",
+                   pilar == "Pilar III" ~ "Segurança Veicular",
+                   pilar == "Pilar IV" ~ "Educação para o Trânsito",
+                   pilar == "Pilar V" ~ "Vigilência, Promoção da Saúde e Atendimento às Vítimas no Trânsito",
+                   pilar == "Pilar VI" ~ "Normatização e Fiscalização",
+                   pilar == "Pilar VII" ~ "Indicadores de mortalidade",
+               ),
+               variacao_cor = ifelse(`2023` == 0, NA_real_, (`2024` - `2023`)/ `2023`),
+               variacao = case_when(
+                   `2023` == 0 & `2024` == 0 ~ "0,00%",   
+                   `2023` == 0 & `2024` > 0  ~ "NA", 
+                   variacao_cor > 0.001      ~ paste0("▲ ", format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%"),
+                   variacao_cor < -0.001     ~ paste0("▼ ", format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%"),
+                   TRUE ~ paste0(format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%")
+               ))  |>
+        relocate(descricao, .before = `2023`) |> arrange(desc(variacao_cor))
+    
+    
+    if (uf_input != "Todos"){
+        base_variacao <- base_variacao |> filter(nome_uf == uf_input)
+    }
+    
+    if (pilar_input != "Todos") {
+        base_variacao <- base_variacao |> filter(pilar == pilar_input)
+    }
+    
+    base_variacao |>
+        datatable(
+            colnames = c("Estado", "Pilar", "Descrição", "2023", "2024", "variacao_texto_velha", "Variação (%)"),
+            class = 'cell-border compact',
+            options = list(
+                pageLength = 11,
+                dom = 'tip',
+                # scrollCollapse = TRUE,
+                # scrollY = "500px",
+                columnDefs = list(
+                    list(targets = 5, visible = FALSE),
+                    list(className = 'dt-center', targets = c(0, 3, 4, 6))
+                ),
+                language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json')
+            ),
+            rownames = FALSE
+        ) |> 
+        formatRound(columns = c("2023", "2024"), digits = 3, mark = ".", dec.mark = ",") |>
+        formatStyle(
+            columns = "variacao",  
+            valueColumns = "variacao_cor",
+            backgroundColor = styleInterval(
+                cuts = c(-0.001, 0.001),    
+                values = c("#ffcccc", "#ffffff", "#ccffcc")
+            ),
+            color = styleInterval(
+                cuts = c(-0.001, 0.001),
+                values = c("#990000", "#000000", "#006600")
+            )
+        )
+}
