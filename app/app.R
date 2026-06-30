@@ -19,6 +19,7 @@ source("R/mapa.R")
 source("R/plots.R")
 
 sf_classificacao <- readRDS("data/sf_classificacao.rds")
+sf_classificacao_23 <- readRDS("data/sf_classificacao_2023.rds")
 sf_indicadores <- readRDS("data/sf_indicadores.rds")
 ind_desc_data <- readRDS("data/ind_desc_data.rds")
 ind_desc_data_23 <- readRDS("data/ind_desc_data_2023.rds")
@@ -1628,7 +1629,21 @@ variacao_panel <- nav_panel(
                 selected = "Todos"
             )
         ),
-        DT::DTOutput("tabela_variacao", height = "750px")
+        navset_card_tab(
+            height = "680px",
+            nav_panel(
+                title = "Classificação média",
+                DT::DTOutput("tabela_geral") 
+            ),
+            nav_panel(
+                title = "Notas - Pilares",
+                DT::DTOutput("tabela_pilares") 
+            ),
+            nav_panel(
+                title = "Indicadores",
+                DT::DTOutput("tabela_variacao")
+            )
+        )
     )
 )
 
@@ -2087,7 +2102,19 @@ server <- function(input, output, session) {
                          input$pilar_select, 
                          input$uf_select)
     )
-
+    output$tabela_pilares <- renderDT(
+        make_dt_pilares(sf_classificacao, 
+                        sf_classificacao_23,
+                        input$pilar_select, 
+                        input$uf_select)
+    )
+    output$tabela_geral <- renderDT(
+        make_dt_geral(sf_classificacao, 
+                      sf_classificacao_23,
+                      input$pilar_select, 
+                      input$uf_select
+        )
+    )
 }
 
 shinyApp(ui, server)
