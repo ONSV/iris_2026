@@ -216,7 +216,7 @@ make_gt_cnt|function|5b60c3eddf72b66d
 calc_frota_reduzida|function|b121deccca270bd6
 plot_boxplot_notas|function|64a3f5728852b617
 calc_pontos_fisc_mun|function|37549b8429d2a6f9
-.Random.seed|object|7217bf5e0e1a6d71
+.Random.seed|object|3a7e52e1b524028c
 calc_iii1|function|1845454fd1d0f2b9
 calc_iii2|function|0f552f56cc6e1a3d
 read_cnes_files|function|dd47385f1c5d3b36
@@ -312,5 +312,5 @@ create_table_list|function|f97d4842c3646c9f
 make_gt_classificacao|function|6586ca9948b011bd
 arrange_df_composto|function|01d891de93d3d5e0
 count_cameras_cidades|function|3d4c69be65dcadcb
-df_snt|stem|89094c7e516453df|772044cd8b1adbee|a228b448b90c82d6|116760189||t20628.0699996337s|s475b|475|rds|local|vector|||1.034||
-list_raw_df|stem|3fb261f63349e373|14c4b39e74fad8cb|d1ff3412812e28d6|-2111632136||t20628.070001431s|s1792b|1792|rds|local|vector|||0.119||
+df_snt|stem|89094c7e516453df|772044cd8b1adbee|a228b448b90c82d6|116760189||t20633.6179507533s|s475b|475|rds|local|vector|||2.734||
+list_raw_df|stem|3fb261f63349e373|14c4b39e74fad8cb|d1ff3412812e28d6|-2111632136||t20633.6179525314s|s1792b|1792|rds|local|vector|||0.125||
