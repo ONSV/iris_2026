@@ -222,9 +222,9 @@ make_gt_class_inicio <- function(sf_class) {
 }
 
 
-make_dt_variacao <- function(ind_data_24, ind_data_23, pilar_input, uf_input) {
-    df_24 <- ind_data_24 |> mutate(ano = 2024)
-    df_23 <-  ind_data_23 |> mutate(ano = 2023)
+make_dt_variacao <- function(ind_24, ind_23, pilar_input, uf_input) {
+    df_24 <- ind_24 |> mutate(ano = 2024)
+    df_23 <-  ind_23 |> mutate(ano = 2023)
     
     
     base_variacao <- df_24 |> bind_rows(df_23) |>
@@ -241,11 +241,25 @@ make_dt_variacao <- function(ind_data_24, ind_data_23, pilar_input, uf_input) {
                 `2023` == 0 & `2024` == 0 ~ "0,00%",   
                 `2023` == 0 & `2024` > 0  ~ "NA", 
                 is.na(`2023`) & `2024` > 0  ~ "Novo",
-                variacao_cor > 0.001      ~ paste0(format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%", " ▲"),
-                variacao_cor < -0.001     ~ paste0(format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%", " ▼"),
+                variacao_cor > 0.001      ~ paste0("▲ ", format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%"),
+                variacao_cor < -0.001     ~ paste0("▼ ", format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%"),
                 TRUE ~ paste0(format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%")
+            ),
+            reduziu_bom = indicador_upper %in% c("0.1", "0.2", "0.3", "I.2", "II.1", "II.2", "II.3", 
+                                                 "II.4", "III.1", "III.2", "IV.2", "IV.3", "IV.4", "IV.5", "IV.6", "IV.7",
+                                                 "VI.1", "VI.6"),
+            
+            status_sinal = case_when(
+                `2023` == 0 & `2024` == 0 ~ 0,
+                is.na(variacao_cor)       ~ 0,
+                abs(variacao_cor) <= 0.001 ~ 0,
+                reduziu_bom & variacao_cor < 0  ~ 1,
+                reduziu_bom & variacao_cor > 0  ~ -1,
+                variacao_cor > 0  ~ 1,
+                variacao_cor < 0  ~ -1,
+                TRUE ~ 0
             )
-        )
+        ) |> arrange(desc(variacao_cor))
     
     if (uf_input != "Todos"){
     base_variacao <- base_variacao |> filter(nome_uf == uf_input)
@@ -258,31 +272,32 @@ make_dt_variacao <- function(ind_data_24, ind_data_23, pilar_input, uf_input) {
     base_variacao |>
         select(-cod_uf) |> 
         datatable(
-            colnames = c("Estado", "Pilar", "Indicador", "Descrição", "2023", "2024", "variacao_texto_velha", "Variação (%)"),
+            colnames = c("Estado", "Pilar", "Indicador", "Descrição", "2023", "2024", "variacao_texto_velha", "Variação (%)", "reducao", "sinal"),
             class = 'cell-border compact',
             options = list(
-                pageLength = 12,
-                dom = 'ltip',
-                # scrollY = "600px",
+                pageLength = 11,
+                dom = 'tip',
+                # scrollCollapse = TRUE,
+                # scrollY = "500px",
                 columnDefs = list(
-                    list(targets = 6, visible = FALSE),
+                    list(targets = c(6, 8, 9), visible = FALSE),
                     list(className = 'dt-center', targets = c(0, 4, 5, 7))
                 ),
                 language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json')
             ),
             rownames = FALSE
         ) |> 
-        formatRound(columns = c("2023", "2024"), digits = 2, mark = ",", dec.mark = ".") |>
+        formatRound(columns = c("2023", "2024"), digits = 3, mark = ".", dec.mark = ",") |>
         formatStyle(
             columns = "variacao",         
-            valueColumns = "variacao_cor", 
-            backgroundColor = styleInterval(
-                cuts = c(-0.001, 0.001),    
-                values = c("#ffe6cc", "#ffffff", "#D5EEFB")
+            valueColumns = "status_sinal", 
+            backgroundColor = styleEqual(
+                levels = c(-1, 0, 1),    
+                values = c("#ffcccc", "#ffffff", "#ccffcc") 
             ),
-            color = styleInterval(
-                cuts = c(-0.001, 0.001),
-                values = c("#EA6A24",  "#000000", "#00496d")
+            color = styleEqual(
+                levels = c(-1, 0, 1),
+                values = c("#990000", "#000000", "#006600") 
             )
         )
 }
