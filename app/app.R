@@ -1668,6 +1668,11 @@ theme <- bs_theme(
 
 ui <- bslib::page_navbar(
     title = "IRIS - Indicadores Rodoviários Integrados de Segurança",
+    header = tags$head(
+        tags$link(rel = "icon", type = "image/png", href = "onsv_logo.png"),
+        tags$link(rel = "shortcut icon", type = "image/png", href = "onsv_logo.png"),
+        tags$link(rel = "apple-touch-icon", href = "onsv_logo.png")
+    ),
     nav_spacer(),
     home_panel,
     pilar_panel,
