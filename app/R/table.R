@@ -120,7 +120,7 @@ make_ind_dt <- function(sf_ind, ind_input) {
     }
 }
 
-make_results_gt <- function(df_desc_data, ind_input, uf) {
+make_results_gt <- function(df_desc_data, ind_input, status_input, uf) {
     df_desc_data |> 
         filter(
             nome_uf == uf, 
@@ -222,7 +222,7 @@ make_gt_class_inicio <- function(sf_class) {
 }
 
 
-make_dt_variacao <- function(ind_24, ind_23, pilar_input, uf_input) {
+make_dt_variacao <- function(ind_24, ind_23, pilar_input, uf_input, status_input = "todos") {
     df_24 <- ind_24 |> mutate(ano = 2024)
     df_23 <-  ind_23 |> mutate(ano = 2023)
     
@@ -259,7 +259,7 @@ make_dt_variacao <- function(ind_24, ind_23, pilar_input, uf_input) {
                 variacao_cor < 0  ~ -1,
                 TRUE ~ 0
             )
-        ) |> arrange(desc(variacao_cor))
+        ) |> arrange(desc(abs(variacao_cor)))
     
     if (uf_input != "Todos"){
     base_variacao <- base_variacao |> filter(nome_uf == uf_input)
@@ -269,6 +269,12 @@ make_dt_variacao <- function(ind_24, ind_23, pilar_input, uf_input) {
         base_variacao <- base_variacao |> filter(pilar == pilar_input)
     }
     
+    if (status_input == "melhorou") {
+        base_variacao <- base_variacao |> filter(status_sinal == 1)
+    } else if (status_input == "piorou") {
+        base_variacao <- base_variacao |> filter(status_sinal == -1)
+    }
+    
     base_variacao |>
         select(-cod_uf) |> 
         datatable(
@@ -276,9 +282,10 @@ make_dt_variacao <- function(ind_24, ind_23, pilar_input, uf_input) {
             class = 'cell-border compact',
             options = list(
                 pageLength = 11,
-                dom = 'tip',
-                # scrollCollapse = TRUE,
-                # scrollY = "500px",
+                dom = 't',
+                paging = FALSE,
+                scrollCollapse = TRUE,
+                scrollY = "550px",
                 columnDefs = list(
                     list(targets = c(6, 8, 9), visible = FALSE),
                     list(className = 'dt-center', targets = c(0, 4, 5, 7))
@@ -302,7 +309,7 @@ make_dt_variacao <- function(ind_24, ind_23, pilar_input, uf_input) {
         )
 }
 
-make_dt_pilares <- function(class_24, class_23, pilar_input, uf_input){
+make_dt_pilares <- function(class_24, class_23, pilar_input, uf_input, status_input = "todos"){
     df_24 <- class_24 |> st_drop_geometry() |> mutate(ano = 2024)
     df_23 <-  class_23 |> st_drop_geometry() |> mutate(ano = 2023)
     
@@ -331,8 +338,16 @@ make_dt_pilares <- function(class_24, class_23, pilar_input, uf_input){
                    variacao_cor > 0.001      ~ paste0("▲ ", format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%"),
                    variacao_cor < -0.001     ~ paste0("▼ ", format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%"),
                    TRUE ~ paste0(format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%")
+               ),
+               status_sinal = case_when(
+                   `2023` == 0 & `2024` == 0 ~ 0,
+                   is.na(variacao_cor)       ~ 0,
+                   abs(variacao_cor) <= 0.001 ~ 0,
+                   variacao_cor > 0  ~ 1,
+                   variacao_cor < 0  ~ -1,
+                   TRUE ~ 0
                ))  |>
-        relocate(descricao, .before = `2023`) |> arrange(desc(variacao_cor))
+        relocate(descricao, .before = `2023`) |> arrange(desc(abs(variacao_cor)))
     
     
     if (uf_input != "Todos"){
@@ -343,17 +358,24 @@ make_dt_pilares <- function(class_24, class_23, pilar_input, uf_input){
         base_variacao <- base_variacao |> filter(pilar == pilar_input)
     }
     
+    if (status_input == "melhorou") {
+        base_variacao <- base_variacao |> filter(status_sinal == 1)
+    } else if (status_input == "piorou") {
+        base_variacao <- base_variacao |> filter(status_sinal == -1)
+    }
+    
     base_variacao |>
         datatable(
-            colnames = c("Estado", "Pilar", "Descrição", "2023", "2024", "variacao_texto_velha", "Variação (%)"),
+            colnames = c("Estado", "Pilar", "Descrição", "2023", "2024", "variacao_texto_velha", "Variação (%)", "sinal"),
             class = 'cell-border compact',
             options = list(
                 pageLength = 11,
-                dom = 'tip',
-                # scrollCollapse = TRUE,
-                # scrollY = "500px",
+                dom = 't',
+                paging = FALSE,
+                scrollCollapse = TRUE,
+                scrollY = "550px",
                 columnDefs = list(
-                    list(targets = 5, visible = FALSE),
+                    list(targets = c(5, 7), visible = FALSE),
                     list(className = 'dt-center', targets = c(0, 3, 4, 6))
                 ),
                 language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json')
@@ -375,7 +397,7 @@ make_dt_pilares <- function(class_24, class_23, pilar_input, uf_input){
         )
 }
 
-make_dt_geral <- function(class_24, class_23, pilar_input, uf_input){
+make_dt_geral <- function(class_24, class_23, pilar_input, uf_input, status_input = "todos"){
     df_24 <- class_24 |> st_drop_geometry() |> mutate(ano = 2024)
     df_23 <-  class_23 |> st_drop_geometry() |> mutate(ano = 2023)
     
@@ -393,22 +415,37 @@ make_dt_geral <- function(class_24, class_23, pilar_input, uf_input){
                    variacao_cor > 0.001  ~ paste0("▲ ", format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%"),
                    variacao_cor < -0.001  ~ paste0("▼ ", format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%"),
                    TRUE ~ paste0(format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%")
-               )) |> arrange(desc(variacao_cor))
+               ),
+               status_sinal = case_when(
+                   `2023` == 0 & `2024` == 0 ~ 0,
+                   is.na(variacao_cor)       ~ 0,
+                   abs(variacao_cor) <= 0.001 ~ 0,
+                   variacao_cor > 0  ~ 1,
+                   variacao_cor < 0  ~ -1,
+                   TRUE ~ 0
+               )) |> arrange(desc(abs(variacao_cor)))
     
     if (uf_input != "Todos"){
         base_variacao <- base_variacao |> filter(nome_uf == uf_input)
     }
     
+    if (status_input == "melhorou") {
+        base_variacao <- base_variacao |> filter(status_sinal == 1)
+    } else if (status_input == "piorou") {
+        base_variacao <- base_variacao |> filter(status_sinal == -1)
+    }
+    
     base_variacao |>
         datatable(
-            colnames = c("Estado", "2023", "2024", "variacao_texto_velha", "Variação (%)"),
+            colnames = c("Estado", "2023", "2024", "variacao_texto_velha", "Variação (%)", "sinal"),
             options = list(
                 pageLength = 11,
-                dom = 'tip',
-                # scrollCollapse = TRUE,
-                # scrollY = "500px",
+                dom = 't',
+                paging = FALSE,
+                scrollCollapse = TRUE,
+                scrollY = "550px",
                 columnDefs = list(
-                    list(targets = 3, visible = FALSE),
+                    list(targets = c(3, 5), visible = FALSE),
                     list(className = "dt-center", targets = c(0, 1, 2, 4))
                 ),
                 language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json')

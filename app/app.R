@@ -12,6 +12,8 @@ library(gt)
 library(plotly)
 library(stringr)
 library(sass)
+library(shinyWidgets)
+library(htmlwidgets)
 
 ### Só roda no servidor, não localmente #####################
 source("R/table.R")
@@ -1633,15 +1635,69 @@ variacao_panel <- nav_panel(
             height = "680px",
             nav_panel(
                 title = "Classificação média",
-                DT::DTOutput("tabela_geral") 
+                card_body(
+                    padding = 0,
+                    DT::DTOutput("tabela_geral") 
+                ),
+                card_footer(
+                    class = "d-flex justify-content-end align-items-center py-1 px-2",
+                    radioGroupButtons(
+                        inputId = "status_select",
+                        label = NULL,
+                        choices = c(
+                            "Todos"      = "todos",
+                            "Melhorou" = "melhorou",
+                            "Piorou"   = "piorou"
+                        ),
+                        selected = "todos",
+                        status = "default",
+                        size = "sm"
+                    )
+                )
             ),
             nav_panel(
                 title = "Notas - Pilares",
-                DT::DTOutput("tabela_pilares") 
+                card_body(
+                    padding = 0,
+                    DT::DTOutput("tabela_pilares")
+                ),
+                card_footer(
+                    class = "d-flex justify-content-end align-items-center py-1 px-2",
+                    radioGroupButtons(
+                        inputId = "status_select",
+                        label = NULL,
+                        choices = c(
+                            "Todos"      = "todos",
+                            "Melhorou" = "melhorou",
+                            "Piorou"   = "piorou"
+                        ),
+                        selected = "todos",
+                        status = "default",
+                        size = "sm"
+                    )
+                )
             ),
             nav_panel(
                 title = "Indicadores",
-                DT::DTOutput("tabela_variacao")
+                card_body(
+                    padding = 0,
+                    DT::DTOutput("tabela_variacao")
+                ),
+                card_footer(
+                    class = "d-flex justify-content-end align-items-center py-1 px-2",
+                    radioGroupButtons(
+                        inputId = "status_select",
+                        label = NULL,
+                        choices = c(
+                            "Todos"      = "todos",
+                            "Melhorou" = "melhorou",
+                            "Piorou"   = "piorou"
+                        ),
+                        selected = "todos",
+                        status = "default",
+                        size = "sm"
+                    )
+                )
             )
         )
     )
@@ -2101,25 +2157,37 @@ server <- function(input, output, session) {
     output$tblbenchmark <- render_gt(
         render_tblbenchmark()
     )
-    output$tabela_variacao <- renderDT(
+    output$tabela_variacao <- renderDT({
+        
+        status_val <- if (is.null(input$status_select)) "todos" else input$status_select
+        
         make_dt_variacao(ind_desc_data, 
                          ind_desc_data_23,
                          input$pilar_select, 
-                         input$uf_select)
-    )
-    output$tabela_pilares <- renderDT(
+                         input$uf_select,
+                         status_val)
+    })
+    output$tabela_pilares <- renderDT({
+        
+        status_val <- if (is.null(input$status_select)) "todos" else input$status_select
+        
         make_dt_pilares(sf_classificacao, 
                         sf_classificacao_23,
                         input$pilar_select, 
-                        input$uf_select)
-    )
-    output$tabela_geral <- renderDT(
+                        input$uf_select,
+                        status_val)
+    })
+    output$tabela_geral <- renderDT({
+        
+        status_val <- if (is.null(input$status_select)) "todos" else input$status_select
+        
         make_dt_geral(sf_classificacao, 
                       sf_classificacao_23,
                       input$pilar_select, 
-                      input$uf_select
+                      input$uf_select,
+                      status_val
         )
-    )
+    })
 }
 
 shinyApp(ui, server)
