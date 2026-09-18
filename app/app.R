@@ -14,6 +14,7 @@ library(stringr)
 library(sass)
 library(shinyWidgets)
 library(htmlwidgets)
+library(leaflegend)
 
 ### Só roda no servidor, não localmente #####################
 source("R/table.R")
@@ -125,7 +126,11 @@ pilar01_panel <- nav_panel(
             tabPanel(
                 title = "Indicador I.1",
                 card(
-                    tags$h5("Percentual de municípios integrados ao SNT"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Percentual de municípios integrados ao SNT", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -153,7 +158,11 @@ pilar01_panel <- nav_panel(
             tabPanel(
                 title = "Indicador I.2",
                 card(
-                    tags$h5("Percentual de campos não informados nas bases do RENAEST"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Percentual de campos não informados nas bases do RENAEST", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -181,7 +190,11 @@ pilar01_panel <- nav_panel(
             tabPanel(
                 title = "Indicador I.3",
                 card(
-                    tags$h5("Produto interto bruto per capita [R$ 1.000,00 / Hab.]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Produto interto bruto per capita [R$ 1.000,00 / Hab.]", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -209,7 +222,11 @@ pilar01_panel <- nav_panel(
             tabPanel(
                 title = "Indicador I.4",
                 card(
-                    tags$h5("Disponibilidade de informações no portal do Detran [Nota]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Disponibilidade de informações no portal do Detran [Nota]", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -274,7 +291,11 @@ pilar02_panel <- nav_panel(
             tabPanel(
                 title = "Indicador II.1",
                 card(
-                    tags$h5("Percentual de extensão de rodovias em condições péssimas e ruins na categoria Estado Geral"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Percentual de extensão de rodovias em condições péssimas e ruins na categoria Estado Geral", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -305,7 +326,11 @@ pilar02_panel <- nav_panel(
             tabPanel(
                 title = "Indicador II.2",
                 card(
-                    tags$h5("Percentual de extensão de rodovias em condições péssimas e ruins na categoria Geometria"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Percentual de extensão de rodovias em condições péssimas e ruins na categoria Geometria", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -336,7 +361,11 @@ pilar02_panel <- nav_panel(
             tabPanel(
                 title = "Indicador II.3",
                 card(
-                    tags$h5("Percentual de extensão de rodovias em condições péssimas e ruins na categoria Pavimento"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Percentual de extensão de rodovias em condições péssimas e ruins na categoria Pavimento", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -367,7 +396,11 @@ pilar02_panel <- nav_panel(
             tabPanel(
                 title = "Indicador II.4",
                 card(
-                    tags$h5("Percentual de extensão de rodovias em condições péssimas e ruins na categoria Sinalização"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Percentual de extensão de rodovias em condições péssimas e ruins na categoria Sinalização", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -398,7 +431,11 @@ pilar02_panel <- nav_panel(
             tabPanel(
                 title = "Indicador II.5",
                 card(
-                    tags$h5("Percentual de extensão de rodovias federais com pistas duplas"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Percentual de extensão de rodovias federais com pistas duplas", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -466,7 +503,11 @@ pilar03_panel <- nav_panel(
             tabPanel(
                 title = "Indicador III.1",
                 card(
-                    tags$h5("Percentual de frota de motocicletas"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Percentual de frota de motocicletas", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -497,7 +538,11 @@ pilar03_panel <- nav_panel(
             tabPanel(
                 title = "Indicador III.2",
                 card(
-                    tags$h5("Percentual da frota com idade igual ou superior a 10 anos"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Percentual da frota com idade igual ou superior a 10 anos", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -528,7 +573,11 @@ pilar03_panel <- nav_panel(
             tabPanel(
                 title = "Indicador III.3",
                 card(
-                    tags$h5("Percentual mínimo de veículos com Airbag/ABS na frota"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Percentual mínimo de veículos com Airbag/ABS na frota", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -559,7 +608,11 @@ pilar03_panel <- nav_panel(
             tabPanel(
                 title = "Indicador III.4",
                 card(
-                    tags$h5("Percentual mínimo de veículos com ISOFIX na frota"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Percentual mínimo de veículos com ISOFIX na frota", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -627,7 +680,11 @@ pilar04_panel <- nav_panel(
             tabPanel(
                 title = "Indicador IV.1",
                 card(
-                    tags$h5("Relação entre condutores habilitados a conduzir motocicletas e frota de motocicletas [condutor/100 veic.]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Relação entre condutores habilitados a conduzir motocicletas e frota de motocicletas [condutor/100 veic.]", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -658,7 +715,11 @@ pilar04_panel <- nav_panel(
             tabPanel(
                 title = "Indicador IV.2",
                 card(
-                    tags$h5("Taxa de infrações por consumo de bebidas alcoólicas a cada 10 mil veículos"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de infrações por consumo de bebidas alcoólicas a cada 10 mil veículos", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -689,7 +750,11 @@ pilar04_panel <- nav_panel(
             tabPanel(
                 title = "Indicador IV.3",
                 card(
-                    tags$h5("Taxa de infrações por excesso de velocidade a cada 10 mil veículos"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de infrações por excesso de velocidade a cada 10 mil veículos", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -720,7 +785,11 @@ pilar04_panel <- nav_panel(
             tabPanel(
                 title = "Indicador IV.4",
                 card(
-                    tags$h5("Taxa de infrações por não utilizar o cinto de segurança a cada 10 mil veículos"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de infrações por não utilizar o cinto de segurança a cada 10 mil veículos", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -751,7 +820,11 @@ pilar04_panel <- nav_panel(
             tabPanel(
                 title = "Indicador IV.5",
                 card(
-                    tags$h5("Taxa de infrações cometidas por não utilizar o capacete a cada 10 mil veiculos"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de infrações cometidas por não utilizar o capacete a cada 10 mil veiculos", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -782,7 +855,11 @@ pilar04_panel <- nav_panel(
             tabPanel(
                 title = "Indicador IV.6",
                 card(
-                    tags$h5("Taxa de infrações por utilizar o celular na direção a cada 10 mil veiculos"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de infrações por utilizar o celular na direção a cada 10 mil veiculos", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -813,7 +890,11 @@ pilar04_panel <- nav_panel(
             tabPanel(
                 title = "Indicador IV.7",
                 card(
-                    tags$h5("Taxa de infrações cometidas por não utilizar dispositivos de retenção a cada 10 mil veículos"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de infrações cometidas por não utilizar dispositivos de retenção a cada 10 mil veículos", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -847,10 +928,10 @@ pilar04_panel <- nav_panel(
 
 pilar05_panel <- nav_panel(
     value = "pilar05",
-    title = "Pilar V - Vigilência, Promoção da Saúde e Atendimento às Vítimas no Trânsito",
+    title = "Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito",
     value_box(
         title = "Pilar V",
-        value = "Vigilência, Promoção da Saúde e Atendimento às Vítimas no Trânsito",
+        value = "Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito",
         height = 100
     ),
     layout_columns(
@@ -881,7 +962,11 @@ pilar05_panel <- nav_panel(
             tabPanel(
                 title = "Indicador V.1",
                 card(
-                    tags$h5("Taxa de profissionais que atuam na área da saúde per capita [n / 1000 hab.]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de profissionais que atuam na área da saúde per capita [n / 1000 hab.]", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -912,7 +997,11 @@ pilar05_panel <- nav_panel(
             tabPanel(
                 title = "Indicador V.2",
                 card(
-                    tags$h5("Taxa de leitos totais per capita [n / 1000 hab.]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de leitos totais per capita [n / 1000 hab.]", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -943,7 +1032,11 @@ pilar05_panel <- nav_panel(
             tabPanel(
                 title = "Indicador V.3",
                 card(
-                    tags$h5("Taxa de leitos SUS per capita [n / 1000 hab.]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de leitos SUS per capita [n / 1000 hab.]", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -974,7 +1067,11 @@ pilar05_panel <- nav_panel(
             tabPanel(
                 title = "Indicador V.4",
                 card(
-                    tags$h5("Taxa de leitos não-SUS per capita [n / 1000 hab.]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de leitos não-SUS per capita [n / 1000 hab.]", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -1005,7 +1102,11 @@ pilar05_panel <- nav_panel(
             tabPanel(
                 title = "Indicador V.5",
                 card(
-                    tags$h5("Taxa de unidades móveis per capita [n / 1000 hab.]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de unidades móveis per capita [n / 1000 hab.]", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -1073,7 +1174,11 @@ pilar06_panel <- nav_panel(
             tabPanel(
                 title = "Indicador VI.1",
                 card(
-                    tags$h5("Taxa de infrações por frota [n / 10.000 veic.]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de infrações por frota [n / 10.000 veic.]", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -1104,7 +1209,11 @@ pilar06_panel <- nav_panel(
             tabPanel(
                 title = "Indicador VI.2",
                 card(
-                    tags$h5("Taxa de câmeras de segurança em geral em relacao à frota [n / 10.000 veic.]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de câmeras de segurança em geral em relação à frota [n / 10.000 veic.]", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -1135,7 +1244,11 @@ pilar06_panel <- nav_panel(
             tabPanel(
                 title = "Indicador VI.3",
                 card(
-                    tags$h5("Taxa de câmeras de segurança em rodovias em relação à frota [n / 10.000 veic.]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de câmeras de segurança em rodovias em relação à frota [n / 10.000 veic.]", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -1166,7 +1279,11 @@ pilar06_panel <- nav_panel(
             tabPanel(
                 title = "Indicador VI.4",
                 card(
-                    tags$h5("Taxa de câmeras de segurança em vias urbanas em relação à frota [n / 10.000 veic.]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de câmeras de segurança em vias urbanas em relação à frota [n / 10.000 veic.]", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -1197,7 +1314,11 @@ pilar06_panel <- nav_panel(
             tabPanel(
                 title = "Indicador VI.5",
                 card(
-                    tags$h5("Taxa de câmeras de segurança em relação à extensão de rodovias federais pavimentadas [n / 100 km]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de câmeras de segurança em relação à extensão de rodovias federais pavimentadas [n / 100 km]", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -1228,7 +1349,11 @@ pilar06_panel <- nav_panel(
             tabPanel(
                 title = "Indicador VI.6",
                 card(
-                    tags$h5("Taxa de infrações de velocidade por câmera de segurança [n / n]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de infrações de velocidade por câmera de segurança [n / n]", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -1259,7 +1384,11 @@ pilar06_panel <- nav_panel(
             tabPanel(
                 title = "Indicador VI.7",
                 card(
-                    tags$h5("Taxa de câmeras de segurança em capitais em relação à extensão de vias [n / 100 km]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de câmeras de segurança em capitais em relação à extensão de vias [n / 100 km]", class = "mb-0"),
+                        tags$span("(quanto maior, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -1327,7 +1456,11 @@ obitos_panel <- nav_panel(
             tabPanel(
                 title = "Indicador VII.1",
                 card(
-                    tags$h5("Taxa de óbitos por veículos [n / 10.000 veic.]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de óbitos por veículos [n / 10.000 veic.]", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -1358,7 +1491,11 @@ obitos_panel <- nav_panel(
             tabPanel(
                 title = "Indicador VII.2",
                 card(
-                    tags$h5("Taxa de óbitos por habitantes [n / 100.000 hab.]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de óbitos por habitantes [n / 100.000 hab.]", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -1389,7 +1526,11 @@ obitos_panel <- nav_panel(
             tabPanel(
                 title = "Indicador VII.3",
                 card(
-                    tags$h5("Taxa de óbitos por bilhão de quilômetros percorridos [n / 10^9 km]"),
+                    tags$div(
+                        class = "d-flex align-items-baseline gap-2",
+                        tags$h5("Taxa de óbitos por bilhão de quilômetros percorridos [n / 10^9 km]", class = "mb-0"),
+                        tags$span("(quanto menor, melhor)", style = "font-size: 0.75rem;", class = "text-muted")
+                    ),
                     max_height = "80px"
                 ),
                 layout_columns(
@@ -1604,6 +1745,7 @@ uf_panel <- nav_panel(
     )
 )
 
+
 variacao_panel <- nav_panel(
     value = "variacao",
     title = "Variação",
@@ -1617,88 +1759,124 @@ variacao_panel <- nav_panel(
         fillable = FALSE,
         height = "750px",
         sidebar = sidebar(
+            width = 250,
             title = "Filtros",
             selectInput(
                 inputId = "uf_select",
                 label = "Selecione o Estado:",
-                choices = c("Todos", sort(unique(ind_desc_data$nome_uf))),
+                choices = c("Todos", sort(unique(
+                    ind_desc_data$nome_uf
+                ))),
                 selected = "Todos"
             ),
             selectInput(
                 inputId = "pilar_select",
                 label = "Selecione o Pilar:",
-                choices = c("Todos", "Pilar I", "Pilar II", "Pilar III", "Pilar IV", "Pilar V", "Pilar VI", "Pilar VII"),
+                choices = c(
+                    "Todos",
+                    "Pilar I",
+                    "Pilar II",
+                    "Pilar III",
+                    "Pilar IV",
+                    "Pilar V",
+                    "Pilar VI",
+                    "Pilar VII"
+                ),
                 selected = "Todos"
             )
         ),
-        navset_card_tab(
-            height = "680px",
-            nav_panel(
-                title = "Classificação média",
-                card_body(
-                    padding = 0,
-                    DT::DTOutput("tabela_geral") 
+        
+        layout_columns(
+            # col_widths = c(9, 3),
+            navset_card_tab(
+                height = "680px",
+                nav_panel(
+                    title = "Classificação média",
+                    card_body(padding = 0, DT::DTOutput("tabela_geral")),
+                    card_footer(
+                        class = "d-flex justify-content-end align-items-center py-1 px-2",
+                        radioGroupButtons(
+                            inputId = "status_select_geral",
+                            label = NULL,
+                            choices = c(
+                                "Todos"      = "todos",
+                                "Melhorou" = "melhorou",
+                                "Piorou"   = "piorou"
+                            ),
+                            selected = "todos",
+                            status = "default",
+                            size = "sm"
+                        )
+                    )
                 ),
-                card_footer(
-                    class = "d-flex justify-content-end align-items-center py-1 px-2",
-                    radioGroupButtons(
-                        inputId = "status_select",
-                        label = NULL,
-                        choices = c(
-                            "Todos"      = "todos",
-                            "Melhorou" = "melhorou",
-                            "Piorou"   = "piorou"
+                nav_panel(
+                    title = "Notas - Pilares",
+                    card_body(padding = 0, DT::DTOutput("tabela_pilares")),
+                    card_footer(
+                        class = "d-flex justify-content-end align-items-center py-1 px-2",
+                        radioGroupButtons(
+                            inputId = "status_select_pilares",
+                            label = NULL,
+                            choices = c(
+                                "Todos"      = "todos",
+                                "Melhorou" = "melhorou",
+                                "Piorou"   = "piorou"
+                            ),
+                            selected = "todos",
+                            status = "default",
+                            size = "sm"
+                        )
+                    )
+                ),
+                nav_panel(
+                    title = "Indicadores",
+                    card_body(padding = 0, DT::DTOutput("tabela_variacao")),
+                    card_footer(
+                        class = "d-flex justify-content-between align-items-center py-1 px-3",
+                        
+                        tags$div(
+                            style = "font-size: 0.78rem; color: #495057; display: flex; align-items: center; gap: 14px;",
+                            tags$span(
+                                tags$span(style = "color: #006600; font-weight: bold; margin-right: 2px;", "▲"),
+                                "Aumento positivo"
+                            ),
+                            tags$span(
+                                tags$span(style = "color: #006600; font-weight: bold; margin-right: 2px;", "▼"),
+                                "Redução positiva"
+                            ),
+                            tags$span(
+                                tags$span(style = "color: #990000; font-weight: bold; margin-right: 2px;", "▲"),
+                                "Aumento negativo"
+                            ),
+                            tags$span(
+                                tags$span(style = "color: #990000; font-weight: bold; margin-right: 2px;", "▼"),
+                                "Redução negativa"
+                            )
                         ),
-                        selected = "todos",
-                        status = "default",
-                        size = "sm"
+                        radioGroupButtons(
+                            inputId = "status_select_ind",
+                            label = NULL,
+                            choices = c(
+                                "Todos"      = "todos",
+                                "Melhorou" = "melhorou",
+                                "Piorou"   = "piorou"
+                            ),
+                            selected = "todos",
+                            status = "default",
+                            size = "sm"
+                        )
                     )
                 )
             ),
-            nav_panel(
-                title = "Notas - Pilares",
-                card_body(
-                    padding = 0,
-                    DT::DTOutput("tabela_pilares")
-                ),
-                card_footer(
-                    class = "d-flex justify-content-end align-items-center py-1 px-2",
-                    radioGroupButtons(
-                        inputId = "status_select",
-                        label = NULL,
-                        choices = c(
-                            "Todos"      = "todos",
-                            "Melhorou" = "melhorou",
-                            "Piorou"   = "piorou"
-                        ),
-                        selected = "todos",
-                        status = "default",
-                        size = "sm"
-                    )
-                )
-            ),
-            nav_panel(
-                title = "Indicadores",
-                card_body(
-                    padding = 0,
-                    DT::DTOutput("tabela_variacao")
-                ),
-                card_footer(
-                    class = "d-flex justify-content-end align-items-center py-1 px-2",
-                    radioGroupButtons(
-                        inputId = "status_select",
-                        label = NULL,
-                        choices = c(
-                            "Todos"      = "todos",
-                            "Melhorou" = "melhorou",
-                            "Piorou"   = "piorou"
-                        ),
-                        selected = "todos",
-                        status = "default",
-                        size = "sm"
-                    )
-                )
-            )
+            # card(
+            #     card_header("Mapa de Variação"),
+            #     full_screen = TRUE,
+            #     card_body(class = "p-0", withSpinner(
+            #         leafletOutput("mapa_variacao_geral", height = "620px"),
+            #         type = 8,
+            #         color = "#00496d"
+            #     ))
+            # )
         )
     )
 )
@@ -1723,7 +1901,7 @@ theme <- bs_theme(
 
 
 ui <- bslib::page_navbar(
-    title = "IRIS - Indicadores Rodoviários Integrados de Segurança",
+    title = "IRIS - Indicadores Rodoviários Integrados de Segurança - Versão 2026",
     header = tags$head(
         tags$link(rel = "icon", type = "image/png", href = "onsv_logo.png"),
         tags$link(rel = "shortcut icon", type = "image/png", href = "onsv_logo.png"),
@@ -1884,12 +2062,15 @@ server <- function(input, output, session) {
     output$mapa03 <- renderLeaflet({
         plot_indicadores_leaflet(sf_indicadores, "0.3")
     })
-
+    output$mapa_variacao_geral <- renderLeaflet({
+        plot_variacao_geral_leaflet(sf_classificacao, sf_classificacao_23)
+    })
+    
     # Tabelas
     output$gtclasshome <- render_gt({
         make_gt_class_inicio(sf_classificacao)
     })
-
+    
     output$tblpilar1 <- renderDT({
         make_class_dt(sf_classificacao, "Pilar I")
     })
@@ -2016,8 +2197,8 @@ server <- function(input, output, session) {
     output$tbl03 <- renderDT({
         make_ind_dt(sf_indicadores, "0.3")
     })
-
- 
+    
+    
     render_ufbox <- reactive({
         req(input$filteruf)
         sf_classificacao |> 
@@ -2026,7 +2207,7 @@ server <- function(input, output, session) {
             pull(nome_uf) |> 
             unique()
     })
-
+    
     render_regiaobox <- reactive({
         req(input$filteruf)
         sf_indicadores |> 
@@ -2035,7 +2216,7 @@ server <- function(input, output, session) {
             pull(regiao_uf) |> 
             unique()
     })
-
+    
     render_classbox <- reactive({
         req(input$filteruf)
         sf_classificacao |> 
@@ -2045,7 +2226,7 @@ server <- function(input, output, session) {
             mean() |> 
             scales::number(accuracy = 0.01, decimal.mark = ",")
     })
-
+    
     render_rankbox <- reactive({
         req(input$filteruf)
         sf_classificacao |> 
@@ -2060,106 +2241,106 @@ server <- function(input, output, session) {
             filter(nome_uf == input$filteruf) |> 
             pull(ranking)
     })
-
+    
     render_tblindpilar1 <- reactive({
         req(input$filteruf)
         make_results_gt(ind_desc_data, "i.", input$filteruf)
     })
-
+    
     render_tblindpilar2 <- reactive({
         req(input$filteruf)
         make_results_gt(ind_desc_data, "ii.", input$filteruf)
     })
-
+    
     render_tblindpilar3 <- reactive({
         req(input$filteruf)
         make_results_gt(ind_desc_data, "iii.", input$filteruf)
     })
-
+    
     render_tblindpilar4 <- reactive({
         req(input$filteruf)
         make_results_gt(ind_desc_data, "iv.", input$filteruf)
     })
-
+    
     render_tblindpilar5 <- reactive({
         req(input$filteruf)
         make_results_gt(ind_desc_data, "v.", input$filteruf)
     })
-
+    
     render_tblindpilar6 <- reactive({
         req(input$filteruf)
         make_results_gt(ind_desc_data, "vi.", input$filteruf)
     })
-
+    
     render_tblindresultado <- reactive({
         req(input$filteruf)
         make_results_gt(ind_desc_data, "0.", input$filteruf)
     })
-
+    
     render_radarplot <- reactive({
         req(input$filteruf)
         plot_radar_class(sf_classificacao, input$filteruf)
     })
-
+    
     render_tblbenchmark <- reactive({
         req(input$filteruf)
         make_gt_bench(sf_classificacao, input$filteruf)
     })
-
+    
     output$ufbox <- renderText(
         render_ufbox()
     )
-
+    
     output$regiaobox <- renderText(
         render_regiaobox()
     )
-
+    
     output$classificacaobox <- renderText(
         render_classbox()
     )
-
+    
     output$rankbox <- renderText(
         render_rankbox()
     )
-
+    
     output$tblindpilar1 <- render_gt(
         render_tblindpilar1()
     )
-
+    
     output$tblindpilar2 <- render_gt(
         render_tblindpilar2()
     )
-
+    
     output$tblindpilar3 <- render_gt(
         render_tblindpilar3()
     )
-
+    
     output$tblindpilar4 <- render_gt(
         render_tblindpilar4()
     )
-
+    
     output$tblindpilar5 <- render_gt(
         render_tblindpilar5()
     )
-
+    
     output$tblindpilar6 <- render_gt(
         render_tblindpilar6()
     )
-
+    
     output$tblindresultado <- render_gt(
         render_tblindresultado()
     )
-
+    
     output$radarplot <- renderPlotly(
         render_radarplot()
     )
-
+    
     output$tblbenchmark <- render_gt(
         render_tblbenchmark()
     )
     output$tabela_variacao <- renderDT({
         
-        status_val <- if (is.null(input$status_select)) "todos" else input$status_select
+        status_val <- if (is.null(input$status_select_ind)) "todos" else input$status_select_ind
         
         make_dt_variacao(ind_desc_data, 
                          ind_desc_data_23,
@@ -2169,7 +2350,7 @@ server <- function(input, output, session) {
     })
     output$tabela_pilares <- renderDT({
         
-        status_val <- if (is.null(input$status_select)) "todos" else input$status_select
+        status_val <- if (is.null(input$status_select_pilares)) "todos" else input$status_select_pilares
         
         make_dt_pilares(sf_classificacao, 
                         sf_classificacao_23,
@@ -2179,7 +2360,7 @@ server <- function(input, output, session) {
     })
     output$tabela_geral <- renderDT({
         
-        status_val <- if (is.null(input$status_select)) "todos" else input$status_select
+        status_val <- if (is.null(input$status_select_geral)) "todos" else input$status_select_geral
         
         make_dt_geral(sf_classificacao, 
                       sf_classificacao_23,
