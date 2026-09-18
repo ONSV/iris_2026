@@ -23,4 +23,6 @@ O presente painel apresenta os principais resultados, incluindo a classificaçã
 
 **Perfil das unidades da federação**: Inclui os resultados organizados por cada UF, incluindo a comparação dos resultados de cada pilar para a UF e a comparação com outras UFs.
 
+**Variação**: Inclui as tabelas de variação dos indicadores de 2023 a 2024.
+
 **Sobre**: Inclui informações sobre a metodologia, autoria e versionamento do painel.
