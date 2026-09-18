@@ -15,7 +15,7 @@ plot_classificacao_leaflet <- function(df_classificacao, pilar_input) {
     ) |> lapply(htmltools::HTML)
     
     leaflet(data = sf_class) |> 
-        addProviderTiles(providers$CartoDB.PositronNoLabels) |>
+        addProviderTiles(providers$Esri.WorldGrayCanvas) |>
         addPolygons(
             fillColor = ~pal(sf_class$star), 
             smoothFactor = 0.2,
@@ -81,7 +81,7 @@ plot_leaflet_geral <- function(df_classificacao) {
 
 
     leaflet(data = sf_class) |> 
-        addProviderTiles(providers$CartoDB.PositronNoLabels) |>
+        addProviderTiles(providers$Esri.WorldGrayCanvas) |>
         addPolygons(
             fillColor = ~pal(sf_class$classificacao_numeric), 
             smoothFactor = 0.2,
@@ -160,7 +160,7 @@ plot_indicadores_leaflet <- function(df_indicadores, ind_input) {
 
 
     map <- leaflet(data = sf_ind) |> 
-        addProviderTiles(providers$CartoDB.PositronNoLabels) |> 
+        addProviderTiles(providers$Esri.WorldGrayCanvas) |> 
         addPolygons(
             fillColor = ~pal(sf_ind$valor), 
             smoothFactor = 0.2,
@@ -210,4 +210,86 @@ plot_indicadores_leaflet <- function(df_indicadores, ind_input) {
     }
     
     return(final_map)
+}
+
+plot_variacao_geral_leaflet <- function(df_classificacao_24, df_classificacao_23){
+    df_24 <- sf_classificacao |>  mutate(ano = 2024)
+    df_23 <-  sf_classificacao_23 |> st_drop_geometry() |>  mutate(ano = 2023)
+    
+    base_variacao <- df_24 |> bind_rows(df_23) |>
+        st_drop_geometry() |> 
+        select(-c(name_region, star)) |> 
+        group_by(nome_uf, ano) |>
+        summarise(classificacao_media = mean(classificacao_numeric)) |>
+        pivot_wider(
+            names_from = ano,
+            values_from = classificacao_media,
+            id_cols = c(nome_uf)
+        ) |>
+        relocate(`2023`, .before = `2024`) |>
+        mutate(variacao_cor = ((`2024` - `2023`) / `2023`) * 100) |> 
+        arrange(desc(abs(variacao_cor))) |> 
+        left_join(df_24 |> select(nome_uf, geometry) |> unique(), by = "nome_uf")
+    
+    sf_class <- base_variacao |>
+        st_as_sf() |>
+        st_collection_extract("POLYGON") |>
+        st_cast("MULTIPOLYGON")
+    
+    pal <- colorNumeric(
+        palette = "RdYlGn",
+        domain = c(-20, 20),
+        na.color = "#808080"
+    )
+    
+    labels <- sprintf(
+        "<strong>%s</strong><br/>Variação: %s%%",
+        base_variacao$nome_uf,
+        ifelse(is.na(sf_class$variacao_cor), "N/A", format(round(sf_class$variacao_cor, 2), nsmall = 2, decimal.mark = ","))
+    ) |> lapply(htmltools::HTML)
+    
+    my_labelFormat <- function(...) {
+        fun <- labelFormat(...)
+        evalq(formatNum <- function(x) {
+            format(
+                round(transform(x), digits),
+                trim = TRUE, 
+                scientific = FALSE,
+                big.mark = big.mark, 
+                decimal.mark = ","
+            )
+        }, environment(fun))
+        return(fun)
+    }
+    
+    leaflet(data = sf_class) |> 
+        addProviderTiles(providers$Esri.WorldGrayCanvas) |>
+        addPolygons(
+            fillColor = ~pal(variacao_cor), 
+            smoothFactor = 0.2,
+            fillOpacity = 0.8,
+            color = "grey",
+            weight = 1,
+            highlightOptions = highlightOptions(
+                color = "black",
+                weight = 3,
+                bringToFront = TRUE
+            ),
+            label = labels,
+            labelOptions = labelOptions(
+                style = list("font-weight" = "normal"),
+                textsize = "12px",
+                direction = "auto"
+            ),
+            layerId = ~nome_uf
+        ) |> addLegendNumeric(
+            pal = pal,
+            values = c(-20, 20),
+            position = "bottomright",
+            title = "Classificação",
+            width = 20,           
+            height = 150,         
+            orientation = "vertical",
+            shape = "rect"
+        )
 }
