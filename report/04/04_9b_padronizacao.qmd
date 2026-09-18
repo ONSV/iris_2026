@@ -10,11 +10,11 @@ editor_options:
 
 library(
     targets, 
-    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+    lib.loc = "../../renv/library/macos/R-4.5/aarch64-apple-darwin20/"
 )
 library(
     tidyverse,
-    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+    lib.loc = "../../renv/library/macos/R-4.5/aarch64-apple-darwin20/"
 )
 library(gt)
 
@@ -25,7 +25,7 @@ library(gt)
 #| tbl-cap: Valores padronizados dos indicadores do Pilar I
 #| echo: false
 
-tar_read(indicadores_scaled, store = here::here("_targets")) |> 
+tar_read(indicadores_scaled, store = "../../_targets") |> 
     select(-cod_uf) |> 
     filter(str_extract(indicador, "^[^.]+\\.") == "i.") |> 
     pivot_wider(
@@ -69,7 +69,7 @@ tar_read(indicadores_scaled, store = here::here("_targets")) |>
 #| tbl-cap: Valores padronizados dos indicadores do Pilar II
 #| echo: false
 
-tar_read(indicadores_scaled, store = here::here("_targets")) |> 
+tar_read(indicadores_scaled, store = "../../_targets") |> 
     select(-cod_uf) |> 
     filter(str_extract(indicador, "^[^.]+\\.") == "ii.") |> 
     rename(original = valor, padronizado = valor_padronizado) |>
@@ -121,7 +121,7 @@ tar_read(indicadores_scaled, store = here::here("_targets")) |>
 #| tbl-cap: Valores padronizados dos indicadores do Pilar III
 #| echo: false
 
-tar_read(indicadores_scaled, store = here::here("_targets")) |> 
+tar_read(indicadores_scaled, store = "../../_targets") |> 
     select(-cod_uf) |> 
     filter(str_extract(indicador, "^[^.]+\\.") == "iii.") |> 
     rename(original = valor, padronizado = valor_padronizado) |>
@@ -173,7 +173,7 @@ tar_read(indicadores_scaled, store = here::here("_targets")) |>
 #| tbl-cap: Valores padronizados dos indicadores do Pilar IV
 #| echo: false
 
-tar_read(indicadores_scaled, store = here::here("_targets")) |> 
+tar_read(indicadores_scaled, store = "../../_targets") |> 
     select(-cod_uf) |> 
     filter(str_extract(indicador, "^[^.]+\\.") == "iv.") |> 
     rename(original = valor, padronizado = valor_padronizado) |>
@@ -223,7 +223,7 @@ tar_read(indicadores_scaled, store = here::here("_targets")) |>
 #| tbl-cap: Valores padronizados dos indicadores do Pilar V
 #| echo: false
 
-tar_read(indicadores_scaled, store = here::here("_targets")) |> 
+tar_read(indicadores_scaled, store = "../../_targets") |> 
     select(-cod_uf) |> 
     filter(str_extract(indicador, "^[^.]+\\.") == "v.") |> 
     rename(original = valor, padronizado = valor_padronizado) |>
@@ -269,7 +269,7 @@ tar_read(indicadores_scaled, store = here::here("_targets")) |>
 #| tbl-cap: Valores padronizados dos indicadores do Pilar VI
 #| echo: false
 
-tar_read(indicadores_scaled, store = here::here("_targets")) |> 
+tar_read(indicadores_scaled, store = "../../_targets") |> 
     select(-cod_uf) |> 
     filter(str_extract(indicador, "^[^.]+\\.") == "vi.") |> 
     rename(original = valor, padronizado = valor_padronizado) |>
@@ -325,7 +325,7 @@ tar_read(indicadores_scaled, store = here::here("_targets")) |>
 #| tbl-cap: Valores padronizados dos indicadores de resultado
 #| echo: false
 
-tar_read(indicadores_scaled, store = here::here("_targets")) |> 
+tar_read(indicadores_scaled, store = "../../_targets") |> 
     select(-cod_uf) |> 
     filter(str_extract(indicador, "^[^.]+\\.") == "0.") |> 
     rename(original = valor, padronizado = valor_padronizado) |>
