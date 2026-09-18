@@ -96,16 +96,17 @@ join_indicadores_map <- function(list_map) {
         list_map[[25]] + 
         list_map[[26]] + 
         list_map[[27]] + 
+        list_map[[28]] + 
         plot_layout(ncol = 2)
     
     pilar_6 <- 
-        list_map[[28]] + 
         list_map[[29]] + 
         list_map[[30]] + 
         list_map[[31]] + 
         list_map[[32]] + 
         list_map[[33]] + 
         list_map[[34]] + 
+        list_map[[35]] + 
         # list_map[[35]] +
         # list_map[[36]] +
         # list_map[[37]] +
