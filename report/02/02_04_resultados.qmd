@@ -11,24 +11,28 @@ editor_options:
 
 library(
     targets,
-    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+    lib.loc = "../../renv/library/macos/R-4.5/aarch64-apple-darwin20/"
 )
 library(
     gt, 
-    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+    lib.loc = "../../renv/library/macos/R-4.5/aarch64-apple-darwin20/"
 )
 library(
     tidyverse,
-    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+    lib.loc = "../../renv/library/macos/R-4.5/aarch64-apple-darwin20/"
+)
+library(
+    ggtext,
+    lib.loc = "../../renv/library/macos/R-4.5/aarch64-apple-darwin20/"
 )
 
-source(here::here("R/report_utils.R"))
+source("../../R/report_utils.R")
 
-tar_load(tbl_ind_desc, store = here::here("_targets"))
-tar_load(df_cor_results, store = here::here("_targets"))
-tar_load(list_pca_stats, store = here::here("_targets"))
-tar_load(indicadores_notas, store = here::here("_targets"))
-tar_load(classificacao, store = here::here("_targets"))
+tar_load(tbl_ind_desc, store = "../../_targets")
+tar_load(df_cor_results, store = "../../_targets")
+tar_load(list_pca_stats, store = "../../_targets")
+tar_load(indicadores_notas, store = "../../_targets")
+tar_load(classificacao, store = "../../_targets")
 
 ```
 
@@ -59,7 +63,7 @@ Por fim, o `r display_ind_names(tbl_ind_desc, "I.4")` - apresenta uma média de 
 #| tbl-cap: Estatística descritiva dos indicadores do Pilar I
 #| echo: false
 
-tar_read(list_gt_eda, store = here::here("_targets"))[[1]]
+tar_read(list_gt_eda, store = "../../_targets")[[1]]
 ```
 
 Os mapas da @fig-mapas-pilar1 apresentam os resultados do indicadores do Pilar I - Gestão da Segurança no Trânsito.
@@ -72,7 +76,7 @@ Os mapas da @fig-mapas-pilar1 apresentam os resultados do indicadores do Pilar I
 #| fig-height: 6
 #| fig-dpi: 300
 
-tar_read(map_indicadores, store = here::here("_targets"))[[1]]
+tar_read(map_indicadores, store = "../../_targets")[[1]]
 ```
 
 #### Pilar II - Vias Seguras
@@ -94,7 +98,7 @@ Por fim, o `r display_ind_names(tbl_ind_desc, "II.5")` - mostra grandes variaç�
 #| tbl-cap: Estatística descritiva dos indicadores do Pilar II
 #| echo: false
 
-tar_read(list_gt_eda, store = here::here("_targets"))[[2]]
+tar_read(list_gt_eda, store = "../../_targets")[[2]]
 ```
 
 Os mapas da @fig-mapas-pilar2 apresentam os resultados do indicadores do Pilar II - Vias Seguras.
@@ -107,7 +111,7 @@ Os mapas da @fig-mapas-pilar2 apresentam os resultados do indicadores do Pilar I
 #| fig-height: 9
 #| fig-dpi: 300
 
-tar_read(map_indicadores, store = here::here("_targets"))[[2]]
+tar_read(map_indicadores, store = "../../_targets")[[2]]
 ```
 
 #### Pilar III - Segurança Veicular
@@ -127,7 +131,7 @@ O indicador `r display_ind_names(tbl_ind_desc, "III.4")` - apresenta menores val
 #| tbl-cap: Estatística descritiva dos indicadores do Pilar III
 #| echo: false
 
-tar_read(list_gt_eda, store = here::here("_targets"))[[3]]
+tar_read(list_gt_eda, store = "../../_targets")[[3]]
 ```
 
 Os mapas da @fig-mapas-pilar3 apresentam os resultados do indicadores do Pilar III - Segurança Veicular.
@@ -140,7 +144,7 @@ Os mapas da @fig-mapas-pilar3 apresentam os resultados do indicadores do Pilar I
 #| fig-height: 6
 #| fig-dpi: 300
 
-tar_read(map_indicadores, store = here::here("_targets"))[[3]]
+tar_read(map_indicadores, store = "../../_targets")[[3]]
 ```
 
 #### Pilar IV - Educação para o Trânsito
@@ -166,7 +170,7 @@ Por fim, o indicador `{r} display_ind_names(tbl_ind_desc, "IV.7")` - apresenta u
 #| tbl-cap: Estatística descritiva dos indicadores do Pilar IV
 #| echo: false
 
-tar_read(list_gt_eda, store = here::here("_targets"))[[4]]
+tar_read(list_gt_eda, store = "../../_targets")[[4]]
 ```
 
 
@@ -180,7 +184,7 @@ Os mapas da @fig-mapas-pilar4 apresentam os resultados do indicadores do Pilar I
 #| fig-height: 12
 #| fig-dpi: 300
 
-tar_read(map_indicadores, store = here::here("_targets"))[[4]]
+tar_read(map_indicadores, store = "../../_targets")[[4]]
 ```
 
 #### Pilar V - Vigilância, Promoção da Saúde e Atendimento as Vítimas no Trânsito
@@ -200,7 +204,7 @@ Por fim, no `{r} display_ind_names(tbl_ind_desc, "V.4")`, o Norte apresenta a me
 #| tbl-cap: Estatística descritiva dos indicadores do Pilar V
 #| echo: false
 
-tar_read(list_gt_eda, store = here::here("_targets"))[[5]]
+tar_read(list_gt_eda, store = "../../_targets")[[5]]
 ```
 
 
@@ -214,7 +218,7 @@ Os mapas da @fig-mapas-pilar5 apresentam os resultados do indicadores do Pilar V
 #| fig-height: 6
 #| fig-dpi: 300
 
-tar_read(map_indicadores, store = here::here("_targets"))[[5]]
+tar_read(map_indicadores, store = "../../_targets")[[5]]
 ```
 
 #### Pilar VI - Normatização e Fiscalização
@@ -254,7 +258,7 @@ Por fim, no Indicador `{r} display_ind_names(tbl_ind_desc, "VI.11")`, a média n
 #| tbl-cap: Estatística descritiva dos indicadores do Pilar VI
 #| echo: false
 
-tar_read(list_gt_eda, store = here::here("_targets"))[[6]]
+tar_read(list_gt_eda, store = "../../_targets")[[6]]
 ```
 
 
@@ -268,7 +272,7 @@ Os mapas da @fig-mapas-pilar6 apresentam os resultados do indicadores do Pilar V
 #| fig-height: 12
 #| fig-dpi: 300
 
-tar_read(map_indicadores, store = here::here("_targets"))[[6]]
+tar_read(map_indicadores, store = "../../_targets")[[6]]
 ```
 
 #### Indicadores de resultado
@@ -286,7 +290,7 @@ No indicador `{r} display_ind_names(tbl_ind_desc, "0.3")`, a região Nordeste (5
 #| tbl-cap: Estatística descritiva dos indicadores de resultado
 #| echo: false
 
-tar_read(list_gt_eda, store = here::here("_targets"))[[7]]
+tar_read(list_gt_eda, store = "../../_targets")[[7]]
 ```
 
 Os mapas da @fig-mapas-pilar6 apresentam os resultados do indicadores de resultado.
@@ -299,7 +303,7 @@ Os mapas da @fig-mapas-pilar6 apresentam os resultados do indicadores de resulta
 #| fig-height: 6
 #| fig-dpi: 300
 
-tar_read(map_indicadores, store = here::here("_targets"))[[7]]
+tar_read(map_indicadores, store = "../../_targets")[[7]]
 ```
 
 ### Análise de correlação entre os indicadores {#sec-results-correlacao}
@@ -329,7 +333,7 @@ Considerando a correlação entre os indicadores do Pilar I, observou-se uma cor
 #| fig-height: 4
 #| fig-dpi: 300
 
-tar_read(list_cor_matrix, store = here::here("_targets"))[[1]]
+tar_read(list_cor_matrix, store = "../../_targets")[[1]]
 ```
 
 A @fig-correlacao-pilar2 apresenta os resultados da correlação de Spearman entre os indicadores do Pilar II - Vias Seguras - e os indicadores de resultado. O gráfico inclui correlações significativas entre os indicadores do Pilar II e os indicadores de resultado:
@@ -354,7 +358,7 @@ Entre os indicadores do Pilar II, houve uma correlação direta e significativa 
 #| fig-height: 4
 #| fig-dpi: 300
 
-tar_read(list_cor_matrix, store = here::here("_targets"))[[2]]
+tar_read(list_cor_matrix, store = "../../_targets")[[2]]
 ```
 
 Os resultados das correlações para o Pilar III - Segurança Veicular - estão apresentados na @fig-correlacao-pilar3. Entre os indicadores do Pilar III e os indicadores de resultado, foram observadas correlações significativas entre:
@@ -385,7 +389,7 @@ Considerando apenas os indicadores do Pilar III, foram observadas correlações 
 #| fig-height: 4
 #| fig-dpi: 300
 
-tar_read(list_cor_matrix, store = here::here("_targets"))[[3]]
+tar_read(list_cor_matrix, store = "../../_targets")[[3]]
 ```
 
 A @fig-correlacao-pilar4 apresenta os resultados da correlação de Spearman entre os indicadores do Pilar IV - Educação para o Trânsito - e os indicadores de resultado. Observa-se que o indicador `{r} display_ind_names(tbl_ind_desc, "0.1")` tem uma correlação negativa com `{r} display_ind_names(tbl_ind_desc, "IV.1")` (-0,69), mas exibe correlações positivas tanto com `{r} display_ind_names(tbl_ind_desc, "IV.5")` (0,39) quanto com `{r} display_ind_names(tbl_ind_desc, "IV.7")` (0,38). Já o indicador `{r} display_ind_names(tbl_ind_desc, "0.3")` apresenta uma correlação negativa com IV.1 (-0,70) e com `{r} display_ind_names(tbl_ind_desc, "IV.2")` (-0,45), enquanto a sua correlação com IV.5 é positiva (0,52). Os indicadores IV.1 e IV.5 possuem uma correlação negativa significativa de -0,72. O indicador IV.2 também tem uma correlação negativa com IV.5 (-0,43), porém, uma correlação positiva com IV.7 (0,51). Por fim, o indicador `{r} display_ind_names(tbl_ind_desc, "IV.4")` - mostra correlações positivas tanto com `{r} display_ind_names(tbl_ind_desc, "IV.6")` (0,43) quanto com IV.7 (0,64), reforçando a existência de associações positivas entre esses indicadores.
@@ -398,7 +402,7 @@ A @fig-correlacao-pilar4 apresenta os resultados da correlação de Spearman ent
 #| fig-height: 4
 #| fig-dpi: 300
 
-tar_read(list_cor_matrix, store = here::here("_targets"))[[4]]
+tar_read(list_cor_matrix, store = "../../_targets")[[4]]
 ```
 
 A @fig-correlacao-pilar5 apresenta os resultados da correlação de Spearman entre os indicadores do Pilar V - Vigilância, Promoção da Saúde e Atendimento as Vítimas no Trânsito - e os indicadores de resultado. O indicador 0.1 tem uma correlação negativa com `{r} display_ind_names(tbl_ind_desc, "V.1")` (-0,45), uma correlação positiva com `{r} display_ind_names(tbl_ind_desc, "V.3")` (0,40) e uma correlação negativa com `{r} display_ind_names(tbl_ind_desc, "V.4")` (-0,62). O indicador 0.2 apresenta uma correlação positiva com V.3 (0,48). Já o indicador 0.3 possui uma correlação negativa com V.1 (-0,57). Por fim, o indicador `{r} display_ind_names(tbl_ind_desc, "V.2")` - mostra correlações positivas tanto com V.3 (0,66) quanto com V.4 (0,61), sugerindo associações positivas entre esses indicadores.
@@ -411,7 +415,7 @@ A @fig-correlacao-pilar5 apresenta os resultados da correlação de Spearman ent
 #| fig-height: 4
 #| fig-dpi: 300
 
-tar_read(list_cor_matrix, store = here::here("_targets"))[[5]]
+tar_read(list_cor_matrix, store = "../../_targets")[[5]]
 ```
 
 Os resultados das correlações para o Pilar VI - Normatização e Fiscalização - estão apresentados na @fig-correlacao-pilar6. Em geral, observa-se uma grande quantidade de correlações significativas, com algumas correlações negativas, especialmente entre os indicadores 0.1 e `{r} display_ind_names(tbl_ind_desc, "VI.5")`. Por outro lado, muitos pares de indicadores mostram correlações positivas significativas, especialmente entre VI.1 e outros indicadores, indicando relações mais fortes entre eles. O indicador VI.6 apresentou uma correlação inversa com os indicadores VI.2, VI.3 e VI.4.
@@ -424,7 +428,7 @@ Os resultados das correlações para o Pilar VI - Normatização e Fiscalizaçã
 #| fig-height: 5
 #| fig-dpi: 300
 
-tar_read(list_cor_matrix, store = here::here("_targets"))[[6]]
+tar_read(list_cor_matrix, store = "../../_targets")[[6]]
 ```
 
 ## Análise de Componentes Principais {#sec-results-pca}
@@ -442,7 +446,7 @@ A @tbl-pca-results-pilar1 inclui as componentes principais resultantes para cada
 #| tbl-cap: Relação das componentes principais com os indicadores originais - Pilar I
 #| echo: false
 
-tar_read(list_pca_stats_gt, store = here::here("_targets"))[[1]]
+tar_read(list_pca_stats_gt, store = "../../_targets")[[1]]
 ```
 
 ```{r}
@@ -450,7 +454,7 @@ tar_read(list_pca_stats_gt, store = here::here("_targets"))[[1]]
 #| tbl-cap: Componentes principais resultantes - Pilar I
 #| echo: false
 
-tar_read(list_pca_results_gt, store = here::here("_targets"))[[1]]
+tar_read(list_pca_results_gt, store = "../../_targets")[[1]]
 ```
 
 ```{r}
@@ -462,7 +466,7 @@ tar_read(list_pca_results_gt, store = here::here("_targets"))[[1]]
 #| fig-dpi: 300
 
 
-tar_read(pca_plots, store = here::here("_targets"))[[1]]
+tar_read(pca_plots, store = "../../_targets")[[1]]
 ```
 
 ### Pilar II - Vias Seguras
@@ -476,7 +480,7 @@ A @tbl-pca-results-pilar2 inclui as componentes principais resultantes para cada
 #| tbl-cap: Relação das componentes principais com os indicadores originais - Pilar II
 #| echo: false
 
-tar_read(list_pca_stats_gt, store = here::here("_targets"))[[2]]
+tar_read(list_pca_stats_gt, store = "../../_targets")[[2]]
 ```
 
 \pagebreak
@@ -486,7 +490,7 @@ tar_read(list_pca_stats_gt, store = here::here("_targets"))[[2]]
 #| tbl-cap: Componentes principais resultantes - Pilar II
 #| echo: false
 
-tar_read(list_pca_results_gt, store = here::here("_targets"))[[2]]
+tar_read(list_pca_results_gt, store = "../../_targets")[[2]]
 ```
 
 ```{r}
@@ -498,7 +502,7 @@ tar_read(list_pca_results_gt, store = here::here("_targets"))[[2]]
 #| fig-dpi: 300
 
 
-tar_read(pca_plots, store = here::here("_targets"))[[2]]
+tar_read(pca_plots, store = "../../_targets")[[2]]
 ```
 
 
@@ -513,7 +517,7 @@ A @tbl-pca-results-pilar3 inclui as componentes principais resultantes para cada
 #| tbl-cap: Relação das componentes principais com os indicadores originais - Pilar III
 #| echo: false
 
-tar_read(list_pca_stats_gt, store = here::here("_targets"))[[3]]
+tar_read(list_pca_stats_gt, store = "../../_targets")[[3]]
 ```
 
 \pagebreak
@@ -523,7 +527,7 @@ tar_read(list_pca_stats_gt, store = here::here("_targets"))[[3]]
 #| tbl-cap: Componentes principais resultantes - Pilar III
 #| echo: false
 
-tar_read(list_pca_results_gt, store = here::here("_targets"))[[3]]
+tar_read(list_pca_results_gt, store = "../../_targets")[[3]]
 ```
 
 ```{r}
@@ -535,7 +539,7 @@ tar_read(list_pca_results_gt, store = here::here("_targets"))[[3]]
 #| fig-dpi: 300
 
 
-tar_read(pca_plots, store = here::here("_targets"))[[3]]
+tar_read(pca_plots, store = "../../_targets")[[3]]
 ```
 
 ### Pilar IV - Educação para o Trânsito
@@ -552,7 +556,7 @@ A @tbl-pca-results-pilar4 inclui as componentes principais resultantes para cada
 #| tbl-cap: Relação das componentes principais com os indicadores originais - Pilar IV
 #| echo: false
 
-tar_read(list_pca_stats_gt, store = here::here("_targets"))[[4]]
+tar_read(list_pca_stats_gt, store = "../../_targets")[[4]]
 ```
 
 ```{r}
@@ -560,7 +564,7 @@ tar_read(list_pca_stats_gt, store = here::here("_targets"))[[4]]
 #| tbl-cap: Componentes principais resultantes - Pilar IV
 #| echo: false
 
-tar_read(list_pca_results_gt, store = here::here("_targets"))[[4]]
+tar_read(list_pca_results_gt, store = "../../_targets")[[4]]
 ```
 
 ```{r}
@@ -572,7 +576,7 @@ tar_read(list_pca_results_gt, store = here::here("_targets"))[[4]]
 #| fig-dpi: 300
 
 
-tar_read(pca_plots, store = here::here("_targets"))[[4]]
+tar_read(pca_plots, store = "../../_targets")[[4]]
 ```
 
 ### Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito
@@ -588,7 +592,7 @@ A @tbl-pca-results-pilar5 inclui as componentes principais resultantes para cada
 #| tbl-cap: Relação das componentes principais com os indicadores originais - Pilar V
 #| echo: false
 
-tar_read(list_pca_stats_gt, store = here::here("_targets"))[[5]]
+tar_read(list_pca_stats_gt, store = "../../_targets")[[5]]
 ```
 
 ```{r}
@@ -596,7 +600,7 @@ tar_read(list_pca_stats_gt, store = here::here("_targets"))[[5]]
 #| tbl-cap: Componentes principais resultantes - Pilar V
 #| echo: false
 
-tar_read(list_pca_results_gt, store = here::here("_targets"))[[5]]
+tar_read(list_pca_results_gt, store = "../../_targets")[[5]]
 ```
 
 ```{r}
@@ -607,7 +611,7 @@ tar_read(list_pca_results_gt, store = here::here("_targets"))[[5]]
 #| fig-height: 4
 #| fig-dpi: 300
 
-tar_read(pca_plots, store = here::here("_targets"))[[5]]
+tar_read(pca_plots, store = "../../_targets")[[5]]
 ```
 
 ### Pilar VI - Normatização e Fiscalização
@@ -621,7 +625,7 @@ A @tbl-pca-results-pilar6 inclui as componentes principais resultantes para cada
 #| tbl-cap: Relação das componentes principais com os indicadores originais - Pilar VI
 #| echo: false
 
-tar_read(list_pca_stats_gt, store = here::here("_targets"))[[6]]
+tar_read(list_pca_stats_gt, store = "../../_targets")[[6]]
 ```
 
 \pagebreak
@@ -631,7 +635,7 @@ tar_read(list_pca_stats_gt, store = here::here("_targets"))[[6]]
 #| tbl-cap: Componentes principais resultantes - Pilar VI
 #| echo: false
 
-tar_read(list_pca_results_gt, store = here::here("_targets"))[[6]]
+tar_read(list_pca_results_gt, store = "../../_targets")[[6]]
 ```
 
 ```{r}
@@ -642,7 +646,7 @@ tar_read(list_pca_results_gt, store = here::here("_targets"))[[6]]
 #| fig-height: 4
 #| fig-dpi: 300
 
-tar_read(pca_plots, store = here::here("_targets"))[[6]]
+tar_read(pca_plots, store = "../../_targets")[[6]]
 ```
 
 
@@ -657,7 +661,7 @@ A @tbl-pca-results-resultado inclui as componentes principais resultantes para c
 #| tbl-cap: Relação das componentes principais com os indicadores originais - Indicadores de resultado
 #| echo: false
 
-tar_read(list_pca_stats_gt, store = here::here("_targets"))[[7]]
+tar_read(list_pca_stats_gt, store = "../../_targets")[[7]]
 ```
 
 \pagebreak
@@ -667,7 +671,7 @@ tar_read(list_pca_stats_gt, store = here::here("_targets"))[[7]]
 #| tbl-cap: Componentes principais resultantes - Indicadores de resultado
 #| echo: false
 
-tar_read(list_pca_results_gt, store = here::here("_targets"))[[7]]
+tar_read(list_pca_results_gt, store = "../../_targets")[[7]]
 ```
 
 ```{r}
@@ -678,7 +682,7 @@ tar_read(list_pca_results_gt, store = here::here("_targets"))[[7]]
 #| fig-height: 4
 #| fig-dpi: 300
 
-tar_read(pca_plots, store = here::here("_targets"))[[7]]
+tar_read(pca_plots, store = "../../_targets")[[7]]
 ```
 
 ## Índices compostos {#sec-results-compostos}
@@ -700,7 +704,7 @@ Com base nas notas resultantes, as UFs com os melhores desempenhos no Pilar I s�
 #| tbl-cap: Índices compostos e notas do Pilar I
 #| echo: false
 
-tar_read(list_gt_compostos, store = here::here("_targets"))[[1]]
+tar_read(list_gt_compostos, store = "../../_targets")[[1]]
 ```
 
 A @tbl-compostos-pilar2 inclui os índices compostos e as notas para cada UF, referente ao Pilar II - Vias Seguras. Para o calculo do índice composto, considerou-se que **menores** valores de PC1 refletem um maior desempenho da segurança. O índice composto para o Pilar II ($IC_{II}$) foi calculado com base na @eq-ic-pilar2.
@@ -718,7 +722,7 @@ Com base nas notas resultantes, as UFs com os melhores desempenhos no Pilar II s
 #| tbl-cap: Índices compostos e notas do Pilar II
 #| echo: false
 
-tar_read(list_gt_compostos, store = here::here("_targets"))[[2]]
+tar_read(list_gt_compostos, store = "../../_targets")[[2]]
 ```
 
 A @tbl-compostos-pilar3 inclui os índices compostos e as notas para cada UF, referente ao Pilar III - Segurança Veicular. Para o calculo do índice composto, considerou-se que **menores** valores de PC1 refletem um maior desempenho da segurança. O índice composto para o Pilar III ($IC_{III}$) foi calculado com base na @eq-ic-pilar3.
@@ -736,7 +740,7 @@ Com base nas notas resultantes, as UFs com os melhores desempenhos no Pilar III 
 #| tbl-cap: Índices compostos e notas do Pilar III
 #| echo: false
 
-tar_read(list_gt_compostos, store = here::here("_targets"))[[3]]
+tar_read(list_gt_compostos, store = "../../_targets")[[3]]
 ```
 
 A @tbl-compostos-pilar4 inclui os índices compostos e as notas para cada UF, referente ao Pilar IV - Educação para o Trânsito. Para o calculo do índice composto, considerou-se que **menores** valores de PC1, **maiores** valores de PC2 e **maiores** valores de PC3 refletem um maior desempenho da segurança. O índice composto para o Pilar IV ($IC_{IV}$) foi calculado com base na @eq-ic-pilar4.
@@ -754,7 +758,7 @@ Com base nas notas resultantes, as UFs com os melhores desempenhos no Pilar IV s
 #| tbl-cap: Índices compostos e notas do Pilar IV
 #| echo: false
 
-tar_read(list_gt_compostos, store = here::here("_targets"))[[4]]
+tar_read(list_gt_compostos, store = "../../_targets")[[4]]
 ```
 
 A @tbl-compostos-pilar5 inclui os índices compostos e as notas para cada UF, referente ao Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito. Para o calculo do índice composto, considerou-se que **menores** valores de PC1 e **menores** valores de PC2 refletem um maior desempenho da segurança. O índice composto para o Pilar V ($IC_{V}$) foi calculado com base na @eq-ic-pilar5.
@@ -772,7 +776,7 @@ Com base nas notas resultantes, as UFs com os melhores desempenhos no Pilar V s�
 #| tbl-cap: Índices compostos e notas do Pilar V
 #| echo: false
 
-tar_read(list_gt_compostos, store = here::here("_targets"))[[5]]
+tar_read(list_gt_compostos, store = "../../_targets")[[5]]
 ```
 
 A @tbl-compostos-pilar6 inclui os índices compostos e as notas para cada UF, referente ao Pilar VI - Normatização e Fiscalização. Para o calculo do índice composto, considerou-se que **maiores** valores de PC1 e PC2 refletem um maior desempenho da segurança. O índice composto para o Pilar VI ($IC_{VI}$) foi calculado com base na @eq-ic-pilar6.
@@ -790,7 +794,7 @@ Com base nas notas resultantes, as UFs com os melhores desempenhos no Pilar VI s
 #| tbl-cap: Índices compostos e notas do Pilar VI
 #| echo: false
 
-tar_read(list_gt_compostos, store = here::here("_targets"))[[6]]
+tar_read(list_gt_compostos, store = "../../_targets")[[6]]
 ```
 
 Por fim, a @tbl-compostos-resultado inclui os índices compostos e as notas para cada UF, referente aos indicadores de resultado. Para o calculo do índice composto, considerou-se que **menores** valores de PC1 refletem um maior desempenho da segurança. O índice composto para os indicadores de resultado ($IC_{0}$) foi calculado com base na @eq-ic-resultados.
@@ -808,7 +812,7 @@ Com base nas notas resultantes, as UFs com os melhores desempenhos considerando 
 #| tbl-cap: Índices compostos e notas dos indicadores de resultado
 #| echo: false
 
-tar_read(list_gt_compostos, store = here::here("_targets"))[[7]]
+tar_read(list_gt_compostos, store = "../../_targets")[[7]]
 ```
 
 ## Ranking dos estados {#sec-results-ranking}
@@ -826,7 +830,7 @@ A @tbl-class-pilar1 apresenta as notas e a classificação resultante das UFs no
 #| tbl-cap: Classificação no Pilar I
 #| echo: false
 
-tar_read(list_gt_classificacao, store = here::here("_targets"))[[1]]
+tar_read(list_gt_classificacao, store = "../../_targets")[[1]]
 ```
 
 ```{r}
@@ -836,7 +840,7 @@ tar_read(list_gt_classificacao, store = here::here("_targets"))[[1]]
 #| fig-width: 5
 #| fig-height: 5
 
-tar_read(list_map_classificacao, store = here::here("_targets"))[[1]]
+tar_read(list_map_classificacao, store = "../../_targets")[[1]]
 ```
 
 ### Pilar II - Vias Seguras
@@ -850,7 +854,7 @@ A @tbl-class-pilar2 apresenta as notas e a classificação resultante das UFs no
 #| tbl-cap: Classificação no Pilar II
 #| echo: false
 
-tar_read(list_gt_classificacao, store = here::here("_targets"))[[2]]
+tar_read(list_gt_classificacao, store = "../../_targets")[[2]]
 ```
 
 ```{r}
@@ -860,7 +864,7 @@ tar_read(list_gt_classificacao, store = here::here("_targets"))[[2]]
 #| fig-width: 5
 #| fig-height: 5
 
-tar_read(list_map_classificacao, store = here::here("_targets"))[[2]]
+tar_read(list_map_classificacao, store = "../../_targets")[[2]]
 ```
 
 ### Pilar III - Segurança Veicular
@@ -875,7 +879,7 @@ A @tbl-class-pilar3 apresenta as notas e a classificação resultante das UFs no
 #| tbl-cap: Classificação no Pilar III
 #| echo: false
 
-tar_read(list_gt_classificacao, store = here::here("_targets"))[[3]]
+tar_read(list_gt_classificacao, store = "../../_targets")[[3]]
 ```
 
 ```{r}
@@ -885,7 +889,7 @@ tar_read(list_gt_classificacao, store = here::here("_targets"))[[3]]
 #| fig-width: 5
 #| fig-height: 5
 
-tar_read(list_map_classificacao, store = here::here("_targets"))[[3]]
+tar_read(list_map_classificacao, store = "../../_targets")[[3]]
 ```
 
 ### Pilar IV - Educação para o Trânsito
@@ -899,7 +903,7 @@ A @tbl-class-pilar4 apresenta as notas e a classificação resultante das UFs no
 #| tbl-cap: Classificação no Pilar IV
 #| echo: false
 
-tar_read(list_gt_classificacao, store = here::here("_targets"))[[4]]
+tar_read(list_gt_classificacao, store = "../../_targets")[[4]]
 ```
 
 ```{r}
@@ -909,7 +913,7 @@ tar_read(list_gt_classificacao, store = here::here("_targets"))[[4]]
 #| fig-width: 5
 #| fig-height: 5
 
-tar_read(list_map_classificacao, store = here::here("_targets"))[[4]]
+tar_read(list_map_classificacao, store = "../../_targets")[[4]]
 ```
 
 ### Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito
@@ -923,7 +927,7 @@ A @tbl-class-pilar5 apresenta as notas e a classificação resultante das UFs no
 #| tbl-cap: Classificação no Pilar V
 #| echo: false
 
-tar_read(list_gt_classificacao, store = here::here("_targets"))[[5]]
+tar_read(list_gt_classificacao, store = "../../_targets")[[5]]
 ```
 
 ```{r}
@@ -933,7 +937,7 @@ tar_read(list_gt_classificacao, store = here::here("_targets"))[[5]]
 #| fig-width: 5
 #| fig-height: 5
 
-tar_read(list_map_classificacao, store = here::here("_targets"))[[5]]
+tar_read(list_map_classificacao, store = "../../_targets")[[5]]
 ```
 
 ### Pilar VI - Normatização e Fiscalização
@@ -947,7 +951,7 @@ A @tbl-class-pilar6 apresenta as notas e a classificação resultante das UFs no
 #| tbl-cap: Classificação no Pilar VI
 #| echo: false
 
-tar_read(list_gt_classificacao, store = here::here("_targets"))[[6]]
+tar_read(list_gt_classificacao, store = "../../_targets")[[6]]
 ```
 
 ```{r}
@@ -957,7 +961,7 @@ tar_read(list_gt_classificacao, store = here::here("_targets"))[[6]]
 #| fig-width: 5
 #| fig-height: 5
 
-tar_read(list_map_classificacao, store = here::here("_targets"))[[6]]
+tar_read(list_map_classificacao, store = "../../_targets")[[6]]
 ```
 
 ### Indicadores de resultado
@@ -971,7 +975,7 @@ A @tbl-class-resultados apresenta as notas e a classificação resultante das UF
 #| tbl-cap: Classificação nos indicadores de resultado
 #| echo: false
 
-tar_read(list_gt_classificacao, store = here::here("_targets"))[[7]]
+tar_read(list_gt_classificacao, store = "../../_targets")[[7]]
 ```
 
 ```{r}
@@ -981,7 +985,7 @@ tar_read(list_gt_classificacao, store = here::here("_targets"))[[7]]
 #| fig-width: 5
 #| fig-height: 5
 
-tar_read(list_map_classificacao, store = here::here("_targets"))[[7]]
+tar_read(list_map_classificacao, store = "../../_targets")[[7]]
 ```
 
 ### Ranking geral
@@ -997,7 +1001,7 @@ Ordenando os resultados pela mediana das notas, a @fig-boxplot ilustra que Distr
 #| fig-width: 6
 #| fig-height: 6
 
-tar_read(boxplot_notas, store = here::here("_targets"))
+tar_read(boxplot_notas, store = "../../_targets")
 ```
 
 No @fig-media-notas o *ranking* está organizado pela média das classificações. Na melhor posição com uma média de 4,0, tem-se o Distrito Federal com o melhor desempenho, seguido do Rio Grande do Sul com a média de 3,9. Em seguida, na terceira melhor posição, tem-se os estados de Rio de Janeiro, Paraná e Goiás, com a média 3,7. Seguindo a ordem, tem-se o estados de São Paulo com a média de 3,6. Pernambuco, Mato Grosso do Sul e Ceará apresentaram a mesma média de 3,3. Pouco mais abaixo, tem-se Rondônia e Mato Grosso, Rio Grande do Norte e Espírito Santo com média de 3,1. Atingindo a média 3,0, observa-se cinco estados: Tocantins, Sergipe, Santa Catarina, Paraíba e Minas Gerais. Bahia vem em seguida com uma média 2,7, Piauí e Alagoas com 2,6 e Acre com 2,4. Por fim, os piores desempenhos são do Maranhão (2,3), Roraima (2,3) Amapá (2,1), Pará (2,1) e Amazonas (1,9).
@@ -1009,6 +1013,6 @@ No @fig-media-notas o *ranking* está organizado pela média das classificaçõe
 #| fig-width: 6
 #| fig-height: 5
 
-tar_read(media_classificacao, store = here::here("_targets"))
+tar_read(media_classificacao, store = "../../_targets")
 ```
 
