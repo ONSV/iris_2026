@@ -120,7 +120,7 @@ make_ind_dt <- function(sf_ind, ind_input) {
     }
 }
 
-make_results_gt <- function(df_desc_data, ind_input, status_input, uf) {
+make_results_gt <- function(df_desc_data, ind_input, uf) {
     df_desc_data |> 
         filter(
             nome_uf == uf, 
@@ -218,6 +218,29 @@ make_gt_class_inicio <- function(sf_class) {
         ) |> 
         fmt_number(class_media, decimals = 2, dec_mark = ",") |> 
         data_color(class_media, palette = "RdYlGn", domain = c(1, 5)) |> 
+        data_color(
+            columns = ranking,
+            direction = "column",
+            palette = c("#d0e1fd", "#f1f5fd"),
+            reverse = FALSE
+        ) |> 
+        text_transform(
+            locations = cells_body(columns = ranking),
+            fn = function(x) {
+                sprintf(
+                    '<span style="background-color: #00496d; color: #ffffff; font-weight: 700; font-size: 0.85rem; padding: 4px 12px; border-radius: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); display: inline-block; min-width: 42px; text-align: center;">%sº</span>',
+                    x
+                )
+            }
+        ) |> 
+        cols_align(align = "center", columns = c(ranking, class_media)) |> 
+        tab_style(
+            style = list(
+                cell_fill(color = "#f0f4f8"),
+                cell_borders(sides = "right", color = "#cfd8dc", weight = px(2))
+            ),
+            locations = cells_body(columns = ranking)
+        ) |> 
         tab_options(table.width = pct(100))
 }
 
@@ -233,7 +256,8 @@ make_dt_variacao <- function(ind_24, ind_23, pilar_input, uf_input, status_input
         unite(col = pilar, pil, pilar, sep = " ") |>
         mutate(pilar = ifelse(pilar == "Pilar 0", "Pilar VII", pilar)) |>
         select(cod_uf, nome_uf, pilar, indicador_upper, descricao, ano, valor) |>
-        pivot_wider(names_from = ano, values_from = valor) |>
+        pivot_wider(names_from = ano, 
+                    values_from = valor) |>
         relocate(`2023`, .before = `2024`) |>
         mutate(
             variacao_cor = if_else(`2023` == 0, NA_real_, ((`2024` - `2023`) / `2023`) * 100),
@@ -285,7 +309,7 @@ make_dt_variacao <- function(ind_24, ind_23, pilar_input, uf_input, status_input
                 dom = 't',
                 paging = FALSE,
                 scrollCollapse = TRUE,
-                scrollY = "550px",
+                scrollY = "520px",
                 columnDefs = list(
                     list(targets = c(6, 8, 9), visible = FALSE),
                     list(className = 'dt-center', targets = c(0, 4, 5, 7))
@@ -318,7 +342,8 @@ make_dt_pilares <- function(class_24, class_23, pilar_input, uf_input, status_in
         select(-c(name_region, star, classificacao_numeric)) |> 
         pivot_wider(
             names_from = ano,
-            values_from = nota
+            values_from = nota,
+            id_cols = c(pilar, nome_uf)
         ) |> 
         relocate(`2023`, .before = `2024`) |>
         mutate(pilar = ifelse(pilar == "Resultado final", "Pilar VII", pilar),
@@ -331,7 +356,7 @@ make_dt_pilares <- function(class_24, class_23, pilar_input, uf_input, status_in
                    pilar == "Pilar VI" ~ "Normatização e Fiscalização",
                    pilar == "Pilar VII" ~ "Indicadores de mortalidade",
                ),
-               variacao_cor = ifelse(`2023` == 0, NA_real_, (`2024` - `2023`)/ `2023`),
+               variacao_cor = ifelse(`2023` == 0, NA_real_, (`2024` - `2023`)/ `2023` * 100),
                variacao = case_when(
                    `2023` == 0 & `2024` == 0 ~ "0,00%",   
                    `2023` == 0 & `2024` > 0  ~ "NA", 
@@ -373,7 +398,7 @@ make_dt_pilares <- function(class_24, class_23, pilar_input, uf_input, status_in
                 dom = 't',
                 paging = FALSE,
                 scrollCollapse = TRUE,
-                scrollY = "550px",
+                scrollY = "500px",
                 columnDefs = list(
                     list(targets = c(5, 7), visible = FALSE),
                     list(className = 'dt-center', targets = c(0, 3, 4, 6))
@@ -410,7 +435,17 @@ make_dt_geral <- function(class_24, class_23, pilar_input, uf_input, status_inpu
             names_from = ano,
             values_from = classificacao_media
         ) |>
-        mutate(variacao_cor = (`2024` - `2023`) / `2023`,
+        ungroup() |> 
+        mutate(ranking_2023 = dense_rank(desc(`2023`)),
+               ranking_2024 = dense_rank(desc(`2024`)),
+               sinal_ranking = case_when(
+                   ranking_2024 < ranking_2023 ~ '<span style="color: #1a7f37; font-weight: bold; margin-right: 4px;">▲</span>',
+                   ranking_2024 > ranking_2023 ~ '<span style="color: #cf222e; font-weight: bold; margin-right: 4px;">▼</span>',
+                   TRUE                        ~ '<span style="color: #8c959f; margin-right: 4px;">●</span>'
+               ),
+             ranking_2023_formatado = paste0(ranking_2023, "º"),
+            ranking_2024_formatado = paste0(sinal_ranking, ranking_2024, "º"),
+            variacao_cor = ((`2024` - `2023`) / `2023`) * 100,
                variacao = case_when(
                    variacao_cor > 0.001  ~ paste0("▲ ", format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%"),
                    variacao_cor < -0.001  ~ paste0("▼ ", format(round(variacao_cor, 2), nsmall = 2, decimal.mark = ","), "%"),
@@ -437,16 +472,19 @@ make_dt_geral <- function(class_24, class_23, pilar_input, uf_input, status_inpu
     
     base_variacao |>
         datatable(
-            colnames = c("Estado", "2023", "2024", "variacao_texto_velha", "Variação (%)", "sinal"),
+            escape = FALSE,
+            colnames = c("Estado", "2023", "2024", "ranking_2023_base", "ranking_2024_base", "sinal_ranking", "Ranking 2023", "Ranking 2024", "variacao_texto_velha", "Variação (%)", "sinal"),
             options = list(
                 pageLength = 11,
                 dom = 't',
                 paging = FALSE,
                 scrollCollapse = TRUE,
-                scrollY = "550px",
+                scrollY = "520px",
                 columnDefs = list(
-                    list(targets = c(3, 5), visible = FALSE),
-                    list(className = "dt-center", targets = c(0, 1, 2, 4))
+                    list(targets = c(3, 4, 5, 8, 10), visible = FALSE),
+                    list(className = "dt-center", targets = c(1, 2, 6, 7, 9)),
+                    list(targets = 6, orderData = 3),
+                    list(targets = 7, orderData = 4)
                 ),
                 language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json')
             ),
@@ -464,5 +502,4 @@ make_dt_geral <- function(class_24, class_23, pilar_input, uf_input, status_inpu
                 cuts = c(-0.001, 0.001),
                 values = c("#990000", "#000000", "#006600")
             )
-        ) 
-}
+        ) }
