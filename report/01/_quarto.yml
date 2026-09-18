@@ -12,9 +12,6 @@ book:
   title: "IRIS -- Indicadores Rodoviários Integrados de Segurança"
   subtitle: "Produto 01 -- Relatório de Metodologia"
   author: 
-  - name: Pedro Augusto Borges dos Santos
-  - name: Paloma Hellen Pereira Eleuterio
-  - name: Dara de César Borszcz
   - name: Dr. Jorge Tiago Bastos
   date: last-modified
   output-file: "report_01"

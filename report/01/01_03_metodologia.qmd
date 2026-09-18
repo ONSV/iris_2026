@@ -11,21 +11,21 @@ editor_options:
 
 library(
     targets, 
-    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+    lib.loc = "../../renv/library/macos/R-4.5/aarch64-apple-darwin20/"
 )
 
 library(
     tidyverse, 
-    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+    lib.loc = "../../renv/library/macos/R-4.5/aarch64-apple-darwin20/"
 )
 library(
     gt,
-    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+    lib.loc = "../../renv/library/macos/R-4.5/aarch64-apple-darwin20/"
 )
 
-tar_load(list_tbl_desc, store = here::here("_targets"))
-tar_load(list_tbl_cnt, store = here::here("_targets"))
-tar_load(indicadores, store = here::here("_targets"))
+tar_load(list_tbl_desc, store = "../../_targets")
+tar_load(list_tbl_cnt, store = "../../_targets")
+tar_load(indicadores, store = "../../_targets")
 ```
 
 A metodologia deste trabalho está dividida em três passos principais: (i) definição dos indicadores a serem calculados (@sec-method-def), (ii) identificação das fontes de dados e coleta (@sec-method-coleta) e (iii) cálculo dos indicadores (@sec-method-calc).
@@ -53,7 +53,7 @@ A @tbl-ind-class inclui a relação dos indicadores criados com base nos seis pi
 #| label: tbl-ind-class
 #| tbl-cap: Relação dos indicadores
 
-tar_read(tbl_ind_class, store = here::here("_targets")) |> 
+tar_read(tbl_ind_class, store = "../../_targets") |> 
     gt() |> 
     cols_label(
         pilar = "Pilar", descricao = "Descrição", indicadores = "Indicadores"
@@ -104,7 +104,7 @@ Foram estabelecidos sete indicadores: relação entre condutores habilitados a c
 list_tbl_desc[[4]]
 ```
 
-Para o Pilar V - Promoção da Saúde e Atendimento às Vítimas no Trânsito - os indicadores estabelecidos estão na @tbl-ind-desc-pilar5. As ações desse pilar visam ao aprimoramento do atendimento, tanto no fortalecimento do sistema de respostas às ocorrências, quanto no fomento de parcerias, implantação de metodologia de avaliação de programas governamentais preventivos e incorporação dos programas de prevenção aos sinistros de trânsito. Os indicadores desse pilar buscam medir o nível de infraestrutura hospitalar em cada estado. Eles são: taxa de profissionais que atuam na área da saúde per capita (V.1), taxa de leitos totais (V.2), leitos SUS (V.3) e leitos não-SUS (V.4) per capita.
+Para o Pilar V - Promoção da Saúde e Atendimento às Vítimas no Trânsito - os indicadores estabelecidos estão na @tbl-ind-desc-pilar5. As ações desse pilar visam ao aprimoramento do atendimento, tanto no fortalecimento do sistema de respostas às ocorrências, quanto no fomento de parcerias, implantação de metodologia de avaliação de programas governamentais preventivos e incorporação dos programas de prevenção aos sinistros de trânsito. Os indicadores desse pilar buscam medir o nível de infraestrutura hospitalar em cada estado. Eles são: taxa de profissionais que atuam na área da saúde per capita (V.1), taxa de leitos totais (V.2), leitos SUS (V.3), leitos não-SUS (V.4) e unidades móveis (V.5) per capita.
 
 ```{r}
 #| label: tbl-ind-desc-pilar5
@@ -147,7 +147,7 @@ A @tbl-fontes apresenta a relação completa das fontes utilizadas nesse trabalh
 #| label: tbl-fontes
 #| tbl-cap: Descrição das fontes utilizadas
 
-tar_read(tbl_fontes, store = here::here("_targets")) |> 
+tar_read(tbl_fontes, store = "../../_targets") |> 
     gt() |> 
     cols_label(
         orgao = "Órgão",
@@ -225,7 +225,7 @@ A @tbl-datasus-sim apresenta a quantidade de óbitos ocorridos como consequênci
 #| label: tbl-datasus-sim
 #| tbl-cap: Óbitos no trânsito em 2022
 
-tar_read(datasus_sim, store = here::here("_targets")) |> 
+tar_read(datasus_sim, store = "../../_targets") |> 
     select(nome_uf_ocor, obitos) |> 
     gt() |> 
     cols_label(nome_uf_ocor = "UF", obitos = "Óbitos") |> 
@@ -245,8 +245,8 @@ A @tbl-datasus-cnes contém a quantidade de profissionais da saúde e leitos em 
 #| label: tbl-datasus-cnes
 #| tbl-cap: Quantidade de leitos e profissionais da saúde em 2023
 
-tar_read(datasus_cnes, store = here::here("_targets")) |> 
-    filter(ano == 2023) |> 
+tar_read(datasus_cnes, store = "../../_targets") |> 
+    filter(ano == 2024) |> 
     select(-cod_uf, -ano) |> 
     gt() |> 
     cols_label(
@@ -273,8 +273,8 @@ A @tbl-dnit apresenta a extensão das rodovias federais de cada UF, conforme a c
 #| label: tbl-dnit
 #| tbl-cap: Extensão em rodovias federais em 2023
 
-tar_read(dnit, store = here::here("_targets")) |> 
-    filter(ano == 2023) |> 
+tar_read(dnit, store = "../../_targets") |> 
+    filter(ano == 2024) |> 
     select(-sigla_uf, -ano) |> 
     gt() |> 
     cols_label(
@@ -304,9 +304,9 @@ A @tbl-ibge-pop apresenta a quantidade de habitantes em cada UF, considerando os
 #| label: tbl-ibge-pop
 #| tbl-cap: Projeção da população
 
-tar_read(ibge_pop, store = here::here("_targets")) |> 
+tar_read(ibge_pop, store = "../../_targets") |> 
     select(nome_uf, ano, populacao) |> 
-    filter(ano %in% c("2021", "2022", "2023")) |> 
+    filter(ano %in% c("2022", "2023", "2024")) |> 
     pivot_wider(names_from = ano, values_from = populacao) |> 
     gt() |> 
     cols_label(nome_uf = "UF") |> 
@@ -326,8 +326,8 @@ O PIB disponibilizado pelo IBGE está na escala municipal, assim foi necessário
 #| label: tbl-ibge-pib
 #| tbl-cap: Produto interno bruto em 2021
 
-tar_read(ibge_pib, store = here::here("_targets")) |> 
-    filter(ano == 2021) |> 
+tar_read(ibge_pib, store = "../../_targets") |> 
+    filter(ano == 2023) |> 
     select(-ano) |> 
     gt() |> 
     cols_label(nome_uf = "UF", pib = "PIB (x 1.000)") |> 
@@ -353,11 +353,11 @@ O Instituto Nacional de Metrologia, Qualidade e Tecnologia (Inmetro) disponibili
 #| label: tbl-cameras
 #| tbl-cap: Quantidade de câmeras de segurança em 2023
 
-tar_load(joined_vi7, store = here::here("_targets"))
-#tar_load(pontos_fisc_uf, store = here::here("_targets"))
-#tar_load(pontos_fisc_mun, store = here::here("_targets"))
+tar_load(joined_vi7, store = "../../_targets")
+#tar_load(pontos_fisc_uf, store = "../../_targets")
+#tar_load(pontos_fisc_mun, store = "../../_targets")
 
-tar_read(cameras, store = here::here("_targets")) |> 
+tar_read(cameras, store = "../../_targets") |> 
     drop_na() |> 
     pivot_wider(names_from = tipo, values_from = n_cameras, values_fill = 0) |>
     left_join(
@@ -403,7 +403,7 @@ O relatório teve como principal conteúdo a avaliação do nível de informaç�
 #| label: tbl-detrans
 #| tbl-cap: Nota relacionada ao nível de informações disponibilizadas no portal do Detran
 
-tar_load(detrans, store = here::here("_targets"))
+tar_load(detrans, store = "../../_targets")
 
 detrans <- arrange(detrans, -nota_media)
 
@@ -445,7 +445,7 @@ O relatório teve como objetivo apresentar a estimativa da taxa de mortes por qu
 #| tbl-cap: Índice de mortes por bilhão de km percorrido em 2020
 
 
-tar_read(taxabilhao, store = here::here("_targets")) |> 
+tar_read(taxabilhao, store = "../../_targets") |> 
     gt() |> 
     cols_label(nome_uf = "UF", taxa_bilhao = "Índice") |> 
     fmt_number(decimals = 1, dec_mark = ",", sep_mark = ".") |> 
@@ -464,7 +464,7 @@ O OpenStreetMap (OSM) é um projeto colaborativo que cria e disponibiliza um map
 #| label: tbl-osm
 #| tbl-cap: Extensão de vias por capital dos estados em 2024
 
-tar_read(osm, store = here::here("_targets")) |> 
+tar_read(osm, store = "../../_targets") |> 
     mutate(dist_vias = units::drop_units(dist_vias) / 1000) |> 
     gt() |> 
     cols_label(
@@ -505,7 +505,7 @@ O Registro Nacional de Acidentes e Estatísticas de Trânsito (RENAEST) tem como
 #| label: tbl-renaest
 #| tbl-cap: Quantidade de campos não informados na base do RENAEST em 2023
 
-tar_read(renaest, store = here::here("_targets")) |> 
+tar_read(renaest, store = "../../_targets") |> 
     gt() |> 
     cols_label(
         uf_acidente = "UF",
@@ -528,9 +528,9 @@ A @tbl-renach apresenta a quantidade de condutores habilitados nas categorias A 
 #| label: tbl-renach
 #| tbl-cap: Quantidade de condutores habilitados em 2023
 
-tar_read(renach, store = here::here("_targets")) |> 
+tar_read(renach, store = "../../_targets") |> 
     ungroup() |> 
-    filter(ano == 2023) |> 
+    filter(ano == 2024) |> 
     select(-ano) |> 
     pivot_wider(names_from = categoria_cnh, values_from = n_condutores) |> 
     gt() |> 
@@ -552,7 +552,7 @@ O Registro Nacional de Infrações de Trânsito registra todas as infrações de
 #| label: tbl-renainf-codinf
 #| tbl-cap: Código das infrações e descrição
 
-tar_read(tbl_codinf, store = here::here("_targets")) |> 
+tar_read(tbl_codinf, store = "../../_targets") |> 
     gt() |> 
     cols_label(
         cod_inf = "Código",
@@ -577,7 +577,7 @@ Através do site do RENAINF [@ministeriodostransportesRegistroNacionalInfracoes2
 #| label: tbl-renainf-qtde
 #| tbl-cap: Quantidade de infrações em 2023
 
-tar_read(renainf, store = here::here("_targets")) |> 
+tar_read(renainf, store = "../../_targets") |> 
     arrange(cod_infracao) |> 
     filter(cod_infracao %in% c(
         "5169", "5185", "5193", "6262", "6270", "6289", "6297"
@@ -616,7 +616,7 @@ O Registro Nacional de Veículos Automotores (RENAVAM) disponibiliza a quantidad
 #| label: tbl-renavam
 #| tbl-cap: Frota de veículos entre 2019 e 2023
 
-tar_read(renavam, store = here::here("_targets")) |> 
+tar_read(renavam, store = "../../_targets") |> 
     filter(ano > 2018) |> 
     select(-modal) |> 
     group_by(uf, ano) |> 
@@ -641,7 +641,7 @@ As informações dos municípios integrados ao Sistema Nacional de Trânsito (SN
 #| label: tbl-snt
 #| tbl-cap: Quantidade de municípios integrados ao SNT em 2024
 
-tar_read(snt, store = here::here("_targets")) |> 
+tar_read(snt, store = "../../_targets") |> 
     mutate(
         nome_uf = case_match(
             nome_uf,
@@ -687,7 +687,7 @@ em que $m_{\text{snt}}$ representa a quantidade de municípios integrados ao SNT
 #| label: tbl-ind-i1
 #| tbl-cap: Cálculo do Indicador I.1
 
-tar_read(snt, store = here::here("_targets")) |> 
+tar_read(snt, store = "../../_targets") |> 
     mutate(
         i1 = n_integrados /  n_municipios,
         nome_uf = case_match(
@@ -728,9 +728,9 @@ em que $f_{\text{NA}}$ representa a quantidade de campos não informados e $f_{\
 #| label: tbl-ind-i2
 #| tbl-cap: Cálculo do Indicador I.2
 
-tar_load(uf, store = here::here("_targets"))
+tar_load(uf, store = "../../_targets")
 
-tar_read(renaest, store = here::here("_targets")) |> 
+tar_read(renaest, store = "../../_targets") |> 
     mutate(i2 = na_count / total_count) |> 
     arrange(-i2) |> 
     right_join(uf, by = c("uf_acidente" = "sigla_uf")) |> 
@@ -764,8 +764,8 @@ Os resultados do I.3 estão expressos na @tbl-ind-i3.
 #| label: tbl-ind-i3
 #| tbl-cap: Cálculo do Indicador I.3
 
-tar_load(ibge_pop, store = here::here("_targets"))
-tar_load(ibge_pib, store = here::here("_targets"))
+tar_load(ibge_pop, store = "../../_targets")
+tar_load(ibge_pib, store = "../../_targets")
 
 ibge_pop |> 
     filter(ano == 2021) |> 
@@ -821,7 +821,7 @@ em que $e$ é a extensão de rodovia, considerando cada classificação levantad
 #| label: tbl-ind-ii1
 #| tbl-cap: Cálculo do Indicador II.1
 
-tar_read(list_tbl_pilar2, store = here::here("_targets"))[[1]]
+tar_read(list_tbl_pilar2, store = "../../_targets")[[1]]
 
 ```
 
@@ -835,7 +835,7 @@ O cálculo do II.2 foi feito com base na @eq-ii-1. A @tbl-ind-ii2 contêm os res
 #| label: tbl-ind-ii2
 #| tbl-cap: Cálculo do Indicador II.2
 
-tar_read(list_tbl_pilar2, store = here::here("_targets"))[[2]]
+tar_read(list_tbl_pilar2, store = "../../_targets")[[2]]
 
 ```
 
@@ -849,7 +849,7 @@ O cálculo do II.3 foi feito com base na @eq-ii-1. A @tbl-ind-ii3 contêm os res
 #| label: tbl-ind-ii3
 #| tbl-cap: Cálculo do Indicador II.3
 
-tar_read(list_tbl_pilar2, store = here::here("_targets"))[[3]]
+tar_read(list_tbl_pilar2, store = "../../_targets")[[3]]
 
 ```
 
@@ -863,7 +863,7 @@ O cálculo do II.4 foi feito com base na @eq-ii-1. A @tbl-ind-ii4 contêm os res
 #| label: tbl-ind-ii4
 #| tbl-cap: Cálculo do Indicador II.4
 
-tar_read(list_tbl_pilar2, store = here::here("_targets"))[[4]]
+tar_read(list_tbl_pilar2, store = "../../_targets")[[4]]
 
 ```
 
@@ -883,7 +883,7 @@ em que $E_d$ representa a extensão de rodovias federais pavimentadas em pista d
 #| label: tbl-ind-ii5
 #| tbl-cap: Cálculo do Indicador II.5
 
-tar_read(dnit, store = here::here("_targets")) |> 
+tar_read(dnit, store = "../../_targets") |> 
     mutate(ii5 = pista_dupla / total_pavimentado) |> 
     filter(ano == 2023) |> 
     select(-sigla_uf, -ano) |> 
@@ -922,7 +922,7 @@ em que $v_{\text{moto}}$ é a frota de motocicletas e $v_{\text{reduzida}}$ é a
 #| label: tbl-ind-iii1
 #| tbl-cap: Cálculo do Indicador III.1
 
-tar_read(renavam, store = here::here("_targets")) |> 
+tar_read(renavam, store = "../../_targets") |> 
     filter(ano == 2023) |> 
     select(-ano) |> 
     pivot_wider(names_from = modal, values_from = frota) |> 
@@ -964,7 +964,7 @@ em que $v_{>=10}$ é a quantidade de veículos com idade igual ou acima de 10 an
 #| label: tbl-ind-iii2
 #| tbl-cap: Cálculo do Indicador III.2
 
-tar_read(renavam_idade, store = here::here("_targets")) |> 
+tar_read(renavam_idade, store = "../../_targets") |> 
     filter(
         !uf %in% c("Não se Aplica", "Sem Informação"),
         !ano_modelo %in% c("Não se Aplica", "Não Identificado")
@@ -1028,7 +1028,7 @@ em que $vac_a$ é a quantidade mínima acumulada de veículos equipados para o a
 #| label: tbl-calc-iii3
 #| tbl-cap: "Quantidade mínima de veículos com Airbag/ABS no Estado de São Paulo"
 
-tar_read(renavam, store = here::here("_targets")) |> 
+tar_read(renavam, store = "../../_targets") |> 
     filter(modal %in% c("AUTOMOVEL", "CAMINHONETE")) |> 
     group_by(uf, ano) |> 
     summarise(frota_total = sum(frota)) |> 
@@ -1079,7 +1079,7 @@ em que $III.3_a$ é o resultado do indicador III.3 para ano $a$, que neste caso 
 #| label: tbl-ind-iii3
 #| tbl-cap: Cálculo do Indicador III.3
 
-tar_read(renavam, store = here::here("_targets")) |> 
+tar_read(renavam, store = "../../_targets") |> 
     filter(modal %in% c("AUTOMOVEL", "CAMINHONETE")) |> 
     group_by(uf, ano) |> 
     summarise(frota_total = sum(frota)) |> 
@@ -1099,7 +1099,7 @@ tar_read(renavam, store = here::here("_targets")) |>
         iii3 = novos_equipados_acum / frota_total
     ) |> 
     ungroup() |> 
-    filter(ano == 2023) |> 
+    filter(ano == 2024) |> 
     select(uf, frota_total, novos_equipados_acum, iii3) |> 
     arrange(-iii3) |> 
     gt() |> 
@@ -1130,7 +1130,7 @@ em que $III.4_a$ é o indicador III.4 para o ano $a$ (neste caso, 2023), $vt_a$ 
 #| label: tbl-calc-iii4
 #| tbl-cap: Quantidade mínima de veículos com ISOFIX na frota do Estado de São Paulo
 
-tar_read(renavam, store = here::here("_targets")) |> 
+tar_read(renavam, store = "../../_targets") |> 
     filter(
         ano > 2018,
         modal %in% c("AUTOMOVEL", "CAMINHONETE", "UTILITARIO", "CAMIONETA")
@@ -1163,7 +1163,7 @@ A @tbl-ind-iii4 mostra o resultado do III.4 para todas as UF. A coleta dos dados
 #| label: tbl-ind-iii4
 #| tbl-cap: Cálculo do Indicador III.4
 
-tar_read(renavam, store = here::here("_targets")) |> 
+tar_read(renavam, store = "../../_targets") |> 
     filter(
         ano > 2018,
         modal %in% c("AUTOMOVEL", "CAMINHONETE", "UTILITARIO", "CAMIONETA")
@@ -1176,7 +1176,7 @@ tar_read(renavam, store = here::here("_targets")) |>
         valor = novos_acum / frota_total,
         indicador = "iii.4"
     ) |> 
-    filter(ano == 2023) |> 
+    filter(ano == 2024) |> 
     select(uf, frota_total, novos_acum, valor) |>
     ungroup() |> 
     arrange(-valor) |> 
@@ -1213,7 +1213,7 @@ em que $c_A$ é a quantidade de condutores da categoria A, $c_{AB}$ é a quantid
 #| label: tbl-calc-iv1
 #| tbl-cap: Cálculo do Indicador IV.1
 
-tar_read(joined_iv1, store = here::here("_targets")) |> 
+tar_read(joined_iv1, store = "../../_targets") |> 
     mutate(valor = condutores / frota * 100) |> 
     arrange(-valor) |> 
     gt() |> 
@@ -1244,7 +1244,7 @@ em que $i_{5169}$ é a quantidade de infrações de código 5169 (ver @tbl-renai
 #| label: tbl-ind-iv2
 #| tbl-cap: Cálculo do Indicador IV.2
 
-tar_read(joined_iv2, store = here::here("_targets")) |> 
+tar_read(joined_iv2, store = "../../_targets") |> 
     mutate(valor = quantidade / frota_reduzida * 10000) |> 
     select(nome_uf, quantidade, frota_reduzida, valor) |> 
     arrange(-valor) |> 
@@ -1275,7 +1275,7 @@ em que $i_n$ é a quantidade de infrações do código $n$, que, neste caso, eng
 #| label: tbl-ind-iv3
 #| tbl-cap: Cálculo do Indicador IV.3
 
-tar_read(joined_iv3, store = here::here("_targets")) |> 
+tar_read(joined_iv3, store = "../../_targets") |> 
     mutate(valor = infracoes / frota_reduzida * 10000) |> 
     select(nome_uf, infracoes, frota_reduzida, valor) |> 
     arrange(-valor) |> 
@@ -1307,7 +1307,7 @@ em que $i_{5185}$ é a quantidade de infrações do código 5185 (ver @tbl-renai
 #| label: tbl-ind-iv4
 #| tbl-cap: Cálculo do Indicador IV.4
 
-tar_read(joined_iv4, store = here::here("_targets")) |> 
+tar_read(joined_iv4, store = "../../_targets") |> 
     mutate(valor = quantidade / frota * 10000) |> 
     select(nome_uf, quantidade, frota, valor) |> 
     arrange(-valor) |> 
@@ -1339,7 +1339,7 @@ em que $i_{7030}$ é a quantidade de infrações do código 7030 (ver @tbl-renai
 #| label: tbl-ind-iv5
 #| tbl-cap: Cálculo do Indicador IV.5
 
-tar_read(joined_iv5, store = here::here("_targets")) |> 
+tar_read(joined_iv5, store = "../../_targets") |> 
     mutate(valor = infracoes / frota * 10000) |> 
     select(nome_uf, infracoes, frota, valor) |> 
     arrange(-valor) |> 
@@ -1371,7 +1371,7 @@ Em que $i_{7366}$ é a quantidade de infrações do código 7366 (ver @tbl-renai
 #| label: tbl-ind-iv6
 #| tbl-cap: Cálculo do Indicador IV.6
 
-tar_read(joined_iv6, store = here::here("_targets")) |> 
+tar_read(joined_iv6, store = "../../_targets") |> 
     mutate(valor = quantidade / frota_reduzida * 10000) |> 
     select(nome_uf, quantidade, frota_reduzida, valor) |> 
     arrange(-valor) |> 
@@ -1403,7 +1403,7 @@ em que $i_{5193}$ é a quantidade de infrações do código 5193 (ver @tbl-renai
 #| label: tbl-ind-iv7
 #| tbl-cap: Cálculo do Indicador IV.7
 
-tar_read(joined_iv7, store = here::here("_targets")) |> 
+tar_read(joined_iv7, store = "../../_targets") |> 
     mutate(valor = quantidade / frota * 10000) |> 
     select(nome_uf, quantidade, frota, valor) |> 
     arrange(-valor) |> 
@@ -1439,7 +1439,7 @@ em que $p$ é a quantidade de profissionais da saúde e $h$ é a quantidade de h
 #| label: tbl-ind-v1
 #| tbl-cap: "Cálculo do Indicador V.1"
 
-tar_read(list_gt_pilar5, store = here::here("_targets"))[[1]]
+tar_read(list_gt_pilar5, store = "../../_targets")[[1]]
 ```
 
 #### Indicador V.2 - Taxa de leitos totais per capita
@@ -1458,7 +1458,7 @@ em que $l_t$ é a quantidade total de leitos e $h$ é a quantidade de habitantes
 #| label: tbl-ind-v2
 #| tbl-cap: "Cálculo do Indicador V.2"
 
-tar_read(list_gt_pilar5, store = here::here("_targets"))[[2]]
+tar_read(list_gt_pilar5, store = "../../_targets")[[2]]
 ```
 
 #### Indicador V.3 - Taxa de leitos SUS per capita
@@ -1477,7 +1477,7 @@ em que $l_s$ é a quantidade de leitos SUS e $h$ é a quantidade de habitantes e
 #| label: tbl-ind-v3
 #| tbl-cap: "Cálculo do Indicador V.3"
 
-tar_read(list_gt_pilar5, store = here::here("_targets"))[[3]]
+tar_read(list_gt_pilar5, store = "../../_targets")[[3]]
 ```
 
 #### Indicador V.4 - Taxa de leitos não SUS per capita
@@ -1496,7 +1496,7 @@ em que $l_{ns}$ é a quantidade de leitos não SUS e $h$ é a quantidade de habi
 #| label: tbl-ind-v4
 #| tbl-cap: "Cálculo do Indicador V.4"
 
-tar_read(list_gt_pilar5, store = here::here("_targets"))[[4]]
+tar_read(list_gt_pilar5, store = "../../_targets")[[4]]
 ```
 
 ### Pilar VI - Normatização e Fiscalização {#sec-ind-6}
@@ -1519,7 +1519,7 @@ em que $i_t$ é a quantidade total de infrações e $v_t$ é o tamanho total da 
 #| label: tbl-ind-vi1
 #| tbl-cap: "Cálculo do Indicador VI.1"
 
-tar_read(joined_vi1, store = here::here("_targets")) |> 
+tar_read(joined_vi1, store = "../../_targets") |> 
     mutate(valor = infracoes / frota_total * 10000) |> 
     select(nome_uf, infracoes, frota_total, valor) |> 
     arrange(-valor) |> 
@@ -1551,7 +1551,7 @@ em que $r_t$ é a quantidade total de câmeras de segurança e $v_t$ é o tamanh
 #| label: tbl-ind-vi2
 #| tbl-cap: "Cálculo do Indicador VI.2"
 
-tar_read(list_gt_cameras, store = here::here("_targets"))[[1]]
+tar_read(list_gt_cameras, store = "../../_targets")[[1]]
 ```
 
 #### Indicador VI.3 - Taxa de câmeras de segurança em rodovias em relação à frota
@@ -1570,7 +1570,7 @@ em que $r_r$ é a quantidade total de câmeras de segurança em rodovias e $v_t$
 #| label: tbl-ind-vi3
 #| tbl-cap: "Cálculo do Indicador VI.3"
 
-tar_read(list_gt_cameras, store = here::here("_targets"))[[2]]
+tar_read(list_gt_cameras, store = "../../_targets")[[2]]
 ```
 
 #### Indicador VI.4 - Taxa de câmeras de segurança em vias urbanas em relação à frota
@@ -1589,7 +1589,7 @@ em que $r_u$ é a quantidade total de câmeras de segurança em vias urbanas e $
 #| label: tbl-ind-vi4
 #| tbl-cap: "Cálculo do Indicador VI.4"
 
-tar_read(list_gt_cameras, store = here::here("_targets"))[[3]]
+tar_read(list_gt_cameras, store = "../../_targets")[[3]]
 ```
 
 #### Indicador VI.5 - Taxa de câmeras de segurança em relação à extensão de rodovias federais pavimentadas {#sec-ind-6-5}
@@ -1608,7 +1608,7 @@ em que $r_r$ é a quantidade total de câmeras de segurança em rodovias e $e_t$
 #| label: tbl-ind-vi5
 #| tbl-cap: "Cálculo do Indicador VI.5"
 
-tar_read(joined_vi5, store = here::here("_targets")) |> 
+tar_read(joined_vi5, store = "../../_targets") |> 
     mutate(valor = n_cameras / total_pavimentado * 100) |> 
     arrange(-valor) |> 
     gt() |> 
@@ -1646,7 +1646,7 @@ em que $i_v$ é a quantidade de infrações de excesso de velocidade (7455, 7463
 #| label: tbl-ind-vi6
 #| tbl-cap: "Cálculo do Indicador VI.6"
 
-tar_read(joined_vi6, store = here::here("_targets")) |> 
+tar_read(joined_vi6, store = "../../_targets") |> 
     mutate(valor = n_infracoes / n_cameras) |> 
     arrange(-valor) |> 
     select(nome_uf, n_infracoes, n_cameras, valor) |> 
@@ -1678,7 +1678,7 @@ em que $r_c$ é a quantidade de câmeras na capital e $e_c$ é a extensão de vi
 #| label: tbl-ind-vi7
 #| tbl-cap: "Cálculo do Indicador VI.7"
 
-tar_read(joined_vi7, store = here::here("_targets")) |> 
+tar_read(joined_vi7, store = "../../_targets") |> 
     mutate(
         dist_vias = units::drop_units(dist_vias) / 1000,
         valor = cameras / dist_vias * 100
@@ -1703,174 +1703,7 @@ tar_read(joined_vi7, store = here::here("_targets")) |>
     tab_options(table.font.size = "10pt")
 ```
 
-<!-- #### Indicador VI.08 - Taxa de pontos de monitoramento de velocidade em geral em relação à frota
 
-O indicador VI.08 é calculado com base na seguinte equação:
-
-$$
-VI.08 = \frac{p_t}{v_t} \times 10000;
-$$ {#eq-vi8}
-
-em que $p_t$ é a quantidade total de pontos de monitoramento de velocidade e $v_t$ é o tamanho total da frota de veículos. A @tbl-ind-vi8 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-renavam.
-
-```{r}
-#| label: tbl-ind-vi8
-#| tbl-cap: "Cálculo do Indicador VI.08"
-
-tar_read(joined_pontos_fisc, store = here::here("_targets")) |> 
-    select(sigla_uf, total_pontos, frota_total) |>
-    mutate(valor = total_pontos / frota_total * 10000) |>
-    arrange(-valor) |>
-    gt() |>
-    cols_label(
-        sigla_uf = "UF",
-        total_pontos = "Pontos de monitoramento",
-        frota_total = "Frota de veículos",
-        valor = "Indicador VI.08"
-    ) |>
-    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |>
-    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |>
-    tab_options(table.font.size = "10pt")
-
-```
-
-#### Indicador VI.09 - Taxa de pontos de monitoramento de velocidade em rodovias em relação à frota
-
-O indicador VI.09 é calculado com base na seguinte equação:
-
-$$
-VI.09 = \frac{p_r}{v_t} \times 10000;
-$$ {#eq-vi9}
-
-em que $p_r$ é a quantidade total de pontos de monitoramento de velocidade em rodovias e $v_t$ é o tamanho total da frota de veículos. A @tbl-ind-vi9 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-renavam.
-
-```{r}
-#| label: tbl-ind-vi9
-#| tbl-cap: "Cálculo do Indicador VI.09"
-
-tar_read(joined_pontos_fisc, store = here::here("_targets")) |> 
-    select(sigla_uf, Rodovia, frota_total) |>
-    mutate(valor = Rodovia / frota_total * 10000) |>
-    arrange(-valor) |>
-    gt() |>
-    cols_label(
-        sigla_uf = "UF",
-        Rodovia = "Pontos rodovias",
-        frota_total = "Frota de veículos",
-        valor = "Indicador VI.09"
-    ) |>
-    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |>
-    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |>
-    tab_options(table.font.size = "10pt")
-```
-
-#### Indicador VI.10 - Taxa de pontos de monitoramento de velocidade em vias urbanas em relação à frota
-
-O indicador VI.10 é calculado com base na seguinte equação:
-
-$$
-VI.10 = \frac{p_u}{v_t} \times 10000;
-$$ {#eq-vi10}
-
-em que $p_u$ é a quantidade total de pontos de monitoramento de velocidade em vias urbanas e $v_t$ é o tamanho total da frota de veículos. A @tbl-ind-vi10 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-renavam.
-
-```{r}
-#| label: tbl-ind-vi10
-#| tbl-cap: "Cálculo do Indicador VI.10"
-
-tar_read(joined_pontos_fisc, store = here::here("_targets")) |> 
-    select(sigla_uf, `Via Urbana`, frota_total) |>
-    mutate(valor = `Via Urbana` / frota_total * 10000) |>
-    arrange(-valor) |>
-    gt() |>
-    cols_label(
-        sigla_uf = "UF",
-        `Via Urbana` = "Pontos vias urbanas",
-        frota_total = "Frota de veículos",
-        valor = "Indicador VI.10"
-    ) |>
-    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |>
-    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |>
-    tab_options(table.font.size = "10pt")
-```
-
-#### Indicador VI.11 - Taxa de pontos de monitoramento de velocidade em relação à extensão de rodovias federais pavimentadas
-
-O indicador VI.11 é calculado com base na seguinte equação:
-
-$$
-VI.11 = \frac{p_r}{e_t} \times 100;
-$$ {#eq-vi11}
-
-em que $p_r$ é a quantidade total de pontos de monitoramento de velocidade em rodovias e $e_t$ é a extensão de rodovias federais pavimentadas. A @tbl-ind-vi11 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-dnit.
-
-```{r}
-#| label: tbl-ind-vi11
-#| tbl-cap: "Cálculo do Indicador VI.11"
-
-tar_read(joined_vi11, store = here::here("_targets")) |> 
-    mutate(valor = pontos_fisc / total_pavimentado * 100) |> 
-    arrange(-valor) |> 
-    gt() |> 
-    cols_label(
-        sigla_uf = "UF",
-        total_pavimentado = "Extensão rodovias",
-        pontos_fisc = "Pontos de monitoramento",
-        valor = "Indicador VI.11"
-    ) |> 
-    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |>
-    fmt_number(
-        total_pavimentado, 
-        decimals = 2, 
-        dec_mark = ",", 
-        sep_mark = ".", 
-        pattern = "{x} km"
-    ) |> 
-    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
-    tab_options(table.font.size = "10pt")
-```
-
-#### Indicador VI.12 - Taxa de pontos de monitoramento de velocidadeem capitais em relação à extensão de vias urbanas
-
-O indicador VI.12 é calculado com base na seguinte equação:
-
-$$
-VI.12 = \frac{p_c}{e_c} \times 100;
-$$ {#eq-vi12}
-
-em que $p_c$ é a quantidade total de pontos de monitoramento de velocidade na capital e $e_c$ é a extensão de vias urbanas. A @tbl-ind-vi12 apresenta os resultados do indicador. Os dados utilizados estão descritos nas seções @sec-data-inmetro e @sec-data-osm.
-
-```{r}
-#| label: tbl-ind-vi12
-#| tbl-cap: "Cálculo do Indicador VI.12"
-
-tar_read(joined_vi12, store = here::here("_targets")) |> 
-    mutate(
-        dist_vias = units::drop_units(dist_vias) / 1000,
-        valor = pontos_fiscalizacao / dist_vias * 100
-    ) |> 
-    arrange(-valor) |> 
-    select(-nome_mun) |> 
-    gt() |> 
-    cols_label(
-        nome_uf = "UF",
-        dist_vias = "Extensão vias",
-        pontos_fiscalizacao = "Pontos de monitoramento",
-        valor = "Indicador VI.12"
-    ) |> 
-    fmt_number(-valor, decimals = 0, sep_mark = ".", dec_mark = ",") |>
-    fmt_number(
-        dist_vias, 
-        decimals = 2, 
-        dec_mark = ",", 
-        sep_mark = ".", 
-        pattern = "{x} km"
-    ) |> 
-    fmt_number(valor, decimals = 2, sep_mark = ".", dec_mark = ",") |> 
-    tab_options(table.font.size = "10pt")
-```
-
--->
 
 ### Indicadores de resultado  {#sec-ind-results}
 
@@ -1892,7 +1725,7 @@ em que $o$ é a quantidade de óbitos no trânsito e $v_t$ é a frota total de v
 #| label: tbl-ind-01
 #| tbl-cap: "Cálculo do Indicador 0.1"
 
-tar_read(joined_01, store = here::here("_targets")) |> 
+tar_read(joined_01, store = "../../_targets") |> 
     mutate(valor = obitos / total_frota * 10000) |> 
     select(nome_uf, obitos, total_frota, valor) |> 
     arrange(-valor) |> 
@@ -1924,7 +1757,7 @@ em que $o$ é a quantidade de óbitos no trânsito e $h$ é a quantidade de habi
 #| label: tbl-ind-02
 #| tbl-cap: "Cálculo do Indicador 0.2"
 
-tar_read(joined_02, store = here::here("_targets")) |> 
+tar_read(joined_02, store = "../../_targets") |> 
     mutate(valor = obitos / populacao * 100000) |> 
     select(nome_uf, obitos, populacao, valor) |> 
     arrange(-valor) |> 

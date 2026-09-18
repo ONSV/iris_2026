@@ -10,24 +10,24 @@ editor_options:
 #| include: false
 library(
     targets,
-    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+    lib.loc = "../../renv/library/macos/R-4.5/aarch64-apple-darwin20/"
 )
 library(
     gt,
-    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+    lib.loc = "../../renv/library/macos/R-4.5/aarch64-apple-darwin20/"
 )
 library(
     janitor,
-    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+    lib.loc = "../../renv/library/macos/R-4.5/aarch64-apple-darwin20/"
 )
 library(
     tidyverse,
-    lib.loc = here::here("renv/library/macos/R-4.4/aarch64-apple-darwin20/")
+    lib.loc = "../../renv/library/macos/R-4.5/aarch64-apple-darwin20/"
 )
 
-tar_load(indicadores, store = here::here("_targets"))
-tar_load(tbl_ind_desc, store = here::here("_targets"))
-source(here::here("R/report_utils.R"))
+tar_load(indicadores, store = "../../_targets")
+tar_load(tbl_ind_desc, store = "../../_targets")
+source("../../R/report_utils.R")
 ```
 
 O presente capítulo apresenta os resultados preliminares de todos os indicadores em cada das 27 unidades da federação do Brasil. Da @tbl-result-1 até a @tbl-result os resultados estão organizados por pilar de análise.
@@ -48,7 +48,7 @@ Por fim, para os resultados do indicador I.4 - Nota média em relação à dispo
 #| label: tbl-result-1
 #| tbl-cap: Indicadores do Pilar I - Gestão da Segurança no Trânsito
 
-tar_read(gt_resultados, store = here::here("_targets"))[[1]] |> 
+tar_read(gt_resultados, store = "../../_targets")[[1]] |> 
     fmt_percent(columns = i.1:i.2, decimals = 2, dec_mark = ",", sep_mark = ".")
 ```
 
@@ -70,7 +70,7 @@ Por fim, considerando os resultados do indicador II.5 - Extensão de rodovias co
 #| label: tbl-result-2
 #| tbl-cap: Indicadores do Pilar II - Vias Seguras
 
-tar_read(gt_resultados, store = here::here("_targets"))[[2]] |> 
+tar_read(gt_resultados, store = "../../_targets")[[2]] |> 
     fmt_percent(decimals = 2, dec_mark = ",", sep_mark = ".")
 ```
 
@@ -91,7 +91,7 @@ Por fim, para o indicador III.4 - Percentual mínimo de veículos com ISOFIX - o
 #| label: tbl-result-3
 #| tbl-cap: Indicadores do Pilar III - Segurança Veicular
 
-tar_read(gt_resultados, store = here::here("_targets"))[[3]] |> 
+tar_read(gt_resultados, store = "../../_targets")[[3]] |> 
     fmt_percent(decimals = 2, dec_mark = ",", sep_mark = ".")
 ```
 
@@ -117,7 +117,7 @@ Por fim, considerando os resultados do indicador IV.7 - Taxa de infrações por 
 #| label: tbl-result-4
 #| tbl-cap: Indicadores do Pilar IV - Educação para o Trânsito
 
-tar_read(gt_resultados, store = here::here("_targets"))[[4]]
+tar_read(gt_resultados, store = "../../_targets")[[4]]
 ```
 
 ## Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito
@@ -136,7 +136,7 @@ Por fim, observa-se que nos valores do indicador V.4 - Taxa de leitos não-SUS p
 #| label: tbl-result-5
 #| tbl-cap: Indicadores do Pilar V - Vigilância, Promoção da Saúde e Atendimento às Vítimas no Trânsito
 
-tar_read(gt_resultados, store = here::here("_targets"))[[5]]
+tar_read(gt_resultados, store = "../../_targets")[[5]]
 ```
 
 
@@ -175,7 +175,7 @@ Por fim, para o indicador `r display_ind_names(tbl_ind_desc, "VI.12")` - os esta
 #| label: tbl-result-6
 #| tbl-cap: Indicadores do Pilar VI - Normatização e Fiscalização
 
-tar_read(gt_resultados, store = here::here("_targets"))[[6]] |> 
+tar_read(gt_resultados, store = "../../_targets")[[6]] |> 
     tab_options(table.font.size = "10pt")
 ```
 
@@ -193,6 +193,6 @@ Por fim, para o indicador 0.3 - Índice de óbitos por quilometragem - os estado
 #| label: tbl-result
 #| tbl-cap: Indicadores de resultado
 
-tar_read(gt_resultados, store = here::here("_targets"))[[7]]
+tar_read(gt_resultados, store = "../../_targets")[[7]]
 ```
 
